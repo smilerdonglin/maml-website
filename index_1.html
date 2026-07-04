@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Multi-Scale Advanced Manufacturing Laboratory | Oregon State University</title>
+<meta name="description" content="The Multi-Scale Advanced Manufacturing Laboratory (MAML) at Oregon State University, led by Prof. Dong Lin, advances additive manufacturing of aerogels, ceramics, metals, and functional materials.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --text:#222;
+  --muted:#666;
+  --line:#e2e2e2;
+  --accent:#DC4405; /* OSU Beaver orange, used sparingly */
+  --link:#B33A06;
+  --maxw:1150px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Source Sans 3',system-ui,sans-serif;color:var(--text);background:#fff;line-height:1.6;font-size:17px}
+a{color:var(--link);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 26px}
+
+/* header — logo left, flat nav right, thin rule (Mechanosynthesis style) */
+header{border-bottom:1px solid var(--line);background:#fff;position:sticky;top:0;z-index:40}
+.hdr{display:flex;align-items:center;justify-content:space-between;min-height:78px;flex-wrap:wrap;padding:10px 0}
+.logo{cursor:pointer;line-height:1.15}
+.logo b{font-size:1.45rem;font-weight:700;letter-spacing:.01em;display:block}
+.logo span{font-size:.8rem;color:var(--muted)}
+.logo b em{font-style:normal;color:var(--accent)}
+nav{display:flex;gap:2px;flex-wrap:wrap}
+nav button{
+  font-family:inherit;font-size:1rem;background:none;border:none;cursor:pointer;
+  color:var(--text);padding:8px 13px;
+}
+nav button:hover{color:var(--accent)}
+nav button.active{color:var(--accent);font-weight:600}
+nav button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.page{display:none}
+.page.on{display:block}
+
+h1{font-size:2rem;font-weight:700;margin:44px 0 22px}
+h2{font-size:1.4rem;font-weight:700;margin:40px 0 16px}
+p.mission{max-width:850px;margin-bottom:18px}
+
+/* home */
+.homephoto{margin:30px 0}
+.homephoto img{width:100%;display:block}
+.homephoto figcaption{font-size:.82rem;color:var(--muted);margin-top:6px}
+
+/* news list (simple, like a WP feed) */
+.news{list-style:none;max-width:850px}
+.news li{padding:12px 0;border-bottom:1px solid var(--line)}
+.news time{font-size:.82rem;color:var(--muted);display:block;text-transform:uppercase;letter-spacing:.05em}
+.news .nt{font-weight:600}
+.news .nd{color:var(--muted);font-size:.95rem}
+details.more summary{cursor:pointer;font-weight:600;color:var(--link);padding:14px 0}
+
+/* PI feature (photo left, details right, links separated by |) */
+.pi{display:grid;grid-template-columns:220px 1fr;gap:30px;align-items:start;margin:36px 0 10px}
+@media(max-width:640px){.pi{grid-template-columns:1fr}}
+.pi .ph{width:220px;height:220px;background:#f0f0f0;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.85rem;text-align:center;padding:12px}
+.pi h3{font-size:1.35rem;font-weight:700}
+.pi p{margin:2px 0;color:var(--text)}
+.pi .links{margin-top:10px;font-size:.95rem}
+.pi .links span{color:#bbb;margin:0 6px}
+
+/* member card grid (Mechanosynthesis style) */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:34px 26px;margin:26px 0 10px}
+.card{text-align:left}
+.card .ph{width:100%;aspect-ratio:1/1;background:#f0f0f0;display:flex;align-items:center;justify-content:center;margin-bottom:12px;overflow:hidden}
+.card .ph img{width:100%;height:100%;object-fit:cover}
+.card .ph .init{font-size:2.4rem;font-weight:700;color:#c9c9c9}
+.card h3{font-size:1.08rem;font-weight:700;line-height:1.3}
+.card .role{color:var(--muted);font-size:.92rem}
+.card .note{color:var(--muted);font-size:.85rem}
+.card .icons{margin-top:8px;display:flex;gap:10px}
+.card .icons a,.card .icons span{
+  width:30px;height:30px;border:1px solid var(--line);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-size:.8rem;color:var(--muted);
+}
+.card .icons a:hover{border-color:var(--accent);color:var(--accent);text-decoration:none}
+
+/* group photos strip */
+.gallery{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin:26px 0 50px}
+@media(max-width:700px){.gallery{grid-template-columns:1fr}}
+.gallery figure img{width:100%;display:block}
+.gallery figcaption{font-weight:700;margin-top:8px}
+
+/* research */
+.topic{display:grid;grid-template-columns:340px 1fr;gap:30px;padding:30px 0;border-bottom:1px solid var(--line);align-items:start}
+@media(max-width:700px){.topic{grid-template-columns:1fr}}
+.topic img{width:100%;max-width:511px;display:block;background:#f0f0f0}
+.topic h3{font-size:1.2rem;font-weight:700;margin-bottom:8px}
+.topic p{color:var(--text)}
+
+/* publications */
+.pubbar{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin:6px 0 8px}
+.pubbar input{flex:1;min-width:220px;padding:9px 13px;border:1px solid var(--line);font:inherit}
+.pubbar input:focus{outline:2px solid var(--accent)}
+.pubnote{font-size:.88rem;color:var(--muted);margin-bottom:8px}
+.pubyear{font-size:1.25rem;font-weight:700;margin:32px 0 8px;color:var(--accent)}
+ol.pubs{list-style:none;max-width:950px}
+ol.pubs li{padding:11px 0;border-bottom:1px solid var(--line);font-size:.96rem}
+ol.pubs li .t{font-weight:600;display:block}
+ol.pubs li .a{display:block;color:var(--text)}
+ol.pubs li .v{color:var(--muted);font-size:.9rem;font-style:italic}
+ol.pubs li .num{color:var(--muted);font-weight:400;margin-right:6px}
+.badge{display:inline-block;font-size:.72rem;font-style:normal;background:#FBEDE6;color:var(--accent);padding:1px 8px;margin-left:8px;vertical-align:1px}
+
+/* alumni lists */
+.alumni-cols{display:grid;grid-template-columns:1fr 1fr;gap:10px 50px;max-width:950px}
+@media(max-width:700px){.alumni-cols{grid-template-columns:1fr}}
+.agroup{margin-bottom:26px}
+.agroup h3{font-size:1.1rem;font-weight:700;border-bottom:2px solid var(--text);padding-bottom:6px;margin-bottom:8px}
+.agroup ul{list-style:none}
+.agroup li{padding:6px 0;border-bottom:1px solid var(--line)}
+.agroup li span{color:var(--muted);font-size:.88rem;display:block}
+
+/* join + contact */
+.join{border:1px solid var(--line);border-left:4px solid var(--accent);padding:20px 24px;margin:36px 0;max-width:850px}
+.contact-cols{display:grid;grid-template-columns:1fr 1fr;gap:30px;max-width:850px;margin-bottom:40px}
+@media(max-width:640px){.contact-cols{grid-template-columns:1fr}}
+
+footer{border-top:1px solid var(--line);margin-top:60px;padding:26px 0 40px;font-size:.88rem;color:var(--muted)}
+section{padding-bottom:40px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap hdr">
+    <div class="logo" onclick="go('home')" style="display:flex;align-items:center;gap:14px">
+      <img src="https://static.wixstatic.com/media/ac7f7c_6b3e3faa4e0f4f78979bfbf614460142~mv2.jpg/v1/crop/x_6,y_0,w_513,h_418/fill/w_133,h_108,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/6_edited_edited_edited.jpg" alt="MAML logo" style="height:52px;width:auto">
+      <div><b>MAML<em>.</em></b>
+      <span>Multi-Scale Advanced Manufacturing Laboratory · Oregon State University</span></div>
+    </div>
+    <nav id="nav" aria-label="Main">
+      <button data-p="home" class="active" onclick="go('home')">Home</button>
+      <button data-p="team" onclick="go('team')">Team</button>
+      <button data-p="research" onclick="go('research')">Research</button>
+      <button data-p="pubs" onclick="go('pubs')">Publications</button>
+      <button data-p="contact" onclick="go('contact')">Contact</button>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ HOME ============ -->
+<div class="page on" id="p-home">
+  <div class="wrap">
+    <h1>Multi-Scale Advanced Manufacturing Laboratory</h1>
+    <p class="mission">The Multi-Scale Advanced Manufacturing Laboratory (MAML), led by Professor Dong Lin, advances the science and technology of manufacturing through research spanning additive manufacturing of aerogels, ceramics, metals, and composites; laser processing; and functional nanomaterials. Our work is multidisciplinary, spans from fundamentals through applications — including a Guinness World Record for the least dense 3D-printed structure (0.5 mg/cm³) — and engages collaborators including NIST, national synchrotron facilities, and partner universities worldwide.</p>
+    <p class="mission">We are based in the School of Mechanical, Industrial, and Manufacturing Engineering at Oregon State University. Dr. Lin is a Fellow of ASME and a recipient of the NSF CAREER Award.</p>
+
+    <figure class="homephoto">
+      <img src="https://static.wixstatic.com/media/ac7f7c_d406104a18dc4deaa8d51777bc8564b8~mv2.jpg/v1/fill/w_1316,h_756,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/ac7f7c_d406104a18dc4deaa8d51777bc8564b8~mv2.jpg" onerror="this.onerror=null;this.src='https://static.wixstatic.com/media/ac7f7c_d406104a18dc4deaa8d51777bc8564b8~mv2.jpg/v1/fill/w_439,h_252,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/ac7f7c_d406104a18dc4deaa8d51777bc8564b8~mv2.jpg'" alt="MAML group photo at Oregon State University">
+      <figcaption>First group photo at Oregon State, 2024.</figcaption>
+    </figure>
+
+    <h2>News</h2>
+    <ul class="news">
+      <li><time>2026</time><span class="nt">Dr. Lin receives the L.L. Stewart Faculty Fellowship</span> <span class="nd">— from Oregon State University.</span></li>
+      <li><time>2026</time><span class="nt">3D Magnetic Nanocomposite Aerogel (3D-MANCA) paper accepted in ECS Sensors Plus</span> <span class="nd">— Nasrullah, Halil, and team's work on humidity sensing and pollutant adsorption.</span></li>
+      <li><time>2026</time><span class="nt">Laser stirring enables on-demand alloying, accepted in Additive Manufacturing</span> <span class="nd">— collaboration with Dr. Ho Yeung's group at NIST.</span></li>
+      <li><time>2026</time><span class="nt">Multifunctional transparent wood paper accepted in Progress in Additive Manufacturing</span> <span class="nd">— Halil's work on 3D printed cellulose nanocrystal aerogels with graphene quantum dots.</span></li>
+      <li><time>2025</time><span class="nt">Dr. Lin elected Fellow of ASME</span></li>
+      <li><time>2025</time><span class="nt">BOSS Award from the ASME Manufacturing Engineering Division</span> <span class="nd">— Best Organizer of Symposium &amp; Sessions.</span></li>
+      <li><time>2025</time><span class="nt">High-density SiC ceramics paper selected as Editor's Choice</span> <span class="nd">— Yuhui's work in the International Journal of Applied Ceramic Technology.</span></li>
+      <li><time>2025</time><span class="nt">Dr. Lin named Clean Energy Fellow</span> <span class="nd">— PNW Clean Agriculture Cohort, Bonneville Environmental Foundation.</span></li>
+      <li><time>2025</time><span class="nt">Junaid publishes his first paper</span> <span class="nd">— "Laser Scan Strategies in Metal Additive Manufacturing — A Review," Journal of Materials Research and Technology.</span></li>
+      <li><time>2024</time><span class="nt">MAML organizes the first Advanced Manufacturing Workshop in the Western United States</span> <span class="nd">— "Advancing Innovations in Additive, Smart, and Functional Manufacturing." Memorial Union, Oregon State University, November 16, 2024.</span>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:10px">
+          <img src="https://static.wixstatic.com/media/ac7f7c_76c84bb4023c4c6581bb05974bae8909~mv2.jpg/v1/fill/w_600,h_400,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Picture1.jpg" alt="Advanced Manufacturing Workshop 2024" style="width:290px;max-width:100%">
+          <img src="https://static.wixstatic.com/media/ac7f7c_2ae2ed815e014db484a2e831acca567b~mv2.png/v1/fill/w_600,h_401,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Picture2.png" alt="Workshop participants" style="width:290px;max-width:100%">
+        </div>
+        <img src="https://static.wixstatic.com/media/ac7f7c_7021202d6a5a42eea477aa0c44f193dd~mv2.png/v1/fill/w_600,h_198,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Picture2.png" alt="Workshop banner" style="width:594px;max-width:100%;margin-top:12px"></li>
+    </ul>
+    <details class="more">
+      <summary>Earlier news (2017–2023)</summary>
+      <ul class="news">
+        <li><time>2023</time><span class="nt">Dr. Lin selected as Research Advancement Academy Fellow at OSU</span></li>
+        <li><time>2023</time><span class="nt">Halil starts as Assistant Professor at İzmir Institute of Technology</span></li>
+        <li><time>2022</time><span class="nt">Dr. Lin receives the Chao &amp; Trigger Young Manufacturing Engineer Award</span></li>
+        <li><time>2022</time><span class="nt">Halil passes his Ph.D. defense</span></li>
+        <li><time>2020</time><span class="nt">Dr. Lin receives the NSF CAREER Award</span> <span class="nd">— NSF Advanced Manufacturing Program.</span></li>
+        <li><time>2020</time><span class="nt">Outstanding Assistant Professor Award</span> <span class="nd">— Carl R. Ice College of Engineering, Kansas State University.</span></li>
+        <li><time>2017</time><span class="nt">Guinness World Record: least dense 3D-printed structure</span> <span class="nd">— a graphene aerogel at 0.5 mg/cm³, made with State University of New York and Harbin Institute of Technology. Covered by KSNT and K-State News; the aerogels were also exhibited at the Centre Pompidou in Paris.</span>
+        <img src="https://static.wixstatic.com/media/ac7f7c_d58c6442b7c444858269fe02dce24fac~mv2.png/v1/fill/w_251,h_389,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/ac7f7c_d58c6442b7c444858269fe02dce24fac~mv2.png" alt="Guinness World Records certificate" style="width:220px;max-width:100%;margin-top:10px"></li>
+        <li><time>2017</time><span class="nt">3D printed graphene and nanocellulose aerogels exhibited at Centre Pompidou, Paris</span> <span class="nd">— "Printing the World" exhibition.</span></li>
+      </ul>
+    </details>
+  </div>
+</div>
+
+<!-- ============ TEAM ============ -->
+<div class="page" id="p-team">
+  <div class="wrap">
+    <h1>Team</h1>
+
+    <div class="pi">
+      <div class="ph">Photo of Prof. Dong Lin<br>(add headshot)</div>
+      <div>
+        <h3>Dong Lin</h3>
+        <p><b>Associate Professor</b>, School of Mechanical, Industrial, and Manufacturing Engineering</p>
+        <p>Fellow, American Society of Mechanical Engineers (ASME)</p>
+        <p>Recipient, NSF CAREER Award · L.L. Stewart Faculty Fellow</p>
+        <p style="margin-top:8px;color:var(--muted);font-size:.95rem">Ph.D., Purdue University · M.S., University of Nebraska–Lincoln · M.S., Huazhong University of Science and Technology · B.S., Harbin Institute of Technology</p>
+        <p class="links">
+          <a href="mailto:dong.lin@oregonstate.edu">dong.lin@oregonstate.edu</a><span>|</span>
+          <a href="https://scholar.google.com/citations?user=Bs09AdEAAAAJ&hl=en" target="_blank" rel="noopener">Google Scholar</a><span>|</span>
+          <a href="https://www.linkedin.com/in/dong-lin-48a19519/" target="_blank" rel="noopener">LinkedIn</a>
+        </p>
+      </div>
+    </div>
+
+    <h2>Ph.D. Students</h2>
+    <div class="grid" id="phdgrid"></div>
+
+    <h2>M.S. Students</h2>
+    <div class="grid" id="msgrid"></div>
+
+    <h2>Alumni</h2>
+    <div class="alumni-cols">
+      <div class="agroup">
+        <h3>Ph.D. Graduates</h3>
+        <ul>
+          <li>Dr. Guang Yang <span>Postdoctoral Researcher, Purdue University</span></li>
+          <li>Dr. Halil Tetik <span>Assistant Professor, İzmir Institute of Technology</span></li>
+          <li>Dr. Pedram Parandoush <span>Toray Advanced Composites</span></li>
+        </ul>
+      </div>
+      <div class="agroup">
+        <h3>Postdoctoral Researchers</h3>
+        <ul>
+          <li>Dr. Donovan Mafukidze <span>2022–2024, co-advised with Dr. Yi Zheng</span></li>
+          <li>Dr. Jun Liu <span>Stevens Institute of Technology</span></li>
+          <li>Dr. Pengli Yan <span>EAG Laboratories</span></li>
+        </ul>
+      </div>
+      <div class="agroup">
+        <h3>M.S. Graduates</h3>
+        <ul>
+          <li>Budhi Yohanes <span>Spring 2026</span></li>
+          <li>Kevin Liko <span>Spring 2026</span></li>
+          <li>Timothy Shearer <span>Spring 2026</span></li>
+          <li>Chih-Yang Hsu <span>Fall 2025</span></li>
+          <li>Yisong Zhang <span>Fall 2025</span></li>
+          <li>Luke Patterson <span>Summer 2025</span></li>
+          <li>Yuhui Xiang <span>Summer 2024</span></li>
+          <li>Gaurav Jagtap <span>Spring 2024</span></li>
+          <li>Hanxiong Fan <span>Sundopt LED Lighting Co.</span></li>
+        </ul>
+      </div>
+      <div class="agroup">
+        <h3>Visiting Scholars</h3>
+        <ul>
+          <li>Prof. Nasrullah Shah <span>Fulbright Scholar, 2020–2021</span></li>
+          <li>Xuemu Li <span>2019–2020</span></li>
+          <li>Prof. Junyan Qiu <span>2019–2020</span></li>
+          <li>Prof. Jun Yu <span>2018–2019</span></li>
+          <li>Baoning Chang <span>2018–2019</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>Group Awards &amp; Honors</h2>
+    <div class="agroup" style="max-width:950px">
+      <ul>
+        <li>Halil Tetik — Outstanding Paper Award, NAMRC 49 <span>2021</span></li>
+        <li>Guang Yang — ISC Scholarship <span>2021</span></li>
+        <li>Keely Hutchinson — NIST Summer Undergraduate Research Fellowship <span>2021</span></li>
+        <li>Dr. Nasrullah Shah — Fulbright Scholar <span>2020</span></li>
+        <li>Pedram Parandoush — Gattani Outstanding Graduate Student Award <span>2019</span></li>
+      </ul>
+    </div>
+
+
+    <div class="join">
+      <b>Join the lab.</b> Prospective Ph.D. and M.S. students interested in additive manufacturing, functional materials, laser processing, and bio-inspired materials are encouraged to email Dr. Lin at <a href="mailto:dong.lin@oregonstate.edu">dong.lin@oregonstate.edu</a> with a CV and a brief statement of research interests.
+    </div>
+
+    <h2>Group Photos</h2>
+    <div class="gallery">
+      <figure>
+        <img src="https://static.wixstatic.com/media/ac7f7c_d406104a18dc4deaa8d51777bc8564b8~mv2.jpg/v1/fill/w_1316,h_756,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/ac7f7c_d406104a18dc4deaa8d51777bc8564b8~mv2.jpg" onerror="this.onerror=null;this.src='https://static.wixstatic.com/media/ac7f7c_d406104a18dc4deaa8d51777bc8564b8~mv2.jpg/v1/fill/w_439,h_252,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/ac7f7c_d406104a18dc4deaa8d51777bc8564b8~mv2.jpg'" alt="MAML group photo">
+        <figcaption>First group photo at Oregon State — 2024</figcaption>
+      </figure>
+      <figure>
+        <img src="https://static.wixstatic.com/media/ac7f7c_76c84bb4023c4c6581bb05974bae8909~mv2.jpg/v1/fill/w_1200,h_800,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Picture1.jpg" onerror="this.onerror=null;this.src='https://static.wixstatic.com/media/ac7f7c_76c84bb4023c4c6581bb05974bae8909~mv2.jpg/v1/fill/w_600,h_400,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Picture1.jpg'" alt="Advanced Manufacturing Workshop 2024">
+        <figcaption>Advanced Manufacturing Workshop — Fall 2024</figcaption>
+      </figure>
+    </div>
+  </div>
+</div>
+
+<!-- ============ RESEARCH ============ -->
+<div class="page" id="p-research">
+  <div class="wrap">
+    <h1>Research</h1>
+    <p class="mission">Research in MAML connects nanomaterial synthesis, laser–matter interaction, and additive manufacturing process design — from the nanoscale to the machine scale — across eight areas.</p>
+
+    <div class="topic">
+      <img src="https://static.wixstatic.com/media/ac7f7c_f8e9fdd93c714d08a569ebf303dbf52d~mv2.png/v1/fill/w_504,h_230,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/3d%20printing%20of%20graphene.png" alt="3D freeze printing of graphene aerogel — process schematic">
+      <div>
+        <h3>Area 1 — 3D Freeze Printing (3DFP) of Aerogels</h3>
+        <p>We invented a freeze-assembly printing route to pure, continuous, boundary-free, and truly three-dimensional aerogels — including overhang structures — from graphene, MXenes, nanocellulose, and silver nanowires. Printed graphene aerogels combine ultra-low density (a Guinness World Record 0.5 mg/cm³), high electrical conductivity (~15.4 S/m), and high compressibility, with in-situ synchrotron X-ray imaging revealing the printing process itself.</p>
+      </div>
+    </div>
+
+    <div class="topic">
+      <div>
+        <img src="https://static.wixstatic.com/media/ac7f7c_b7a6fa5fd7864838a5c1ceb0a7213555~mv2.png/v1/fill/w_511,h_351,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/acta.png" alt="Laser sintering of graphene oxide/iron nanocomposite" style="margin-bottom:14px">
+        <img src="https://static.wixstatic.com/media/ac7f7c_4df4636569d04060b6cd3587110b6aaa~mv2.jpg/v1/fill/w_511,h_255,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/laser%20shock%20loading.jpg" alt="Laser shock peening of graphene integrated iron matrix">
+      </div>
+      <div>
+        <h3>Area 2 — Shock Wave–Graphene Interactions</h3>
+        <p>Graphene can be vertically aligned during additive manufacturing (Step 1: laser sintering of graphene oxide/iron nanocomposites). A shock wave introduced by laser shock peening (Step 2) then interacts with the aligned graphene, generating stress concentration and nucleating high densities of nanotwins between graphene sheets under low shock pressure — yielding metal–graphene composites with ultra-stable mechanical properties.</p>
+        <img src="https://static.wixstatic.com/media/ac7f7c_a84a23f3af504f9b8a8cea890019a08c~mv2.jpg/v1/fill/w_511,h_239,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/laser%20shock%20loading1.jpg" alt="Shock wave interaction with vertically aligned graphene" style="margin-top:14px;width:100%">
+      </div>
+    </div>
+
+    <div class="topic" style="grid-template-columns:1fr">
+      <div>
+        <h3>Area 3 — Metal Additive Manufacturing: Laser Powder Bed Fusion &amp; Directed Energy Deposition</h3>
+        <p>Investigating laser scan strategies, beam shaping, and in-situ thermal monitoring to control microstructure and defect formation in LPBF and L-DED. Active projects include defect-free LPBF (Oregon Manufacturing Innovation Center), laser stirring with elliptical scanning for on-demand alloying (in collaboration with NIST), and lattice-structured materials (Idaho National Laboratory). Key alloys: Inconel 718, GRCop-84, IN625, 17-4 SS, and copper alloys.</p>
+      </div>
+    </div>
+
+    <div class="topic" style="grid-template-columns:1fr">
+      <div>
+        <h3>Area 4 — Additive Manufacturing of Graded and Tailored Alloys for Aerospace</h3>
+        <p>Co-led with the Air Force Research Laboratory, developing functionally graded and compositionally tailored alloys for sustainment and new aerospace applications.</p>
+      </div>
+    </div>
+
+    <div class="topic" style="grid-template-columns:1fr">
+      <div>
+        <h3>Area 5 — Additive Manufacturing of Ceramics &amp; Ceramic Matrix Composites</h3>
+        <p>Direct ink writing and post-processing of SiC, ZrC, Si₃N₄, and SiC–SiC CMCs for hypersonic vehicles, aircraft engine noise reduction, nuclear thermal propulsion, and space applications. Sponsors include NASA, NETL, Army SBIR, and GOMACTech partners.</p>
+      </div>
+    </div>
+
+    <div class="topic" style="grid-template-columns:1fr">
+      <div>
+        <h3>Area 6 — Bio-Inspired Manufacturing of Metal–Graphene Composites (NSF CAREER)</h3>
+        <p>NSF CAREER project (2020–2025) developing high-strength, high-toughness metal–graphene composites inspired by hierarchical natural structures.</p>
+      </div>
+    </div>
+
+    <div class="topic" style="grid-template-columns:1fr">
+      <div>
+        <h3>Area 7 — Additive Manufacturing of Continuous Carbon Fiber Reinforced Composites</h3>
+        <p>Laser-assisted and ultrasonic-assisted laminated object manufacturing, graphene-enhanced interlayer bonding, and mechanical/ultrasonic finishing of CFRP. The Composite Structures review (Parandoush &amp; Lin, 2017) is the #1 most-downloaded article in that journal since 2020, and U.S. Patent No. 11,254,048 (2022) is licensed to HydroGraph.</p>
+      </div>
+    </div>
+
+    <div class="topic" style="grid-template-columns:1fr;border-bottom:none">
+      <div>
+        <h3>Area 8 — Sustainable &amp; Bio-Based Manufacturing</h3>
+        <p>Decentralized pelletization of agricultural and forestry residues for bioenergy (USDA-NIFA Sun Grant), lignin-based wearable triboelectric nanogenerators for health monitoring (USDA-NIFA), and bio-inspired nanocellulose aerogel acoustic materials.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ PUBLICATIONS ============ -->
+<div class="page" id="p-pubs">
+  <div class="wrap">
+    <h1>Publications</h1>
+    <div class="pubbar">
+      <input id="pubsearch" type="search" placeholder="Filter by author, title, or journal…" aria-label="Filter publications">
+      <a href="https://scholar.google.com/citations?user=Bs09AdEAAAAJ&hl=en" target="_blank" rel="noopener">Google Scholar →</a>
+    </div>
+    <p class="pubnote">* co-first author &nbsp;·&nbsp; † corresponding author</p>
+    <div id="publist"></div>
+  </div>
+</div>
+
+<!-- ============ CONTACT ============ -->
+<div class="page" id="p-contact">
+  <div class="wrap">
+    <h1>Contact</h1>
+    <div class="contact-cols">
+      <div>
+        <h2 style="margin-top:0">Address</h2>
+        <p>Multi-Scale Advanced Manufacturing Laboratory<br>
+        School of Mechanical, Industrial, and Manufacturing Engineering<br>
+        218 Dearborn Hall<br>
+        Oregon State University<br>
+        Corvallis, OR 97331</p>
+      </div>
+      <div>
+        <h2 style="margin-top:0">Reach us</h2>
+        <p>Email: <a href="mailto:dong.lin@oregonstate.edu">dong.lin@oregonstate.edu</a><br>
+        Office: 541-737-7074</p>
+        <p style="margin-top:12px">
+          <a href="https://scholar.google.com/citations?user=Bs09AdEAAAAJ&hl=en" target="_blank" rel="noopener">Google Scholar</a> ·
+          <a href="https://www.linkedin.com/in/dong-lin-48a19519/" target="_blank" rel="noopener">LinkedIn</a> ·
+          <a href="https://twitter.com/smilerdonglin" target="_blank" rel="noopener">Twitter / X</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    Copyright <b>Dong Lin</b> 2016 – present · Multi-Scale Advanced Manufacturing Laboratory, Oregon State University
+  </div>
+</footer>
+
+<script>
+/* current members, alphabetical by first name within each group */
+const PHD=[
+  {n:"Andre Georges Ponsot",s:"Since June 2024"},
+  {n:"Elijah Waibel",s:"Since September 2025"},
+  {n:"Junaid Dar",s:"Since January 2023"},
+  {n:"Omid Hatami",s:"Since September 2024"},
+  {n:"Ryan Bertelsen",s:"Since September 2024 \u00b7 co-advised with Dr. Devin Roach"}
+];
+const MS=[
+  {n:"Mohammad Kamil Azim",s:"Since September 2024"},
+  {n:"Pei-Jung Chen",s:"Since June 2025"}
+];
+function card(m,role){
+  const init=m.n.split(' ').map(w=>w[0]).slice(0,2).join('');
+  return `<div class="card">
+    <div class="ph"><span class="init">${init}</span></div>
+    <h3>${m.n}</h3>
+    <div class="role">${role}</div>
+    <div class="note">${m.s}</div>
+    <div class="icons"><span title="Email — add link">\u2709</span><span title="Google Scholar — add link">G</span><span title="LinkedIn — add link">in</span></div>
+  </div>`;
+}
+document.getElementById('phdgrid').innerHTML=PHD.map(m=>card(m,"Graduate Student (Ph.D.)")).join('');
+document.getElementById('msgrid').innerHTML=MS.map(m=>card(m,"Graduate Student (M.S.)")).join('');
+
+function go(p){
+  document.querySelectorAll('.page').forEach(el=>el.classList.remove('on'));
+  document.getElementById('p-'+p).classList.add('on');
+  document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.p===p));
+  window.scrollTo(0,0);
+}
+
+const PUBS=[
+{n:87,y:"2025",a:"T. Islam, B. Zhao, D. Piccone, R. Bertelsen, D. Lin, A. Fan, J. Klemm-Toole, S. Pan",t:"A holistic corrosion understanding in IN625 alloy based on additive manufacturing history and microstructure modification",v:"Electrochimica Acta, accepted"},
+{n:86,y:"2025",a:"Y. Xiang, S. Doran, T.-Y. Chang, Z. Wang, S. Sangkagoon, Y. Yeung, F. Xue, T.-L. Cheng, D. Zhao, J. Lian, T. Chen, S. Shen, Y.-H. Wen†, D. Lin†",t:"Additive Manufacturing of High-Density SiC Ceramics through Post-processing Spark Plasma Sintering",v:"Int. J. Applied Ceramic Technology, 2025, e15167",b:"Editor's Choice"},
+{n:85,y:"2025",a:"J. Dar, A. Ponsot, C. Jolma, D. Lin†",t:"Laser Scan Strategies in Metal Additive Manufacturing — A Review",v:"J. Materials Research and Technology, 2025, accepted"},
+{n:84,y:"2025",a:"N. Malmir, G. Yang, T. Poirier, B. Taylor, N. Churi, N. Cavanaugh, J. Lian, J. Edgar, D. Lin†, S. Lei†",t:"Direct Ink Writing of Ceramic Fuel Pellets for Nuclear Thermal Propulsion Applications",v:"J. Manufacturing and Materials Processing, 2025, accepted"},
+{n:83,y:"2025",a:"G. Yang, Y. Xiang, T. Poirier, T. Yao, N. Churi, B. Taylor, N. Malmir, J. H. Edgar, D. Lin†, S. Lei†",t:"Extrusion-based Additive Manufacturing of Zirconium Carbide for Nuclear Fuel Cell Structures",v:"Ceramics International, 2025, 51, 252-258"},
+{n:82,y:"2024",a:"G. Yang, A. Lomte, B. Sharma†, S. Lei, D. Lin†",t:"Sustainable Multifunctionality: Bio-Inspired Printing of Nanocellulose Aerogel Acoustical Materials",v:"Advanced Materials Technology, 2024, 9(16), 2400232",b:"Inside Front Cover"},
+{n:81,y:"2024",a:"Y. Su, R. Savinov, Y. Wang†, D. Lin†, J. Shi†",t:"Microstructure and Property Enhancement of 7075 Aluminum Alloy via Laser Metal Deposition Augmented by in-situ Ultrasonic Vibration",v:"Virtual and Physical Prototyping, 2024, 19(1), e2301482"},
+{n:80,y:"2024",a:"B. Li, D. Lin, X. Zhang, D. Zhao, C. He, N. Zhao",t:"Exceptional dynamic compressive properties of bio-inspired three-dimensional interlocking graphene network reinforced copper matrix composites",v:"Composites Part A, 2024, 176, 107856"},
+{n:79,y:"2023",a:"G. Yang*, D. Xie*, Y. Nie, X. Zhai, N. Kedir, W. Chen, A. Gaur, S. R. Das, S. Lei, J. Wang†, D. Lin†",t:"In-Situ X-Ray Imaging High Strain Rate Compression of Laminate Aluminum Structures and Mechanical Property Characterization",v:"JOM, 2023, 75, 3105-3110"},
+{n:78,y:"2022",a:"X. Zhang, D. Li, Y. Zheng, P. Shojae, M. Trabia, B. O'Toole, D. Lin, L. Mushongera, Y. Liao",t:"In-situ Synthesis of Ti5Si3-reinforced Titanium Matrix Nanocomposite by Selective Laser Melting",v:"J. Materials Processing Technology, 2022, 309, 117752"},
+{n:77,y:"2022",a:"S. Hou, M. Sun, M. Bai, D. Lin, Y. Li, W. Liu",t:"A Hybrid Prediction Frame for HEAs Based on Empirical Knowledge and Machine Learning",v:"Acta Materialia, 2022, 228, 117742"},
+{n:76,y:"2022",a:"S. Hou, Y. Li, M. Bai, M. Sun, W. Liu, H. Tetik, D. Lin†",t:"A hybrid Algorithm Recommendation and Prediction Frame for HEAs based on Parameter Method and Machine Learning",v:"Materials, 2022, 15(9), 3321"},
+{n:75,y:"2022",a:"S. Xiang, X. Liu, R. Xu, K. Zhao, D. Lin, F. Yin, G. Cheng",t:"Understanding the Role of Monolayer Graphene during Long Range Shock Strengthening of Metal-Graphene Heterostructure",v:"Materials Science & Engineering A, 2022, 837, 142741"},
+{n:74,y:"2022",a:"G. Yang*, H. Tetik*, J. Nelson Weker, X. Xiao, S. Lei, D. Lin†",t:"In-situ Imaging of 3D Freeze Printing Process using Rapid X-Ray Synchrotron Radiography",v:"Review of Scientific Instruments, 2022, 93, 013703"},
+{n:73,y:"2022",a:"P. Parandoush*, X. Li*, B. Chang, C. Sorensen, Y. Liu†, J. Shi†, D. Lin†",t:"Additive Manufacturing of Graphene Enhanced Interlayer Bond in Continuous Carbon Fiber Reinforced Epoxy Composite Toward Ultra-High Strength",v:"Polymer Composites, 2022, 43, 934-945"},
+{n:72,y:"2022",a:"H. Tetik*, J. Orangi*, G. Yang, K. Zhao, S. B. Mujib, G. Singh, M. Beidaghi†, D. Lin†",t:"3D Printed MXene Aerogels with Truly 3D Macrostructure and Highly Engineered Microstructure for Enhanced Electrical and Electrochemical Performance",v:"Advanced Materials, 2021, 2104980"},
+{n:71,y:"2021",a:"H. Tetik*, Y. Wang*, X. Sun, D. Cao, N. Shah, H. Zhu†, F. Qian†, D. Lin†",t:"Additive Manufacturing of 3D Aerogels and Porous Scaffolds: A Review",v:"Advanced Functional Materials, 2021, 2103430"},
+{n:70,y:"2021",a:"H. Yeung, J. Chen, G. Yang, Y. Guo, D. Lin, W. Tan, J. Weaver",t:"Effect of Spiral Scan Strategy on Microstructure for Additively Manufactured Stainless Steel 17-4",v:"Manufacturing Letters, 2021, 29, 1-4"},
+{n:69,y:"2021",a:"H. Tetik, K. Zhao, N. Shah, D. Lin†",t:"3D Freeze Printed Cellulose-based Aerogels Functionalized with Conductive Polymers",v:"J. Manufacturing Processes, 2021, 68, 445-453"},
+{n:68,y:"2021",a:"K. Bi, D. Lin, Y. Liao, C.-H. Wu, P. Parandoush",t:"Additive Manufacturing Embraces Big Data",v:"Progress in Additive Manufacturing, 6(2), 181-197"},
+{n:67,y:"2021",a:"P. Parandoush, P. Fernando, H. Zhang, C. Ye, J. Xiao†, M. Zhang†, D. Lin†",t:"Ultrasonic Drilling of Additively Manufactured Continuous Carbon Fiber Reinforced Polymers: A Finishing Process",v:"Rapid Prototyping Journal, 27(4), 754-768"},
+{n:66,y:"2021",a:"N. Shah, T. Rehan, X. Li, H. Tetik, G. Yang, K. Zhao, D. Lin†",t:"Magnetic Aerogel: an Advanced Material of High Importance",v:"RSC Advances, 2021, 11, 7187-7204"},
+{n:65,y:"2021",a:"J. Orangi*, H. Tetik*, P. Parandoush, E. Kayali, D. Lin†, M. Beidaghi†",t:"Conductive and Highly Compressible MXene Aerogels with Ordered Microstructures as High-capacity Electrodes in Li-ion Capacitors",v:"Materials Today Advances, 2021, 9, 100135"},
+{n:64,y:"2021",a:"G. Yang*, F. Li*, J. Xiao*, H. Tetik, N. Shah, X. Xiao, J. Li, Y. Liao, S. Lei†, W. Tan†, D. Lin†",t:"In-situ X-Ray Imaging of Unidirectional and Bidirectional Freeze Casting",v:"Ceramics International, 2021, 47(9), 12234-12243"},
+{n:63,y:"2021",a:"H. Tetik, D. Feng, S. W. Oxandale, G. Yang, K. Zhao, K. Feist, N. Shah, Z. C. Leseman, D. Lin†",t:"Bioinspired Manufacturing of Aerogels with Precisely Manipulated Surface Microstructure through Controlled Local Temperature Gradients",v:"ACS Applied Materials & Interfaces, 2021, 13, 924-931"},
+{n:62,y:"2021",a:"Z. Yan, W.-W. Liu, Z. Tang, H. Wang, Y. Wang, D. Lin, H.-C. Zhang",t:"Investigation on Coaxial Visual Characteristics of Molten Pool in Laser-based Directed Energy Deposition of AISI 316L Steel",v:"J. Materials Processing Technology, 2021, 290, 116996"},
+{n:61,y:"2021",a:"W. Lu†, W. Zhai†, J. Wang, X. Liu, L. Zhou, A. Ibrahim, F. Peng, X. Shao, H. Ding, X. Li†, D. Lin†, Y. M. Wang†",t:"Additively Manufactured High Strength, High Ductility Copper Alloys with a Homogeneous Mesostructure and Isotropic Properties",v:"Additive Manufacturing, 2021, 38, 101751"},
+{n:60,y:"2020",a:"B. Sharma, D. Lin, A. Dasyam, G. Yang",t:"Aerogel two ways: towards ultralight noise absorbers",v:"J. Acoustical Society of America, 2020, 148, 2455"},
+{n:59,y:"2020",a:"X. Zhang, Y. Xu, M. Wang, E. Liu, N. Zhao, C. Shi, D. Lin, F. Zhu, C. He",t:"A Powder-metallurgy-based Strategy toward Three-dimensional Graphene-like Network for Reinforcing Copper Matrix Composites",v:"Nature Communications, 2020, 11, 2775"},
+{n:58,y:"2020",a:"H. Tetik, G. Yang, W. Tan, A. Fong, S. Lei, J. Nelson Weker†, D. Lin†",t:"High Speed In-Situ X-Ray Imaging of 3D Freeze Printing of Aerogels",v:"Additive Manufacturing, 2020, 101751"},
+{n:57,y:"2020",a:"N. Shah†, D. Lin†",t:"Composite Aerogels for Biomedical and Environmental Applications",v:"Current Pharmaceutical Design, 2020, 26(45), 5807-5818"},
+{n:56,y:"2020",a:"B. Chang, P. Parandoush, X. Li, S. Ruan, C. Shen, R. A. Behnagh, Y. Liu†, D. Lin†",t:"Ultrafast Printing of Continuous Fiber Reinforced Thermoplastic Composites with Ultrahigh Mechanical Performance by Ultrasonic-Assisted Laminated Object Manufacturing (UA-LOM)",v:"Polymer Composites, 41, 4706-4715"},
+{n:55,y:"2020",a:"B. Chang, X. Li, P. Parandoush, S. Ruan, C. Shen, D. Lin†",t:"Additive manufacturing of continuous carbon fiber reinforced poly-ether-ether-ketone with ultrahigh mechanical properties",v:"Polymer Testing, 2020, 88, 106563"},
+{n:54,y:"2020",a:"S. Pacellia, P. Paolicelli, S. Subham, D. Gilmore, F. E. Vergel, G. Varani, G. Yang, D. Lin, M. A. Casadei, A. Paul",t:"Investigating the role of polydopamine to modulate stem cells adhesion and proliferation on gellan gum-based hydrogels",v:"ACS Applied Bio Materials, 2020, 3, 945-951"},
+{n:53,y:"2019",a:"C. Ma, R. Wang, H. Tetik, S. Gao, M. Wu, Z. Tang, D. Lin†, D. Ding†, W. Wu†",t:"Hybrid nanomanufacturing of mixed-dimensional manganese oxide/graphene aerogel macroporous hierarchy for ultralight efficient supercapacitor electrodes",v:"Nano Energy, 2019, 66, 104124"},
+{n:52,y:"2019",a:"H. Zhang, Z. Ren, J. Zhao, Z. Liu, D. Lin, R. Zhang, M. J. Graber, N. K. Thomas, Z. D. Kerek, G.-X. Wang, Y. Dong, C. Ye",t:"Microstructure Evolution and Electroplasticity in Ti64 Subjected to Electropulsing-assisted Laser Shock Peening",v:"J. Alloys and Compounds, 2019, 802, 573-582"},
+{n:51,y:"2019",a:"B. Mao, B. Li, D. Lin, Y. Liao",t:"Enhanced room temperature-stretch formability of AZ31B magnesium alloy sheet by laser shock peening",v:"Materials Science & Engineering A, 2019, 756, 219-225"},
+{n:50,y:"2019",a:"C. Wu*, H. Tetik*, J. Cheng, W. Ding, H. Guo, X. Tao, N. Zhou, Y. Zi, Z. Wu, H. Wu, D. Lin†, Z. L. Wang†",t:"Electrohydrodynamic jet printing driven by triboelectric nanogenerator",v:"Advanced Functional Materials, 2019, 1901102"},
+{n:49,y:"2019",a:"E. Brown, P. Yan, H. Tetik, A. Elangovan, J. Wang, D. Lin†, J. Li†",t:"3D Printing of Hybrid MoS2-Graphene Aerogels as Highly Porous Electrode Materials for Sodium Ion Battery Anode",v:"Materials & Design, 2019, 170, 107689"},
+{n:48,y:"2019",a:"W. Zhai, W. Lu, Y. Chen, X. Liu, L. Zhou, D. Lin",t:"Gas-atomized copper-based particles encapsulated in graphene oxide for high wear-resistant composites",v:"Composites Part B, 2019, 157, 131-139"},
+{n:47,y:"2019",a:"S. Prabhakaran, H.G. P. Kumar, S. Kalainathan, V. K. Vasudevan, P. Shukla, D. Lin",t:"Laser shock peening modified surface texturing, microstructure and mechanical properties of graphene dispersion strengthened aluminium nanocomposites",v:"Surfaces and Interfaces, 2019, 14, 127-137"},
+{n:46,y:"2019",a:"X. Song, H. Tetik, T. Jirakittsonthon, P. Parandoush, S. Lei†, M. L. Weiss†, D. Lin†",t:"Biomimetic 3D Printing of Hierarchical and Interconnected Porous Hydroxyapatite Structures with High Mechanical Strength for Bone Cell Culture",v:"Advanced Engineering Materials, 2019, 1800678"},
+{n:45,y:"2019",a:"P. Parandoush, C. Zhou, D. Lin†",t:"3D Printing of Ultrahigh Strength Continuous Carbon Fiber Composites",v:"Advanced Engineering Materials, 2019, 1800622",b:"Top 10% downloaded"},
+{n:44,y:"2018",a:"M. A. Ansari, R. A. Behnagh, D. Lin",t:"Modelling of Friction Stir Extrusion Using Artificial Neural Network (ANN)",v:"J. Advanced Design and Manufacturing Technology, 2018, 11, 1-12"},
+{n:43,y:"2018",a:"S. Prabhakaran, S. Kalainathan, D. Lin, P. Shukla, V. K. Vasudevan",t:"Enhanced surface and mechanical properties of bioinspired nanolaminate graphene-aluminum alloy nanocomposites through laser shock processing",v:"Materials Today Communications, 2018, 6, 81-89"},
+{n:42,y:"2018",a:"D. Lin, M. Motlag, M. Saei, S. Jin, R. M. Rahimi, D. Bahr, G. J. Cheng",t:"Shock engineering the additive manufactured graphene-metal nanocomposite with high density nanotwins and dislocations for ultra-stable mechanical properties",v:"Acta Materialia, 2018, 150, 360-372"},
+{n:41,y:"2018",a:"Z. Hu, F. Chen, J. Xu, Q. Nian, D. Lin, C. Chen, X. Zhu, Y. Chen, M. Zhang",t:"3D printing graphene-aluminum nanocomposites",v:"J. Alloys and Compounds, 2018, 746, 269-276"},
+{n:40,y:"2018",a:"Q. Zhang†, F. Zhang, X. Xu, C. Zhou†, D. Lin†",t:"3D Printing Polymer Hollow Template-Mediated Graphene Lattice with Tailorable Architectures and Multifunctional Properties",v:"ACS Nano, 2018, 12(2), 1096-1106"},
+{n:39,y:"2018",a:"G. Zhao, C. Zhou, D. Lin",t:"Tool Path Planning for Directional Freezing Based 3D Printing of Nano Materials",v:"J. Micro and Nano-Manufacturing, 2018, 6, 010905"},
+{n:38,y:"2018",a:"P. Parandoush, H. Fan, X. Song, D. Lin†",t:"Laser Surface Engineering of Hierarchy hydroxyapatite aerogel for bone tissue engineering",v:"J. Micro and Nano-Manufacturing, 2018, 6, 011007"},
+{n:37,y:"2018",a:"F. Yang, G. Zhao, C. Zhou, D. Lin",t:"Phase change materials (PCM) based cold source for selective freezing 3D printing of porous materials",v:"Int. J. Advanced Manufacturing Technology, 2018"},
+{n:36,y:"2017",a:"P. Parandoush, D. Lin†",t:"A Review on Additive Manufacturing of Polymer-Fiber Composites",v:"Composite Structures, 2017, 182, 36-53",b:"#1 Most Downloaded"},
+{n:35,y:"2017",a:"Z. Hu, F. Chen, D. Lin, Q. Nian, P. Parandoush, X. Zhu, Z. Shao, G. J. Cheng",t:"Laser Additive Manufacturing Bulk Graphene Copper Nanocomposites",v:"Nanotechnology, 2017, 28, 445705"},
+{n:34,y:"2017",a:"P. Yan, E. Brown, Q. Su, J. Li, J. Wang, C. Xu, C. Zhou, D. Lin†",t:"3D Printing Hierarchical Silver Nanowire Aerogel with Highly Compressive Resilience and Tensile Elongation through Tunable Poisson's Ratio",v:"Small, 2017, 1701756",b:"Back Cover"},
+{n:33,y:"2017",a:"P. Parandoush, L. Tucker, C. Zhou†, D. Lin†",t:"Laser Assisted Additive Manufacturing of Continuous Fiber Reinforced Thermoplastic Composites",v:"Materials & Design, 2017, 131, 186-195"},
+{n:32,y:"2017",a:"H. Zhang, R. Chiang, H. Qiao, H. Qin, Z. Ren, D. Lin, Y. Dong, C. J. Saldana, V. K. Vasudevan, C. Ye",t:"The Effects of Ultrasonic Nanocrystal Surface Modification on the Fatigue Performance of 3D-Printed Ti64",v:"Int. J. Fatigue, 2017, 103, 136-146"},
+{n:31,y:"2017",a:"Q. Zhang*, D. Lin*, B. Deng*, X. Xu, Q. Nian, S. Jin, K. Leedy, H. Li, G. Cheng",t:"Flyweight, Superelastic, Electrically Conductive and Flaming Retardant 3D Multi-Nanolayer Graphene/Ceramic Metamaterial",v:"Advanced Materials, 2017, 1605506",b:"Highlighted in Nature Reviews Materials"},
+{n:30,y:"2017",a:"G. Zhao, D. Lin, C. Zhou",t:"Thermal Analysis of Directional Freezing Based Graphene Aerogel 3D Printing Process",v:"J. Micro and Nano-Manufacturing, 2017, 5(1), 011006"},
+{n:29,y:"2017",a:"F. Yang, F. Zhang, D. Lin, C. Zhou",t:"Parameter Study on 3D-Printing Graphene Oxide Based on Directional Freezing",v:"J. Manufacturing Science and Engineering, 2017, 139(3), 031016"},
+{n:28,y:"2016",a:"Z. Hu, M. Saei, G. Tong, D. Lin, Q. Nian, Y. Hu, S. Jin, G. J. Cheng",t:"Numerical simulation of temperature field distribution for laser sintering graphene reinforced nickel matrix nanocomposites",v:"J. Alloys and Compounds, 2016, 688, 438-448"},
+{n:27,y:"2016",a:"Q. Zhang, F. Zhang, S. P. Medarametla, H. Li, C. Zhou†, D. Lin†",t:"Three-Dimensional Printing of Graphene Aerogel",v:"Small, 2016, 12(13), 1702-1708",b:"Guinness World Record"},
+{n:26,y:"2016",a:"Z. Hu, G. Tong, D. Lin, C. Chen, H. Guo, J. Xu, L. Zhou",t:"Graphene-reinforced metal matrix nanocomposites — a review",v:"Materials Science and Technology, 2016, 1-24"},
+{n:25,y:"2016",a:"Q. Zhang, X. Xu, D. Lin, W. Chen, G. Xiong, Y. Yu, T. S. Fisher, H. Li",t:"Hyperbolically Patterned 3D Graphene Metamaterial with Negative Poisson's Ratio and Superelasticity",v:"Advanced Materials, 2016, 28, 2229-2237"},
+{n:24,y:"2016",a:"Z. Hu, G. Tong, D. Lin, Q. Nian, J. Shao, Y. Hu, M. Saei, S. Jin, G. J. Cheng",t:"Laser Sintered Graphene Nickel Nanocomposites",v:"J. Materials Processing Technology, 2016, 231, 143-150"},
+{n:23,y:"2016",a:"M. Rashad, F. Pan, D. Lin, M. Asif",t:"High temperature mechanical behavior of AZ61 magnesium alloy reinforced with graphene nanoplatelets",v:"Materials & Design, 2016, 89, 1242-1250"},
+{n:22,y:"2015",a:"D. Lin*, M. Saei*, S. Suslov, S. Jin, G. J. Cheng",t:"Super-strengthening and stabilizing with carbon nanotube harnessed high density nanotwins in metals by shock loading",v:"Scientific Reports, 2015, 5:15405"},
+{n:21,y:"2015",a:"D. Lin, S. Jin, F. Zhan, Y. Wang, C. Wang, C. Zhou, G. J. Cheng",t:"3D stereolithography printing of graphene oxide reinforced complex architectures",v:"Nanotechnology, 2015, 26(43):434003"},
+{n:20,y:"2015",a:"L. Ding, Z. Peng, P. Zhou, G. J. Cheng, Q. Nian, D. Lin, J. Zhou, Y. Liang",t:"Preparation and Effect of Lighting on Structures and Properties of GSH Capped ZnSe QDs",v:"J. Fluorescence, 2015, 1-7"},
+{n:19,y:"2015",a:"Q. Nian, Y. Zhang, D. Lin, S. Das, Y. C. Shin, G. J. Cheng",t:"Crystalline photoactive copper indium diselenide thin films by pulsed laser crystallization of nanoparticle-inks at ambient conditions",v:"RSC Advances, 2015, 5, 57550-57558"},
+{n:18,y:"2015",a:"D. Lin, P. Kumar, S. Jin, Q. Nian, S. Liu, S. Suslov, G. J. Cheng",t:"Laser catalyzed fast and scalable synthesis of crystalline Fe2O3 thin sheets in aqueous medium",v:"Applied Surface Science, 2015, 351, 148-154"},
+{n:17,y:"Before 2015",a:"D. Lin, Q. Nian, B. Deng, S. Jin, Y. Hu, W. Wang, G. J. Cheng",t:"Three-Dimensional Printing of Complex Structures: Man Made or toward Nature?",v:"ACS Nano, 2014, 8(10), 9710-9715"},
+{n:16,y:"Before 2015",a:"D. Lin, C. R. Liu, G. J. Cheng",t:"Single Layer Graphene Oxide Reinforced Metal Matrix Composites by Laser Sintering: Microstructure and Mechanical Property Enhancement",v:"Acta Materialia, 2014, 80, 183-193"},
+{n:15,y:"Before 2015",a:"C. Ye, S. Suslov, D. Lin, Y. Liao, G. J. Cheng",t:"Cryogenic Ultrahigh Strain Rate Deformation Induced Hybrid Nanotwinned Microstructure for High Strength and High Ductility",v:"J. Applied Physics, 2014, 115, 213519"},
+{n:14,y:"Before 2015",a:"C. Ye, Y. Liao, S. Suslov, D. Lin, G. J. Cheng",t:"Ultrahigh Dense and Gradient Nano-precipitates by Warm Laser Shock Peening for Combination of High Strength and Ductility",v:"Materials Science & Engineering A, 2014, 609, 195-203"},
+{n:13,y:"Before 2015",a:"D. Lin, B. Deng, S. Sassman, Y. Hu, S. Suslov, G. J. Cheng",t:"Magnetic field assisted growth of highly dense α-Fe2O3 single crystal nanosheets and their application in water treatment",v:"RSC Advances, 2014, 4, 18621-18626"},
+{n:12,y:"Before 2015",a:"D. Lin, C. R. Liu, G. J. Cheng",t:"Laser Sintering of Separated and Uniformly Distributed Multiwall Carbon Nanotubes Integrated Iron Nanocomposites",v:"J. Applied Physics, 2014, 115, 113513"},
+{n:11,y:"Before 2015",a:"D. Lin, Y. Yang, G. J. Cheng",t:"Fast and High Density of Nanoparticles Thin Layer Generation by Laser Induced Vapor Deposition",v:"Applied Surface Science, 2013, 283, 924-929"},
+{n:10,y:"Before 2015",a:"D. Lin, C. Ye, Y. Liao, S. Suslov, C. R. Liu, G. J. Cheng",t:"Laser shock peened TiN nanoparticle integrated AISI 4140 and its mechanical properties improvement",v:"J. Applied Physics, 2013, 113, 133509"},
+{n:9,y:"Before 2015",a:"Y. Liao, C. Ye, D. Lin, S. Suslov, G. J. Cheng",t:"Deformation induced martensite in NiTi and its shape memory effects generated by low temperature laser shock peening",v:"J. Applied Physics, 2013, 112, 033515"},
+{n:8,y:"Before 2015",a:"Y. Yang, D. Lin, G. J. Cheng",t:"Direct writing of Au nanoneedles array on glass by confined laser spinning",v:"Applied Physics Letters, 2012, 101, 091911"},
+{n:7,y:"Before 2015",a:"D. Lin, M. Y. Zhang, C. Ye, Z. Liu, C. R. Liu, G. J. Cheng",t:"Large scale, highly dense nanoholes on metal surfaces by underwater laser assisted hydrogen etching near nanocrystalline boundary",v:"Applied Surface Science, 2011, 258(10), 4254-4259"},
+{n:6,y:"Before 2015",a:"C. Ye, S. Suslov, D. Lin, G. J. Cheng",t:"Deformation-induced Martensite and Nanotwins by Cryogenic Laser Shock Peening of AISI 304 Stainless Steel and their Effects on Mechanical Properties",v:"Philosophical Magazine, 2011, 92(11), 1369-1389"},
+{n:5,y:"Before 2015",a:"D. Lin, S. Suslov, C. Ye, Y. Liao, C. R. Liu, G. J. Cheng",t:"Laser Assisted Embedding of Nanoparticles into Metallic Materials",v:"Applied Surface Science, 2011, 258(7), 2289-2296"},
+{n:4,y:"Before 2015",a:"C. Ye, S. Suslov, D. Lin, X. Fei, G. J. Cheng",t:"Microstructure and Mechanical Properties of Copper Subjected to Cryogenic Laser Shock Peening",v:"J. Applied Physics, 2011, 110, 083504"},
+{n:3,y:"Before 2015",a:"M. D. Furtaw, D. Lin, L. Wu, J. P. Anderson",t:"Near-Infrared Metal-Enhanced Fluorescence Using a Liquid-Liquid Droplet Micromixer in a Disposable PMMA Microchip",v:"Plasmonics, 2009, 4(4), 273-280"},
+{n:2,y:"Before 2015",a:"Z. Gan, D. Huang, X. Wang, D. Lin, S. Liu",t:"Measurement of Leak Rate for MEMS Vacuum Packaging",v:"J. Electronic Packaging, 2009, 131(4), 041001"},
+{n:1,y:"Before 2015",a:"Z. Gan, D. Huang, X. Wang, D. Lin, S. Liu",t:"Getter free vacuum packaging for MEMS",v:"Sensors and Actuators A: Physical, 2009, 149, 159-164"}
+];
+(function(){
+  const wrap=document.getElementById('publist');
+  const years=[...new Set(PUBS.map(p=>p.y))];
+  let html='';
+  years.forEach(y=>{
+    html+='<div class="pubyear">'+y+'</div><ol class="pubs">';
+    PUBS.filter(p=>p.y===y).forEach(p=>{
+      html+='<li><span class="t"><span class="num">'+p.n+'.</span>'+p.t+
+        (p.b?'<span class="badge">'+p.b+'</span>':'')+'</span>'+
+        '<span class="a">'+p.a+'</span><span class="v">'+p.v+'</span></li>';
+    });
+    html+='</ol>';
+  });
+  wrap.innerHTML=html;
+  document.getElementById('pubsearch').addEventListener('input',e=>{
+    const q=e.target.value.toLowerCase();
+    document.querySelectorAll('ol.pubs li').forEach(li=>{
+      li.style.display=li.textContent.toLowerCase().includes(q)?'':'none';
+    });
+    document.querySelectorAll('ol.pubs').forEach(ol=>{
+      const vis=[...ol.children].some(li=>li.style.display!=='none');
+      ol.style.display=vis?'':'none';
+      ol.previousElementSibling.style.display=vis?'':'none';
+    });
+  });
+})();
+</script>
+</body>
+</html>
