@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Multi-Scale Advanced Manufacturing Laboratory | Oregon State University</title>
+<meta name="description" content="The Multi-Scale Advanced Manufacturing Laboratory (MAML) at Oregon State University, led by Prof. Dong Lin, advances additive manufacturing of aerogels, ceramics, metals, and functional materials.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23DC4405'/%3E%3Ctext x='32' y='45' font-family='Arial,sans-serif' font-size='36' font-weight='bold' fill='%23fff' text-anchor='middle'%3EM%3C/text%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MAML — Multi-Scale Advanced Manufacturing Laboratory">
+<meta property="og:title" content="Multi-Scale Advanced Manufacturing Laboratory | Oregon State University">
+<meta property="og:description" content="The MAML lab at Oregon State University, led by Prof. Dong Lin, advances additive manufacturing of aerogels, ceramics, metals, and functional materials.">
+<meta property="og:image" content="images/group-photo-2024.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --text:#222;
+  --muted:#666;
+  --line:#e2e2e2;
+  --accent:#DC4405; /* OSU Beaver orange, used sparingly */
+  --link:#B33A06;
+  --maxw:1150px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Source Sans 3',system-ui,sans-serif;color:var(--text);background:#fff;line-height:1.6;font-size:17px}
+a{color:var(--link);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 26px}
+
+/* header — logo left, flat nav right, thin rule (Mechanosynthesis style) */
+header{border-bottom:1px solid var(--line);background:#fff;position:sticky;top:0;z-index:40}
+.hdr{display:flex;align-items:center;justify-content:space-between;min-height:78px;flex-wrap:wrap;padding:10px 0}
+.logo{cursor:pointer;line-height:1.15}
+.logo b{font-size:1.45rem;font-weight:700;letter-spacing:.01em;display:block}
+.logo span{font-size:.8rem;color:var(--muted)}
+.logo b em{font-style:normal;color:var(--accent)}
+nav{display:flex;gap:2px;flex-wrap:wrap}
+nav button{
+  font-family:inherit;font-size:1rem;background:none;border:none;cursor:pointer;
+  color:var(--text);padding:8px 13px;
+}
+nav button:hover{color:var(--accent)}
+nav button.active{color:var(--accent);font-weight:600}
+nav button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.page{display:none}
+.page.on{display:block}
+
+h1{font-size:2rem;font-weight:700;margin:44px 0 22px}
+h2{font-size:1.4rem;font-weight:700;margin:40px 0 16px}
+p.mission{max-width:850px;margin-bottom:18px}
+
+/* home */
+.homephoto{margin:30px 0}
+.homephoto img{width:100%;display:block}
+.homephoto figcaption{font-size:.82rem;color:var(--muted);margin-top:6px}
+
+/* news list (simple, like a WP feed) */
+.news{list-style:none;max-width:850px}
+.news li{padding:12px 0;border-bottom:1px solid var(--line)}
+.news time{font-size:.82rem;color:var(--muted);display:block;text-transform:uppercase;letter-spacing:.05em}
+.news .nt{font-weight:600}
+.news .nd{color:var(--muted);font-size:.95rem}
+details.more summary{cursor:pointer;font-weight:600;color:var(--link);padding:14px 0}
+
+/* PI feature (photo left, details right, links separated by |) */
+.pi{display:grid;grid-template-columns:220px 1fr;gap:30px;align-items:start;margin:36px 0 10px}
+@media(max-width:640px){.pi{grid-template-columns:1fr}}
+.pi .ph{width:220px;height:220px;background:#f0f0f0;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.85rem;text-align:center;padding:12px}
+.pi h3{font-size:1.35rem;font-weight:700}
+.pi p{margin:2px 0;color:var(--text)}
+.pi .links{margin-top:10px;font-size:.95rem}
+.pi .links span{color:#bbb;margin:0 6px}
+
+/* member card grid (Mechanosynthesis style) */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:34px 26px;margin:26px 0 10px}
+.card{text-align:left}
+.card .ph{width:100%;aspect-ratio:1/1;background:#f0f0f0;display:flex;align-items:center;justify-content:center;margin-bottom:12px;overflow:hidden}
+.card .ph img{width:100%;height:100%;object-fit:cover}
+.card .ph .init{font-size:2.4rem;font-weight:700;color:#c9c9c9}
+.card h3{font-size:1.08rem;font-weight:700;line-height:1.3}
+.card .role{color:var(--muted);font-size:.92rem}
+.card .note{color:var(--muted);font-size:.85rem}
+.card .icons{margin-top:8px;display:flex;gap:10px}
+.card .icons a,.card .icons span{
+  width:30px;height:30px;border:1px solid var(--line);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-size:.8rem;color:var(--muted);
+}
+.card .icons a:hover{border-color:var(--accent);color:var(--accent);text-decoration:none}
+
+/* group photos strip */
+.gallery{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin:26px 0 50px}
+@media(max-width:700px){.gallery{grid-template-columns:1fr}}
+.gallery figure img{width:100%;display:block}
+.gallery figcaption{font-weight:700;margin-top:8px}
+
+/* research */
+.topic{display:grid;grid-template-columns:340px 1fr;gap:30px;padding:30px 0;border-bottom:1px solid var(--line);align-items:start}
+@media(max-width:700px){.topic{grid-template-columns:1fr}}
+.topic img{width:100%;max-width:511px;display:block;background:#f0f0f0}
+.topic h3{font-size:1.2rem;font-weight:700;margin-bottom:8px}
+.topic p{color:var(--text)}
+
+/* publications */
+.pubbar{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin:6px 0 8px}
+.pubbar input{flex:1;min-width:220px;padding:9px 13px;border:1px solid var(--line);font:inherit}
+.pubbar input:focus{outline:2px solid var(--accent)}
+.pubnote{font-size:.88rem;color:var(--muted);margin-bottom:8px}
+.pubyear{font-size:1.25rem;font-weight:700;margin:32px 0 8px;color:var(--accent)}
+ol.pubs{list-style:none;max-width:950px}
+ol.pubs li{padding:11px 0;border-bottom:1px solid var(--line);font-size:.96rem}
+ol.pubs li .t{font-weight:600;display:block}
+ol.pubs li .a{display:block;color:var(--text)}
+ol.pubs li .v{color:var(--muted);font-size:.9rem;font-style:italic}
+ol.pubs li .num{color:var(--muted);font-weight:400;margin-right:6px}
+.badge{display:inline-block;font-size:.72rem;font-style:normal;background:#FBEDE6;color:var(--accent);padding:1px 8px;margin-left:8px;vertical-align:1px}
+
+/* alumni lists */
+.alumni-cols{display:grid;grid-template-columns:1fr 1fr;gap:10px 50px;max-width:950px}
+@media(max-width:700px){.alumni-cols{grid-template-columns:1fr}}
+.agroup{margin-bottom:26px}
+.agroup h3{font-size:1.1rem;font-weight:700;border-bottom:2px solid var(--text);padding-bottom:6px;margin-bottom:8px}
+.agroup ul{list-style:none}
+.agroup li{padding:6px 0;border-bottom:1px solid var(--line)}
+.agroup li span{color:var(--muted);font-size:.88rem;display:block}
+
+/* join + contact */
+.join{border:1px solid var(--line);border-left:4px solid var(--accent);padding:20px 24px;margin:36px 0;max-width:850px}
+.contact-cols{display:grid;grid-template-columns:1fr 1fr;gap:30px;max-width:850px;margin-bottom:40px}
+@media(max-width:640px){.contact-cols{grid-template-columns:1fr}}
+
+footer{border-top:1px solid var(--line);margin-top:60px;padding:26px 0 40px;font-size:.88rem;color:var(--muted)}
+section{padding-bottom:40px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap hdr">
+    <div class="logo" onclick="go('home')" style="display:flex;align-items:center;gap:14px">
+      <img src="images/logo.jpg" alt="MAML logo" style="height:52px;width:auto">
+      <div><b>MAML<em>.</em></b>
+      <span>Multi-Scale Advanced Manufacturing Laboratory · Oregon State University</span></div>
+    </div>
+    <nav id="nav" aria-label="Main">
+      <button data-p="home" class="active" onclick="go('home')">Home</button>
+      <button data-p="team" onclick="go('team')">Team</button>
+      <button data-p="research" onclick="go('research')">Research</button>
+      <button data-p="pubs" onclick="go('pubs')">Publications</button>
+      <button data-p="contact" onclick="go('contact')">Contact</button>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ HOME ============ -->
+<div class="page on" id="p-home">
+  <div class="wrap">
+    <h1>Multi-Scale Advanced Manufacturing Laboratory</h1>
+    <p class="mission">The Multi-Scale Advanced Manufacturing Laboratory (MAML), led by Professor Dong Lin, advances the science and technology of manufacturing through research spanning additive manufacturing of aerogels, ceramics, metals, and composites; laser processing; and functional nanomaterials. Our work is multidisciplinary, spans from fundamentals through applications — including a Guinness World Record for the least dense 3D-printed structure (0.5 mg/cm³) — and engages collaborators including NIST, national synchrotron facilities, and partner universities worldwide.</p>
+    <p class="mission">We are based in the School of Mechanical, Industrial, and Manufacturing Engineering at Oregon State University. Dr. Lin is a Fellow of ASME and a recipient of the NSF CAREER Award.</p>
+
+    <figure class="homephoto">
+      <img src="images/group-photo-2024.jpg" alt="MAML group photo at Oregon State University">
+      <figcaption>First group photo at Oregon State, 2024.</figcaption>
+    </figure>
+
+    <h2>News</h2>
+    <ul class="news">
+      <li><time>2026</time><span class="nt">Dr. Lin receives the L.L. Stewart Faculty Fellowship</span> <span class="nd">— from Oregon State University.</span></li>
+      <li><time>2026</time><span class="nt">3D Magnetic Nanocomposite Aerogel (3D-MANCA) paper accepted in ECS Sensors Plus</span> <span class="nd">— Nasrullah, Halil, and team's work on humidity sensing and pollutant adsorption.</span></li>
+      <li><time>2026</time><span class="nt">Laser stirring enables on-demand alloying, accepted in Additive Manufacturing</span> <span class="nd">— collaboration with Dr. Ho Yeung's group at NIST.</span></li>
+      <li><time>2026</time><span class="nt">Multifunctional transparent wood paper accepted in Progress in Additive Manufacturing</span> <span class="nd">— Halil's work on 3D printed cellulose nanocrystal aerogels with graphene quantum dots.</span></li>
+      <li><time>2025</time><span class="nt">Dr. Lin elected Fellow of ASME</span></li>
+      <li><time>2025</time><span class="nt">BOSS Award from the ASME Manufacturing Engineering Division</span> <span class="nd">— Best Organizer of Symposium &amp; Sessions.</span></li>
+      <li><time>2025</time><span class="nt">High-density SiC ceramics paper selected as Editor's Choice</span> <span class="nd">— Yuhui's work in the International Journal of Applied Ceramic Technology.</span></li>
+      <li><time>2025</time><span class="nt">Dr. Lin named Clean Energy Fellow</span> <span class="nd">— PNW Clean Agriculture Cohort, Bonneville Environmental Foundation.</span></li>
+      <li><time>2025</time><span class="nt">Junaid publishes his first paper</span> <span class="nd">— "Laser Scan Strategies in Metal Additive Manufacturing — A Review," Journal of Materials Research and Technology.</span></li>
+      <li><time>2024</time><span class="nt">MAML organizes the first Advanced Manufacturing Workshop in the Western United States</span> <span class="nd">— "Advancing Innovations in Additive, Smart, and Functional Manufacturing." Memorial Union, Oregon State University, November 16, 2024.</span>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:10px">
+          <img src="images/workshop-2024-1.jpg" alt="Advanced Manufacturing Workshop 2024" style="width:290px;max-width:100%">
+          <img src="images/workshop-2024-2.jpg" alt="Workshop participants" style="width:290px;max-width:100%">
+        </div>
+        <img src="images/workshop-2024-banner.jpg" alt="Workshop banner" style="width:594px;max-width:100%;margin-top:12px"></li>
+    </ul>
+    <details class="more">
+      <summary>Earlier news (2017–2023)</summary>
+      <ul class="news">
+        <li><time>2023</time><span class="nt">Dr. Lin selected as Research Advancement Academy Fellow at OSU</span></li>
+        <li><time>2023</time><span class="nt">Halil starts as Assistant Professor at İzmir Institute of Technology</span></li>
+        <li><time>2022</time><span class="nt">Dr. Lin receives the Chao &amp; Trigger Young Manufacturing Engineer Award</span></li>
+        <li><time>2022</time><span class="nt">Halil passes his Ph.D. defense</span></li>
+        <li><time>2020</time><span class="nt">Dr. Lin receives the NSF CAREER Award</span> <span class="nd">— NSF Advanced Manufacturing Program.</span></li>
+        <li><time>2020</time><span class="nt">Outstanding Assistant Professor Award</span> <span class="nd">— Carl R. Ice College of Engineering, Kansas State University.</span></li>
+        <li><time>2017</time><span class="nt">Guinness World Record: least dense 3D-printed structure</span> <span class="nd">— a graphene aerogel at 0.5 mg/cm³, made with State University of New York and Harbin Institute of Technology. Covered by KSNT and K-State News; the aerogels were also exhibited at the Centre Pompidou in Paris.</span>
+        <img src="images/guinness-certificate.png" alt="Guinness World Records certificate" style="width:220px;max-width:100%;margin-top:10px"></li>
+        <li><time>2017</time><span class="nt">3D printed graphene and nanocellulose aerogels exhibited at Centre Pompidou, Paris</span> <span class="nd">— "Printing the World" exhibition.</span></li>
+      </ul>
+    </details>
+  </div>
+</div>
+
+<!-- ============ TEAM ============ -->
+<div class="page" id="p-team">
+  <div class="wrap">
+    <h1>Team</h1>
+
+    <div class="pi">
+      <div class="ph" style="padding:0"><img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAUEBAQEAwUEBAQGBQUGCA0ICAcHCBALDAkNExAUExIQEhIUFx0ZFBYcFhISGiMaHB4fISEhFBkkJyQgJh0gISD/2wBDAQUGBggHCA8ICA8gFRIVICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICD/wAARCAKVAbgDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD5WopKcBSKCilxS0ANpaKSkA4Gng1FTxQBKDj0pc/So6UZoAeD9KXNNFOoAUHmp4/w/KoVHNWIxQBYT8PyqUfQflUaCpgKBig+w/Kn5+n5UmKWgBD9B+VNP4flTjTc0AAHsPyp6j2H5UCnjFMBQPp+VOx7D8qTIpd1IBPy/Kjn2/KlpQKLAAz6D8qkGfb8qRRUoFIBoz6D8qUj2H5VIFpSnFMCqwPoPyoGfb8qmZOaQJzQALn2/KnYJ7D8qcENSBOKQFcqfQflT1U+35VKUpQuKAGFeOg/KmEY9Pyqcio2FAEZP0/KmMfp+VSkVGy0wI9x9vyppcn0/KlK03pQA059vypp/D8qkxRtpiIjn0H5Uw/QflU+3imMuKYys30H5Uz8vyqVsVEaBC59h+VKPw/KmingUAH5flRjnoPyp2KKAG49h+VIfw/KlJpKQAp5HT8qKUdRRSA52lFJSimAtFLijFADaXFLilxQAgFOAoAp4FAABS4pwFOxQAzFKKDSikBItTIagFSKaALSmp1NVEarCmgZNS5pmaM0ABNNzzTjzTTQA4Gl3VFuoBJNAEwY09STUaLmrCJTABTgKeEpwQ0DEUVKKQLTulIB4p1Ring0CF25pRH7Uq1IKABYxTwlANPBpARFaYRU5FRkUAREUwipttJtoAgIpCKlZaj21QETCoWHNWiuajaOgCACngU8JUgSgCErxVaStApxVOZDTApN1puKkZDmjbQFhgFSAUBadQIaaYTTmph5oAQmgU4LRtpAA6iilUfMKKAOdpwFAFOFABilxRS0AJRS4pKAFAp4FNFPWgB4FKelApSKAI6KUikoAdT1pgp6igCVTUytUC1KtICcHNOFMWpAKBi4ppFSgUuzNMCtg5p6Kal2VIq0hCxpVlFFRLxVhCKBjwlOCU5cU+mMjK00rUuKMUDIttGKlIpCtBI0HFOzSYpwFADlzmpRmmKtSgUgDFIRUgWjbQBFikIqQjFMNJAMK0wrU4prCrGQbaaVqbFG3NIRBt56U4CpdtJtpAMI4qtKuatNUTjimBnsvNRkVbdagZaYEPSgmhhzQBmkIjYZoAqXZRtxQAgFBFLSGkA0feFFGPmFFAHPUuaSimAvenCminCgBaaafTTQAgNPBqM0ooETqafnioFNSA0DHGkpM0tADlFSAU1RUoFIAAqRRTcVIgoAlQVKBTUFSUAOUU8CmLUyigYzFAyKm2Uvl0CIhmnqTmpPKwcNwRQEG3dnigCVGqYcioUGTj0qVfSgY+jNIpDYwetKRyBTASjFLtpwFADNtOApxFAHNAh4FSCmAU4CgZIBTscU1alAoAgcVXbOauOtV2Q0DsMBpxGRSBakAplEW3mjtU2ymMpApCZGSBSbhUUhIqDeaCSySDTDimBqWkIjcCq7Lmp3qMDNMCAx0gTFWSlRsBSGMxTCKeTTKAEC5pdlKKkUUCIRH8w+tFWQvIopgchikp+KQigBtOzSYooAdmjGaQCngUANxRin4pKAEFOBoAp2KBAKlVaao5qwi0hiKlSAYpcYpM0AFTIKiFTx0ATKOKeFpFp25VUluwzQMUCpFIGMnrVZL23kVmVwAvc1Tm1KOOXyn4w2QR6UAbkbqc8jiql3qEcK/Lgkg4B4/wAmucfU5VuN0bHpt471TupZXlO4kEYyKQGqus3LyYzljkZ/CpzrHyuUPH8OewrnQWMgHAHbNWN6IhRUzngtjAHsKANRdakQ70OSVx+NP/tt/MQE/JwGI6msRhgZz0FMBG7Gc+/YUCOnt9ZKrGrP0GSfXmtM6xZxxly4Y4wAK4qPgFupGMDtUbF2GQefSgZ30GrWcyjDgNjOM1Ziu4HG5ZFOSAOa87QyIAwGfep4LmaKVZUkG5TnGaYHowKscDk+3anBK4vT9cnhKpKSevWtJPEsayiJ0yCxDHPagDplTinbKrWeo21ypMbhtoy2O1TpdwuOv8RX8aYEiril3e1IkscmNjZz2pwQFjTACM00pntU4SniPNMopbKUJV3yaBEKm4XKoSho6tmPFRMMUhMz5YMiqbQkHpWuRmonjB7UCM1YzT/LNW/K9qXZ7UCM9ojTdmKvsgqIpigdiowwKqyNV6ReKoyIaBEO6kzRsNIVNOwDgc1MoqFetWUFFgHDqPrRTscj60UAciRTcVIRzS7aQEW2k21MRTSKYDAKcKSlFAC0uKKUUAKBS4pQKcFpACip0qNVqdFoAMGk281NtpwSgCNUqYDFOC4GarXl1HBCcn5u1AD7i6jgUgn5sZxWRNqjOcDkg/mPSqV7dNMFL/MvIHrVJNx+90HU0DLnmSblK5y2TjrxUc8rk5cE4Hc1XaUsWEfyqeMZ61Geqbvm7YHWkBKs/G4ZHOOOaesyhDkEuT8q0zYAQu4n0zUotVLBWIYkZ6daBDIZiXI3AgD8qsJlwQQB6ZpoWKMkkDI7YpTJkgjKjsKAJEYHIkXjovameXIoOcYIxj1o+bIOce1TRyoTtKbXwcH3oArKSgyc88Y96kjHBdgGznA700ho5grRfeOcDI696aAGJCn5evBoAso8aREbh8/bHoajOzJMfK4H1qrJI27fkggfn70g8zasoICt3z3oAveVJg7ct9O1R4KHOSD9KWC4ZTyCxBGPT3H0qSWUtwQCh5x3U0wL1leNZWkkafM8hB3D69Kv/wBota+Wm1hIOvPTPasGFwJQM4x09RVoJIrPL95hzk8496AOo0q7laQFmOTwM966WF1KhdwZz6VxGnzeW5f59g9ON1dZaXeyFQkQV5CML3oGayrUqgVCrgcE5Y+9SKw6EjPtQA8ikA5pc0oFFwEKgioHTmrQFNZRUgUvLoMYqyVppFMCo0eKjK1aZc0wpQBVZaiZasuKhxmmBXZKrvECavlahcYoEUGiqB0q65xVduTVAVwuDU68U3bzTqQDs/MPrRTBncPrRTGc0BTsCjNITUiGmmGnmm4pgNxRTsUuKAGgU8ClC1IooAAtPAoFKKQD1FSrUQqQUASipVXNRoMmrB+VCe4GaAIppFiibedoxwa5e+keQncwOOh9asX+oNM7IOB0PpWYxfbz0OetADCwMQAznOCDTQpIOKGAyCFx+NOVWfauPm9OlIY3bhucYNWoIwCHkGExnBpkcLBuf4ecVPIrNknBHQCmBWWNvPKZyrn5eO9Tf6pCspzn07GjBDCPbljSsgcYcEkdsUhFRnctlXJHqalV2VMgZIIHNPMJJDooP4c0/bIylGGR9KBj2CgkMFcdMqe4pyyKFwEyAahEYVeWyc8c/pULGQgKFx9KBFqSSLDNIASOAFFU2TLAkYVuw9KULIXAbLU9twwc4wOlAEJVonwgJjPU+tTxDevzFVPpUioMBiCR1puQCflGPpTANqRru3E57/406VmeJTH1zjAFIF3IQBx1PNKAdgUAjBJ4oAbuby1XALdD71o2t2Uwsr7Y2G1j/WqLxb1QgEPnBqYRq7BCcE98UAatkJAd8Z+f+HI4I9jWta30aHzJWLOOCWas7TIY470WtxuAPzLg9Px9KtTaWDMXR8Anhie/v6fXpSGa8F9LK2ThQTxufA/Ada3LZ3Iyw49fWuVtY54X2FCe3ykCt+3bBDGJ2f0LZxQBsIc1IKhgUkAmrYWkAzFJjNSEUmKAIWWoytWitMYUwKpWmsOKleq0kmBQBFIajAyaY8nNCPzQBIy8VVlGKtlsiq0w4oAz5DzTMZqRxzSBaoRGRimEipH6VAc5oAeD8w+tFMB+YUUwObzS0BacBUgNxSgUuKKYCgCl20AU/FADcU4UuKMUAKBSgUoFSAUgGgVKq803HNSJ1oAnjWqt3erGXi+6+ON3Ap11O0UWFTJNYVw00m55ScehHGaBlec+ZITwPoKrAKGG9cr355NSgStiNByfSpltRCVaYhiegPQ0CIYhCQcoRz0HOavxQRspbac5xg0xIhGpc8sfUdKshGa28wuPm6KR1/GkOwJbJiSV2xxwD3NV2iGO+asJK6j/AFZP8qmiVJWIdGAPpSHYzPLJbKnnH5U8w7Tlky45+lbMViD9xvl+n9asfYERv3nGQOnNTzIvkZzmxtwJBNPMe1u/rXWJowf/AFcbMO5Ap1xoDhh8mSegA5pc6H7NnJeSGO5h8uegpjJtJKx7fet640uSP5dp/Ks+a2dCcqc+/NUmQ0Zu12B3EKtKFUnGM4q0U6Aj8qQxEDvTuKxDgE/LwB2pPKQkKqlvX61P5RXkDpS7QvIxz6U7isR+UFX5tufbtUkUfzcHCnr707Y8nPJ9vSpkgc43L8v5UrjsV5Y3fBA2qvTHakCSr+8z905PFaqWsuA46AYANSCxc5OCxbnaRwaXMPlK9nexRzx+YQxDcZ5GD2/CtmISeXuXDywjD8Z3qfb6VVk0Brm2+0wxk4HKimWktzbOzbhvRcYJxuX60XTBxaNiOFULMDmN0wAen/1qbBJcQuBKq8YHPSkiu0lGwISR82MY4zjj15/LFSuMq4iG5gOEc8EeoouFjfsJWePJxkdjWmpyOmK5jTrwBhG2Vyeh7V0Eb5Gc5pkk5pppN1MLUwH5pj9KUGmt0oArStiqMre9XJTWfL1oAgY5NOQ4pvejNMCfdUch4pFNI/IpAVXPNNzSyA5qMUxDXqEip2GajK0wIwMEfWinY+YfWigDnKWkAJp+2kA2lAp22nBaAGgU8ClApwFACbaXbTwtPC0ARgU8cU7bSFaAEqWKNpMleo7Z5qLBp5BC5DBT79KAKl3I6P8AJw44ySVIrNZRJIAdzsepP3RV+4DKS8gEnYDOfy5rPLknL5GemKAJA8ccGEUKHb/gTfX2qeOJ3VJfLAwOOOg9Kp5Eso42gDFaKqRGCXKIvByQWb8O1JjRaaNJIlRsgg4O4jFG22iBMZVh6g4qm4kkwBGETtuP9Ks2kBSXEr8Dpt5J+lTsWicW6XBACbAe5PX6Ctez0BHHmcsfetPSrAPGshhCD3612Wn6Q0g8xkIXHANc1SrY7KVHm3ObttFSRfLKFvetePwzCVAKD6Eda6mCyVeAma0oLHdwy8VxyrPodioo5CDQHj/1EYQfy/Crw0PKDKkt6+ldlFZKg+7n8Kla2ABIXio9oyvZo8/uPDKS5ZtuevC1h3/g5SpKqOfavWFsudxH4UybTwy/dzWirSM5UYs8GuPCRQkhST6gEiqEnhiZRuAJr3mXSVduU/HvVZ/D6SHAgyD7Vsq7Mvq6PBX0G8GSInY9sVEug3DtuETKR6jvX0BH4UR+GiU+meDV6Dwhbo2+SJD7AVXtyPq54dpXhC4kYTTxOFzjnjj6d66mDwfErAsmO3T/ABr1T+xo0GFjH1zmmppoQEupJXqfWs5VmzSNGKPPk8LQeWuYh78dahv/AA9FFaBIYwXkOBxjFelCwGwArjFUptJaS4RgRhWBH0FZ+1d9TX2UbaHK6Zof2OxiRYEIKZYNzk1x2v8AhFmuJ3so/LZCWiHZhySh/WvZBalVCbcsBVCXTkllJcYZQCF9amNZxlcqdCMo2Pmy4uZFfyJA8UkORtbqexz7/wCFT2uoO/BcsQeeehr0bx34LW6Vr6yi23CDcABjcPSvI9xjm3bcOOGB45r0qc1UV0eVUpunKzOrhnzOJVYsDw3qDXT2U/mIDsZRjvXAWdyNxYk5IxXW6TcM4C7hjHTGa0Rkze3U3NITxTQaokmU0jnimqaRjQBXkPWqUvWrriqsi80ICmetBFSleaNlMCNetPIGKQjFMZsUARuKixUjPURagQhqNqeTUbc0DGfxD60UgHzCikBgKKkAoAp4FMBuKcBTgKWgBuKUCjFKKYDwKeBTVFSgUgExTSM0/FKBQAwLzT2TMbDMY46ucVIFqO4EKRguxPGdoJH60AZs0MewF1Yk8BEGAfqf6VnzFVJjAXd6DtU1zdsxO3j0x29hVUqU5PLtyB6UCLURVFA2/Xb1PtntUxuv3e3YN3YAcCo4TuJjA2kc7vQf41PBiWchYyUQgegqSkFvFJK3myybT0Fb1tFE7KIgWI7n+dZsEJmuWUgpBHxwOWPtW9p8DSz+UBtQEZHQKPSokzSKOv0K083av3sY49DXoFnZN5IGCM9q5Lw9EsLIR0fkc16NbpmEduMfWvMqas9alpErwWKqAPft3q0luVY4Bx61ajQldi7ev51P5ZCcckVlymnMQKqD7/Qf3ahZRuOB7g1ZBGMvxTCBgevtUMpDFXIG7r6VYWHPX8Kai9OufarS8eooTBoiEAxwv1p6Wy45xUyMX+8u0A465z71Oi5foau5NhscKKOAM1IYQME8VLsYDIwf6VMsZMYJ/GrRLM9rcHgHj0zUb2YYjZnI/X2rQMYznBH0p4UlRgYX2piMz7NgcjP4VG1oM5ZCB6itf7MrZyuDTTb7OQAD7GhoEznpYAsvyrVaW3+XzMferbuYjknH/wBeqTRHbg5/KsJI2izn7y3SeH5hwR+teFfELwydP1AapapiGc4kAHCt6/jX0Fdx7RnGOeR61zOvaXDqemT2kijbMpUH0bsauhU9nIzr0vaRsfN0G0HBYKTXS6RdGOYfMuCOQTtPFYN3ZvZ30tpINssTFSDx0qxYXYhlG+Rlx6V7W+p4drHoSOXQMVIzSbuajs7iO5tVZDkAdzk09uK0JJFalJqNaVjgUrAMY1A9Pdqru9AgIAppYVEzmmFjQA92FV3alLVExoAjZqZu5pWqI5pgShs0vFQZxS76QyTA3D60U0P8wooAxcdKcBSHinA0AKBS4oFPAoAbtpQtSAUu2mA0CngUoWnhc0AMAp6inhadtpANxWdqLGMgNsI6nPNae2sTUT5lzsEoCoOrd6AM1pgGwFwe57mmK5LhQeeppxRUb1JPGeM0wfLN6noMUCLsAZndSQoI+Zz1A9B9a0NPh2syqGyD2X8qq6bCHn8yRQ7t9xT092+lb1raOYvLDgMSD6Y9TUNmiRJaqsjGNfuKcBsdW9q10iW3wsZGWAb3+tU2QRQW624UAYLMfc8fyya0ILWT+0VDAeTCM5HBdsDkn0AFZM0idhoLRh0UsS44yT39PavSbUMY0QHLHqa8d0+Yw3MRViSzbvY8V6loVyZIwXfJHHPrXHUjZnfTldWOjjTaBnPPpUywTFzkbR1AApYyTnHXPJHarauoG0ZI9azSNG2Z80Co2eXPcVD5ZHIwKuSYMgwcc9BTWRWyVP6VlKJrF6EC5A6U4ls54o6nuPwo2knp+dZGhIjkHP61ZjJOCCPeq6x4OWqZSBk5zVoTRehkjkV0OTj2xUgwGK8jI7VTjyRt3kZ7iryKAgxkY4+tax1MpKw2M5JyufocVKu6P05+pNRI435GQOmKkY/LuVccYyTVoloC+M9D9fWgvnAeLJ9VPH61AXOfX8aaJckhmAHapbGojHAZ3RicdgRgiqLKVJAO4Y/ya02BJJ5+pqrIqjrUSLTMi5QMhBAz71gXEY8mRe4O4V01woZCa5+5UpIeMg1g9zVHhPxE05bfWReIoAmHzD1NcQh2uCmSc9D/AFr174jWiy2AkI+6M8+1eRYZXHIdOxPUV7NCXNBHi4iPLUZ2+g3DPahCFA9jzWuw5rnNEmgj4MTxMe/UGul6jNdcdjnEWlYcUg4px6UxFSQVXZTV1xmomSgRTK1GwwKtMMVA4pCKrVGTUriottIYmM00pUoFDCgRUcYqAnBqzJ0qsRk0AKpOR9aKeifMPrRQBlN1oDUrjmmAc0DJ1NSqKhSp0oAeBTgKVVp4WgBoWpAKULTwuKYCAU7FGOakUUARsCBmud1JSkpLkDuB3rpyvFc7q0ZM5OCAPfk/SkBkvlWMkgO5u2efxpsSiRt7ZPrngGnyKEXYcFieg7UkW5yoz8oP5mkJGzYfu2Zty5IG44ztHYVt2+y3g/e7iZZAZCRk464/z3+lY8CICBztUAhR/ePc+9b0WWEUWzao+fOcknGM/QZOKzZsjWgRZoSSuHkwy55woB4/l+VJ57wYOcB94PqSc5/wqPzpIdQeRH3xRRZXtj0H5f0qeMxvEnnjf5SFj7sTnNZmhZ02bdI11yAoAQEdOmT+mPzrudAvWWRcjA3YOO5rzyMs0ciIdpkk2geqjjP8zXf6Db7WGfucEfyrGpsb0tz0uzn3QjLZJHNXScKD0PqKyrdkWEZYjj8avK4ZMHPHqK5kzraGSKGPHzH3NMaU7wHOcDp71I7YTIHJqDbu5J4B61nK5cSQSMx4AHripkBJHT8e1NSPCHHFTonABcHvQoMfMgCcnIoCgf1p6dAamSNXOOM0+RhzIihA4PvxxWpGg2BtvXp7UkFiNoZiCOn41ow2okUBRxj73tWsYNGc5oyWQK249AetDgt3wO1ad1ZeWiYByWqnJEEA4Ax603FoSkmU/KJPQnPHWg2xA6MSfQcCrkMWHHmAB8YYdhVwCMfK5wo5B9RSULjc7GRhl4IwaqTKrdc1vPBay4KuS6nPynGfwrLvo4YsgvjjuaUqbBVFcxriF9mF6HnmsO6GThxyD1roJJ1jjyXDjOMVmXYhuY2kiYNjjjsa5ZQa1N4yTPN/HVsZNElYLnaCcY9q8KUgSjbwfQ19H6/AbnRrpMchD/KvnKaMCZx94AnBB5FelhX7tjzcWveudFoEyrIIhgZPQ88/4V14G4dMe1cDpQJuIypBIPXrt+o9K9BtxmFSSCe+Biu+JwkewimMDVxk4qB1qhMrUhXip/LoKcUAim61C0eausoqEigCk0WO1QMmK0GANVpFpCKZGKQnipGFRsOKBFdxmowvNTMOabigBUXDD60Uq8MPrRQMxmFMxTz/AEpKAFWrCHmq4qZDigC0oqUCoUaplIpASKtP2+1NU1L2oGRY5qRaMUCgQ44xXP63lZiVJ2kYBNdBntWHrnEKOeTngUAcyxwSO3arNooZct1PHHpVYnJOR2q1Zn/SVzgKOoPekwRq2xXI2qWEYJJB+92AH+ema2IbgR2bbziQ8HH9Pw/nWTFGUhXLhQ7ZPHO3/wCvVmGVVTzG6AdAuMA9/rWbNEa+/wAzT2jBJBkBb1JJ559BwMVNJOxgmEY25bgYx6f0xWdFKrWahCArkBFH15P5kj8Knifz2SIriRyOnQZOf5AVNi7nS6NbeddmUgyDAiUk9Tj/ABNep6LZiJVUcqBgk9/euV8N6crPCAMCPnnufU/rXoNjHsUjHzL0rjqSu7HfShZXLQOzC9KesrF8c4pSNzhiDxxxUTQswZVbaPXvWFjW6LkbBm+Y5HQUzVL6DT4Q8hy5HCDHJ9KYuyOMljjaOgPp71y2qW1xe6orkM/mLtxg4I6j8fetYohsz5fFepR3LoyqzZzjP3R/I1TuvG95CzLGTK7DBx0Fa/8AwjnmxPDc4cdnx82PQkenrVNvh/DK52TPGGHVWOPxFarlW5m+boZ1t471hzhIwp9WHB9uf51qQeMdVlKM7Ff4SuMYNUj4KvLLjf5qjkYX+dSQafPESCg2+hok49Bx5up2um+JbtljLsfm425znius0vWnlOV2g8kjsfpXmturRhQRt9DXQ6ZKFkVuef0rLmN+W61O9lvhJEOQ3HJxis6S6jZ+vcg896qC4IiJUn6VRkkYSMQRhvmociYwRtSXyxW7MeTnJ5zXOX+r3MgcxyEFuBt4ptzdt5RDA4PPTismRjIrRghcnqO9JTL5TKvdS1S2MjLfNHv67csSfQY61yd54q1o5jLgIpOWnlwT7+ua686XPcTbYcgNxk8nH41dg8AWEyFryPzXY5PGc+2e34VvGae5zTi+hwdt4i1S4QGXJAOPMRt354/ka2dP1t4HIkLbnPzFXyjj3BHBrqV8CaNbFiLONWPTGcj6YrNu/C9tEHljUnrgMePfA7/U1M+VoIcyGyMt3aSMFwJAcDOe1fM16gjvp0BPDEcfWvpm1UrCUaQMeuFXgV8068rWviO8UH7szD9aeF0bRGK1SZd0NybxTnBHBPfFehwBFQbBxXm2jSot8jupK5ySP4a9HiIKgggg8jFegjzywTxUJqTGRUbcVQBxTGYYqN2IqBpaAuOkaqrPzSu+aru3NAyUvUTnNMLGmF6BDXqFqkY0zGaBEeKTbUu2msMUARgfMPrRTh94fWigDDpaZn+VOBpAOpQeaTNAFAE6vipQ9VQeadv7UAXkep1fis9HqYPQMuBqXOaqrJUqvQBOBWHrgOAcb2HA9BW0HrL1fBj3sCQBgDtSA5ZsD6irEKsiCTABOcVGY2ZixXg84rQEZZM/xAd+9SwRMWQyCJXLKo6E5BH+RUTSyfZQufvsQB6VAZWUYI2v8oPHapFwLaMgZYE5Pf2pWHcvi4Pkqihg0S4B9un8zW/oqr9tjIX5TgDnr0rlIJCTIoON4BOfrW9o11s1GIk5XkKD26VLWhcXqfQXhqxCWocrnfzuPeujFsUIxx9Ko+H2STRrZ1wcqK2GBbGCfwrzXqz1FsVmJ3HHLd+elDD90Cn4nvTjACCAQGyDuxSSQ7ehOR09qBFaTb5TLnOepPpUUaN5odQMEc054NxO5sD0oEiwRl5G2qPXimPfQuxqAMk4z1B7VZjaPAwmO2PSvP8AWvHtjp6OLZ0kKHBlc/ID6DHLH2FcBqfxN1GOH7YYbuS2LbFct5KsfYDn9TTjCUvhFKcYfEz6OWOCVAGAwfWsq90yAO5Ug5647V4zpnjHXrnTrS/Glzm1unCRyw3xDBj0GDxnNdFZ+P7iG4+z30zXATiSGePyriIeuOjj6VU4TitUTTnGT91nS3FoI2PJxUlq5RgAce9S/a4r62WWFw6MMq3rVKKT96UPUGuZ7XR1LszfjZmxmT8MUk/mKnXIHIxRZ9RlcirV5HlQFXjHSlzaC2Zz0srOTkHAqISRjpyenNT6gPJiJRcZrznxp4ruPDunotpHvvJzhd3SMf3j/SqjFt2W4Skkrs9Mt9QsLPDXV1FEOp3sAfyqy3jfQ4RsiuzK3fy42NfJ1v4hmuPESXHiGW4vbTcd8SEqT6cAj9TXtvgHwp4c8VeF7+/FhJawQTvHaytw4UAHkg84JIrujh2lqzzpYlSekT0KDxVo+pSNFDdAyDrG/wArfkealmYzqWzhfQd68Ynj1HS9QktdSZ9S0lXxFeJ/rbc+obqRXpmg3Fy1msc04ulAGyZR98e/oa5J3i7M7VG8bk3kMsTtjavPFfMnjWBYPG2pRH7rSkgemea+q7iMrAuTkk181fE20KeP7lY8EyIkgx/u/wD1q2wz99nNiV7iMTRIZItRiYkEdQexHrXokWAowMD09K57QLX/AEBWlUMpOVz1Fb6kCvSPOLQPFMfHNRGXjrUZl96YxspxVRs5zVksDULrmgRWYmozyamZDTVXmmMhK0xlIq+IhUUkXHSqHYonNIKldcVF0NKwrDqjan9aawpARZ+YfWimk4YfWinYLGJ/hTgKQDpUiipJEAp2KcBT9tAEJBoCnNS7aeI6AIwDUnNO2gUhFMYAmpVaogKcM0ATB/enxafd6vcx2VnCZppDhVHb3PoKr16P8PRbafpGpa5OMuh2KfQAZNZVZ8kHI2o0/aTUSpb/AAfmktd896/mkc7F+XP41lah8Nr/AEnZNHM00Q6iRccZx/Wrn/CX+K/EGrsLG8ktoQ3yRQgDA9z3ruoZ9YtLKKTXG86E43MRhgM9cdzXA6lRatnouhT2SPD9U8O3UDeY0bA5GAfTtmsLYysWwRnIwfUdq+ktVt9N1C2knsgkkKqionqxbP1/u/nXj/iPw/Jp3299oURzkp9Nuf8AGt6dW+jOOrRtqjkDhemckc+465q3YylRHL0Kn+tVGbkEEEpjp9MGn2/mY9s9R9a6b3OXZn1B4LuDJokQJyNoINddCME5bOK8/wDh5P5mhwqRjYoH1r0CJR1BI/rXky0kz146xRa8pDn7v4VFLGC3YnGPerUa5Xp15pxj55wR3oYI5rUJZoRiKMH61yN8dU1TdCpGf7pOAPrXprW0bH/Vg+vFQyaXatk42fTis02aqyPILXwEsupR3uoP9pMZ4iYYWuN8S/DHxJLfTyWH+k2rSNIkbS4KZ7YPH5V9AvYNbgGCd3x0BXdUBmvUB8y2EgHUhCK3jXnExnRhM8S8DfD/AFuz8QWVxr4mj0+1k84wJJu3MOgAzgc969K8YeH7bxFYiLTtLW3nXLLM74bcfoDW5JfXb7UjtVQ554zRFFeTPzvz0x2FW68mKOHjEw/BGk6rplncaJrQVzGwe3nQ5DKeq/Uf1rdWzX7dJjlc9q1rOwa1PnSkswXhc5oWHBzjljzXM2bliCJECuPSrFxseJSvXFPjh/dgnkVE/wApHGV9fSpsUY+oQLLYyIq/OpBAFcPq2g6VqOqSy6nEsxYAKj9AoHAxXozptlLryGHT3qpcaJYakheWHLZ655FEW0waVtUebW/w58Hz3AlNhsb+6JGA/nXoOmaHY6dpcWn24KWkQwsQb5BnknA7+9RjwXCh3QXlzD/uvn+dWIfD97FIgS/mlUH5t+On5c1s5zsZ8sN1oVrywhlmEcKqT2AHB9qgtvDzWU/n27bI36x9AprsINOaFfm2sfUrSzwHGCm2s2n1Gp9EY5gJhG4ZOOa8D+J9slt8QbO4kUiKe2AJXrkMRX0RIm1MYrw/412JaLTb9QQY2eMkds4IrTDu1RGGIV4MwE2KuUxzzxSl6ytCuftOmKSxLIdpzWg3FeweUK8npUQck07bmnCOmFhVOalAzTVSp41plIhaLNRGPaa0dnFQulOwyFRxTZE4qTGDSNjFMDPlTFVGFaMoFUnWlcCAGg0MKTNIkiZfmH1oqQDLCimMxAv8qkApMinDmoIHCnYoUVIFpANVakC8U5UqXZxQMrmmVOyU3ZTGRAU/FGMUopgJiu48MusngTWYWz+7ctx2yv8A9auJrtPAnlzw63p0h/11sGUe4OP61z4hXps6cK7VUb/wr0eGaJruZOc9x1r1fxhpsU1paW0aYQqNxFcd8PolTRrVFTaxO057810njHxk+lKbeCCNjGMAsoJzXDJo9Rp86sZ2p2Gl2K2MSEQyzfOsYOC20Ag/p+lcf4r0T+0NBd4uZQWyOzA5OD7j+tcLrHiXWL7xba6pNMXkt3VkXtjuPxHFevWZjv4p4Y08z92HVfUMOKluUWpESindHzA9sUtoZVOUfKH2YHkVdtrcyE7AW2knH4f/AK67jVfCs9rbNBIoULI8oXHUs3T8BinaT4WlFscnIZtw9cjjH867Paq1zz/Yu9jvPhxkWJjYY2jv6GvSoWGOvH864DwbYz6c7wzLxgbW9QK7iJznAOM9K4Ju8mdyVkjZhwV+XoefrVkJxnGBWfbyhSBzjtWlEwYBc80LUQzYd3BwKaIiXHyblxySelWCR5iA4+bpUmcDAHNKxZCIsNwMA9qHsklBDE4Pp2qcEKm58D8ak2kjOMj2pk6opG3jAwqLj6UqwRglsZxVqRdpHy5J647VEVI+90FDGkU7nGTyMVEkI+UsQcD86p32qWsEnlqd8nXaKZ9tyoJwAe2az6m3K7GsZo1UgjHvVZmjdSueDVJpjIQO3rTGVpA0cZZSf4hQ2xxgS+cqSmJh7in28wR8A8VnTxunzKd2OKqtcTRsGQ4IrO7uacp2UMiuuGQY9TVlcEA/jxXN6d4gjciG6QRtnr2rpIXjkwyOCproi7nNKNtx6vlueVp0kSumOOe1OWNScke4wMU9kAGV6mqsZGLcQrGD8uB0ryz4o2gn8Og8/JMpGO3UV67dAlSGX8680+ISh/DswY8+Yh/WlTVqkR1NYM8GsbO5tL7fAFMT8Nzit4r60DCilJzXtJHlDQOeakGAKaBTgtUMeoBqdFpiCrC4AosAmOKiepiaryGmBA5xULNT35NM21NxEDnNVmGTVx0qu4xSJKzCoT1qd6gI5oEOj++PrRSpww+tFA7nPq2TU6DNVU7VciFIRMq1IBQoqQLSGOQVOFyKiQVZQUARGP2qNkq6UqJk9qYFFlpmDmrTxnNRlKAIgK2PDWpDSfEdpeSf6ndslHqjcH/H8Ky9tKFoaurMadndHvmklNO1CSyV8LG/mRsO6tzmuN8czzDWpEZiwJzk96saBqC6x4dgeV2+0afi3uCpwxiyCjfgRWr4503z7W11OMbg64OPUV5Ljyysz3YyUkpLqcH4d0X+2NfjVkyADx6nFe0eH9MhsYZDtxJhYyT6D/8AXXnHhif+zrxJT8nfNejWd6k3LFvnfcH7VU9iGncx/Emnq8hlI3ZIA46DuKradZLDEq44AyK6DVIxJE6MOlULaPZGqkcgVg30BLqW4Nq8qBVuNzk4A3D1qmnsOvFODsjDHQ9TWbKsakEgRcAnA45Oa0rafcwYnr6VhwyZPAwavxMcjBxVRZLN+3lZ0/eKFY9gc1JJIqELkHkCs6GUgZPPPUdqteYCMlhntWvQSWpZRkkGMB19xU6SJzk/h6Vl/aNozuoFxxy3WkmU0aM0sfQnb75rltf1xrWNoom+cnAqxqOorBEWLHgcZrzTWtRka8DM+M+nYUm7uxUIrdnQ2dvO8nnu253OWY1oi3kaUNuJHpWZZa5bxWaEoZDxwuKv3PiGxgj82SSONAMlmOAKl2NrtGpbq0Yy5z7jpVhCmdq4wa4CT4i+H2k+z2+q20j+glHBrStfEQlCsXDD27ik9FsQnd6M7htPMkGQCcDIGPvfjWBPBG6lFJVm7dxT4fErmAxBwAARXBX/AI+0uw1o20iXEzlsPIiZRD9f8KGk/hQ02t2dRewNHCHBw69DVnSNeeF1ilYg4qvY3kerBJIMtDjOSOtRapo8ix/abMZZeSo61KvuVJrZnodpqKzhSHHPYmtHzQV68+teXaFrDBhDIxDLwQa7eG+VoRyK2jK+5zThZ6E964Kkqc815j8QZP8AiRsvdpFFehSy70J4FeZfECTNpDFnlpc/pVUlerEirpTZ5qaVRk1KY6cqCvaPJsCrmpAlOVQKd9KBiBcUu6lxSFaYDWaoH5qcioXFSwIcc0tBpam5JDLVOQ1blIqlIeaCWQOaiNPdqgZ8UCJlPzCiq4k+YfWigZjIMY+lW4qrgfyqePrQBdjGamVaii7VZWkMAuKnjFR05W5pAWQoIoMYNIrVJmmBA0VV3TBq+elV3XmmBU2UFParASn+XTAu+G9XOia3HcuC1rIPKuE/vRnr+XWvYEntLeyFhqDGWwlw9tcDkEHpzXh7REgjpXY+CPFFrkeFdXkzEf8Aj2kfop/u5/lXJiKd1zI7cNV5XyS2O0bwzZ3ZD2d8FUkds1oyxappQRLS3W5iIwVbqfyqewRLUtbMNw6o9bCOjZJy207X4PBHWvOu31PTvZmQzzXFkr3MBhlHBQnPHaooip6A5BxWrcRhomlXp0rMTgk0mZkgOByKcU4/Cmhd3fqalC8nuOnNSAsJC8+vIwKtIQxBJ5zUSjA4NIxbae2KQGjHcqj5J4HbtRLfDPHPpWODIeRkk1PEgLBnAzjg1Vx6IviZmXdjBPrUhuQse4np1qjJcqgxjJFUGumLHJ+XuPWpvqVuSTCS7cyOTtzxXP6hpqTMd6rtwQa6BLrzCEAAHQCgwxyy8/M2Oh6VaTBSR5+2g3YfbaXckQPQdVrH1Pwjf36kXbvcAdiePyr1xbMjHygr6DjFBtEKllAwe9aRbWoSaaseAzeAY433C1yB2x1rb0SybSImhgS9y3SFgWUH/Z9K9kTTbdxh1Uk+1W4bW0RdggBcd8Vbm5KzMFGMXc4XSdB1KW2Nzfy+SsgwqA8j61px+FtNZ4zPEJNnRccH6+tdXE8Dn7P5Z3jpVWe1uI5PMXIXspbvUGnPYkhhjhAjRFRFG1QOOKlkZIgzctzn1qrh8FmcNjoB2PpUyTKwywK7RkgjAqbXG5ozLiwtpbj7REArnuKuQPJBhGzj1FZUs/k6lHtOYpScelbEYeSRU2bkKklieQe3FZS0Y07ouCctGee3evNfG8u++t4h0VSf8/lXosg8uA+leVeJ5jLrrgn7qgf1rrwqvUTObEP3DBK5oC4qYLmlCV655owLTgtSqlP2UxkW2kKVOFpStAFRk4qvIKvOOKqSCoYmVD1o7U4rzSYqSCCWqEtX5RxVGWgRTc1A1TuMmoSooERj74+tFPAG8fWimBmqOlWI1piL0+lWUWgZLGMCp1NRqMU8UDJCeKaGOaWmkUgJ0erCmqcfWradKAH801lqQUEUARqtSheKAKfTAZsFYmp2couBcxFmccjHGK3qiuU32zr7dqAO+8C/EKxvY4tN1SRItTiG0F+PN9CD6+1ejJ5VyolW7UZ7E4r43vkaK6JGQVORk859a6XQPiB4ksZ4LOW+M9szqh80bmQE44PWuGph+sTvo4rpM+oLhxbjYZA6uccVnBtrnIziuXt9RvS8SyuskbSKC3TAz1ro5mAuGB6E5FcdjsbLcZGCR0qcHKfMMHpVKMjA65qwHI4zkVAFlMgYHNKB1yM1DFKSBkipQwznPFIGPjUc5AFEpIUFFBqIy44HFKJQY896LjKd0x2lvSs66mNvAro3JIyewrRnyV4xyaxtfs5DYGWLJPoKUN9Ry20Ei1uPz8EgEcLj+tbdpdvKASysf9odBXiGsX+r6PfidreaeIruGxTgVpWXjTWLnRW1G1t9kCZBLEbsjHAHc89K7PZt6o51JLRs9x3xlPnK46mopLq2VsLs44yT3rySG+8XX9gLxIn8lunOD0zUOnyeK9Qhae20+V1GRknGT3qOS/U3Tij2KHVLFW+aRQR19qtpPYzLuiuIxuPPzYzXk2h2Hi3X1b7Pa+WA2zJ55rRsPCXjK98SPokzLA8AVieuVPQ9vQ0KFhuUOrPRJLixtGEkk6bxztU5JqpN4hsNxB+X8a565+HXiSPxTBp9xqBFrNC0/mKuDxxisl/AOvtZXDSak6yrcmIYXO1A3Jx34qnG25PtKfc67+2tOkARZQCehqpfanDCihHR1kGNpPBNfPdpqvi+78TXejWs6v8AZ5mjLGP7oBIyTXrWh6BcpYRz6tN9oujzjBwPpSnDk1bEpKavFG45aa4tlWXftOTx39q621Ug8ntWHptgEkRjn5R3rc3iPPPtXI3d3LSsrEV++E2r6V5Dqcnn6vcy5yC5A/DivS9au/s2mzzE8gHFeV4JYsepOTXo4OO8jixL2iOUU4DmgUZNegcRIuKccVGCaM1Vxj6RmGKaWqJ2NMAZqgbmn5JpMVDEyArUbjFWSKrSkVBBTlNUpT1q1Keapyc0xFRzzUXJNPk600daBD0X5h9aKen3h9aKAM6MdPpVuMVVT+lWUNMosAUoFMBqQdaQDwvFIy07PFISKYxBxViM1W3DNTIfSgC0tPxUaGpetADaWnbaUJSEIBSOhZCMZyKnC0hUY5oGee6xaGC4Z5iNxOQoPWsbLBg44A5HoK67xBbqJWZuSW7DJx/QVzMkbqQ2QuPujv8AWgk+hdKP2zR4pMffiVgfqBXQQ3X2i1ikY/MFwa5TwZOZfDenSE5zCB+XH9K3LY+TcSwHgbsj8a8d7tHtJ3imbEEuT/OrQbIIzWOsm1sdKtpNuXg4NSFzQRwDU+4HpWZHMM43dP1qwkmeh6UrBcu5yMjn8KhYkHg8ULJ1yabnHI6VDLQ4fNjBH41JLCtxB5TYpqDJ3DA/CpyoxvGM+ppIZlzaRDIGE0IkjIwwPWsG78L6XMr+WhiBHOw7efcdDXdIFZOcZx1rKuoGCFo8Z6Edq2jNxK0e5m6ebvTLBLdFSaFANgZMHj1IrX0bxFb6dEtrc6cdqEkPCQ2SST0OPWsdrlkby94wOoIqMzQEj5Uzz3xWsZpO6NfZUpq0kdpoXijSLCa4f7PIhmneXa6HHzHPvV8+MtLHiZ7+IKhaJY9wQ/NjOAT+NcFa3lmsmLiJ02dJEYMPyq4+o6UxJSVQzHJYkcenFae0M5YSlfqdhq/xBsl1G2m+zPOEjdWaLjZ0wPm655/KuKvfFuq6jBLFBaraeZIW80nJC54GPXFWv7Q0a7Cie4YYPRSCPyqG5WxGY7JOP7xOTSc092OGHpQ6HO6Rpdpp9yyWsKCWZy8kgH+tyeSTXdi0UwKrBcAViaXZ77hpG5x+ldMfuhQK55y5mE2r2RXRVjjJUbQOBUDuScjmprh8My5zj0rPmnSGFpGbAAzmsOpn0Ob8XXoKRWanljub6CuQNWr+6a8v5bhjwThR6Cq1e5RhyQSPJqT5pNiZ4oHJoIpVFbGY7FMY4NSnpVdzzQAuaYeaQGn8Yp3C40LQVpwIFNd8CouS2RPwKoTuKsTSVlzzc0iWxrvzVeQ0hkzTGORQIgfrTQKlK0mKYCL94fWinKPmH1ooAzVPI+gqeM1XUZNWEFBRYWpAcVGp4p2RQApkxUZkprmo880wJw2anR8VUWpA3NAF9JKnR81nK1WEfFIDRQipeBVJJaeZfemMslwKaXFVTJSeZQBV1MkxFYojK5+lcpNZSF2MkgZz1A7V2Mw8xMbiB3xWbPa7lKRpsA6+/tSEd18PpP8AimreNiMxs6cHOOa6m8DJIlwowOhrjvAxEWnywA/clP6gV3vlrLAY26GvJqaTZ69J3porbgVDZzSrMQ2BkH+dQKDGTE4xtNRyMRyOg71NgZpxyqWHPWrKThT7etYcc3OT+NWRN8vDUWEmbAnBAINWlfcox1rCim4GTyOlaEVyCuG4NZtGqZqIw3ABqnkCPFhThj3rNEq7TjkmrEVx9Pp61JRcTEa4Iwen1oJEpwDz3p5kRh06URgHHHX0HSnYEyjdaVDc/MBtb1rIn0CRmwkxB9a69Y1KihIgYzvBbBouy0zix4YuMEllOO1MTwrKHJcqc+o7V3kSAjG0/wCFTG2B5Jzjr61omxOx56PDUkNwWRVZM5+atmz0mQ4JCquetdYtsCOBwR1qJlAYLjApSuCKsFqkMCooxjn6miSQKyqTgtwKsuQMADtms6ThgXILL3qCWRzvhiCcnFcf4m1IJELOJuX+8R2Fa+qajHbRSSM3A/WvPrid7m4eaQ5Zj+VdOGpc0uZ7I5cRU5Y8q3ZHnmpB0piinV6p5wuOacBSKMmp1WgZGRxVaQVck4FUZXHNAmIpoLYqDzBmhnyKBA8uD1qJ5+KileqrOSetSSxZ5jjg1nSkk1bYbqhaPJpklUZzTqkKYqJsigYE1EzUMajJoAmjOXH1oqONsMPrRQBSXrVhelVx1qYdKCiTfik8yomamA80CLBbNIKjGakFMY4HFOBpgFSKKQEi1KpxUYFBzTAsK9PDGoEqXPFAx+aM1Hk07NICRetSlFZSGXNRLV6xtje39tZjrPIsfHucUwNbwxZ3NtG88kXlw3BBj/2sd/1rt7d9yj3rs9X8Lre6TBb6cqRywqJLVeisAoDJntxiuKizG7RujIysVdD1Vh1BrgxdJwnfud+EqKULC3UO794ByODWfIp6HoK2iOOnP9Kz7mLYxKj5a40zqaMtyy5PpTRcYHBqZ0Bz6GqEsbRtuXpWiZk1YtrcsMHPFW4r3kZxWF5rZ5pRMT07dqbiClY6qK8y31q4tycDkA1ycV3tIByKvpeD1z71m42NFK51lpe5G1up71eS4XIycdhXEG+IYMGAP9Kng1Yq7bnBYjjk0rBc71bhVXcGG00i3qltoPJPSuPg1cgEeYdp655qf+1IzhQ/J7H/ABosVc7KGZSwU5Ge46GriSCOPsMnn1rh49bK4DE7RjOCKtrrSSKN8pyOcGmtAbudX5wGXL/UAVWlmBAO5QTzwa57+3EIYLJx1yeKrNq0Jk3iTO4cgDjJpvUWx0TzY+X9fWsC/wBQjj3ybhj1zVW81by42/ecnIHPauI1bU3uCYY2OwdT60QpObsiKlRQV2LqeqNfXJwx8peg9feqiEGqSnmrcVetGKirI8uUnJ3ZPwBSUGkXrVEkyDmpxgCo4xT2OBQBXnfANZU0hyavzc5rPlTrQIg83mnebkVA4waapzQK49yWqIoanC5qTysjNMCoI6CoFWWTAqB1NAis+KrOKsuMVXfmkIqsKiINWilMMdAESA7x9aKlUAMPrRQMzVPNTA8VVDc1MrcUDFakUc0HmnLQBKop4FNBFPyKYxwFSKtRhualQ0APxxSEVIMUhpjEXipQOKjAqVVJoAbjmngU8JinBaAEWtTQJo4/FekoZAsjXUYUd/vVg6jerY2/GGmf7o9PerHwzt31P4paSZSX8lpLgg9yqEgfnTSuyJSsj6zsZEeAQTZSNm+VwcGJ89M9ueh/+tWd4g8MrqhMkSJb6sB8kgG1LkAZwR64/wC+fU1etk/hVfM3KMqf+W0f49wDWnFIDbbGQ3VseqsCXjPGAR1I3Nn14710zgpq0jCE3B3R5ABLFK9rdxNBcR/eRxgj39x7jioJCT8rryP1r1rVNEsdWs90+bmHBeO8j5mjUHG84+/k8AfmDXAaz4W1XT7d5o/9LtV5FzEN3l+zgd/UDP4V4tbCShrHVHsUcVGektGcrNEUbI6VUlTcDxxWmeVG4hgf4h0NU5Yyhz2rjTOtox5ovQVWIYHg81qyJkfzqlLFnpW0ZGUolUyEd+aPtLJ1PFK647VWkHtWqszF3RJJeHb8p5PaojqDKoDDGPSo2VduT1qBxkdKpQRPMyU6hIOj8Dpk1GNXnQ/ebHpVZ4iVzioDalj941XIieZmmmu4fLMQ3qO9Wk8QFmAMp2g9+9Ya2oPUc1Mlog6LS5Yj5pG0uutIQeSRn6VMmrTSjaMlR7YrMhtQSML+lbFtpxYruGB6VDUUWnJjGllkTBJw3rUDQZrW1OwmsdQWCZQu6JJUweCrKCKhCDHSuynFRiclSXNIzBBtNTKuKsslN2gVZBHjilVeaWlHFADwcCmSSACmO+BVOWU0CJGbJqMoCKhEmT1qePkUCKksVQCPBrTaPNQNF7UCI0UVMBxTAMVIDTKRGyZqFoc1cxmkK0AzLlgxVKQbTWxOMA1j3BwTQSQk1E7U1nqJiSaBC7/mFFNA+YfWigDLzzUqGoe/4VIpoGTCnA0xTmn4NAxwengk1Fg09aBkoqVW5qJQakApgTq1SAZqBAc1ciTNACpGTVhY8Cnxx9Kn2gCgZWZajkkSCB5pDhUGTVhhk1zWtX3my/ZYm/dofmI/iP8A9agTdkZd5cPdXDzSdW6D0HpWh4T1yXw74qsdWiODBKCfQr0I/Kslvy7VHjvTWhk9T7n026sdT0yC/spC9jcAOjr96Bj1+g5z7fQ1ouzpKszuI5DgpcKPlfgsAw/Ff6HtXzb8HviN/Yt4mgarcBLSY7YpJD8qk/wsew5OD6n0r6ViKsrtCgKjJmtHx0+823tydq+hx2rqi7q5i1YFJt7jjFrcKee8U/lr/MsfY/WpuVnWIn7HfZESv96OSVuXY9mIHrgioo0whjUfabdTtmt5Pvpt+d8Z/wBogYPpwacnmvAwt2F2MeW0Mv30kk6jn0Xs351QjG1bwro+qEvJB/ZtzMSIbiH/AFbgdZJM+vvj6153rfhTW9FXzpbY3lkxJjuLYE5X+8V6qP0969ghG8NHYS7on/cCCbIMcKfeOTyM++RREVkl2WsjWMtzkmCUfKkC+g7Z9VP4Vy1cNTqa7M6aWJnT80fOrFZE8yFg6+1Vi3IzxXumreEPD2tOjz2K6Pf3J/dzQfKixj+I44Yn3ANee6z8OdcsyJrNVv4JCfKaPh2UfxFe31zivOnhJw21PShi6c99DhnQtyAaqSIBxt5q/Ks9u/lXETxt2DqQT/jUe0MCDz6etYK63N2kzLZD2qJlPGR+dbBtlfoKVNPZug/CtFMydMxPKLZ44o8lsgBa6BdP45H1qeLTQy5K8DvTdQXsznkt5Cfu8Vft9OlbB2HFdJa6UCcbc59q2rfTkTGVzjrWbqGkafc52z0ghgSnTua0BbASrGo5PGK25UjhUAYGap2lvJd6jDDGD5kj8EdeOSfyFZK85JGjtFXNH4oaYtpdaPeIoCtbiA46AqAQOp9TXAqcivbfinZfafCcswBLWbxyAnOccA9fZq8PRq9qaszxYu6HkVEy1NkGmMM1BZAaTk1L5ZNSJF7UCKjRkjiqcsJrcEIxUMkIPagDEWI5qyi4qdocGnImO1AhFjyOaRoeKsqtOKjFAGY8R9KYsZzWk0QNN8kZpjK6xcUPHgVaAAqGUjFAGXcjg1h3Q5Nblyw5rFueSaCGZ7daYTSydTUfegB6/eH1opADkY9aKAMkVIKTbTwtMZIlWFXNRxrVtEpDItnNSJFVhIs9anWEelAFdIuOlPKYq15WBUbJQMhUYNXIRVcJzmrUQxTAuRjint0qNGwKq6hfLZ2+88u3Cj1NAypq+ofZ4/IhP75x1H8IrljjPrUksrSSNJIxZmOSajOPw96Zk3cYQfSmkdqlxnOaXAHTFBJEFxyOK9z+FfxYFv8AZ/Dniq4byUwtpfZ+aLGSI2PdS2OT+NeIbcj6UAEEFetUm0Jq596F0+U3sgQAbFvofuso+ZyfTLEDnIPrSys6sJLtTDcgfJdQ8DzJegPphexyPevnH4V/FKbRpIvDuu3PmaU+I0eZv9Suclc9gTx6V9GWspkTz9McbwPNa0k6eZJwoX0wvPGVrpTuroyatoWHCPtjuUyjf6PDdwZ+SNeXY45XJ+op5H2uDMqLd2t0fldAN0cCd8dD06jB46VDCgEjWtg5tZv+PZIJR8uBzI4x2z3Xj2qRVilnCRFtOmuzsXujQp1Poc49jTESRo9xAzW0i3Ed3wY5D80MC9sn6dG/OqyoZZCdMkNvNOPJhtpgQIoR95h3XOOoyOtWpmErb7qI2k1ydiXMR4jhX1PYcdG44p7xtcKPNiEyXI8uCWIYaKEdWwORn1X34oGY17pOlaynkXWnxrJMfItYpkDIwH3nHbPupB5rhta+F9uC0uiXZtWaQQww3TF4p27lZOq/RgfrXq3lNNCWtgt9bSj7Pbjjeij7zeh/Q80yOFipOmMLmFf9FgglPzKf4myf5N+dZzpwn8S/r+v1NIVZw+Fnznqmjax4dmMetadLbRhygmxmJz/suPlNJbtEzcDGa+io7cGForBVnt0/0aOxuRkMx+82DnH6jpXI6p8MfDmpGabRBLpN1HiJYovuSyZ5JQ8Y9wcdK4amC/kZ308atpo8ySFWHOM+4xUgtwjc/jg1qan4U8RaA0rXFt9stY38s3doCwB/2l+8o9+R71UglWVA6uCD0OeK86cJQdpI9GE4zV4slgGzBxj0Bq4ZUC8nj61R3bUIGOelVC7FtpAx1HtWdiieaQyOEUEIOBXSfD6y+365qF+ygwWMXkRjI+aRuWIB9BgfnXO20QuNQs9PRv313KIxnHA6s30CgmvW/ClhFY6RcJGhT7TcgkZJOML1UjkYHau7C0ry5n0OLF1bR5e5Y8SWQ1Dw7qVpgHzoZAB05HA/Ufh+VfMsbfKCa+rpAGiDEZyN2M5yC36/X8DzXyDrdzJ4c8Y6tolxGXitrpxGwPIQncv14Ir0aiPMpysawanCs+2vre6XdDKG9u4/CrYesTcsqAamAAFVFkp5l4oGTFwOKYWzVYyc9akR8mgQGPNII6sdRTTxQFhoXFNYU/dUbvQAZ5oJFRlqQkkUgQ12x0qnM5q04NVJRxTBmbOx5rOmXNacy1SdOaCDMkj56VD5Rz0rUaL2qIxUCKap8w470VaCYYfWigDHEPP4U8Qn0q6sQJ/AVMIRigZTjix2q3HH7U8RY7VOiUACR1MI8dqkRKk20hkOykMXtVgL7U7ZxQBSMWKAMVYmMcUZeRgijqTWFdatuYx2q+25qYN2NOW7it13SNj0A6mua1PUWu7iPegSNMgfj60MZJHJkYtnrUMsavEVPXFMhyuN2KRnrTSBz8tMt2IzE5+ZO/qKn5z07UxEJz1xRuPSnYJ646d6McdKAI8/57U7ORyaMEMeRmlVCfvfWgBR8p6dq9f+GvxUl0ExaRrzNcWCZNvMT89vIQADu67QPyryEAA8c496eCqlT1z6VUXZktXPuu3uYL+xjaB01C0kAt4J4uWHd346/VefaryB57fFsy31rcnyEDY3pEv3j6H8cGvlb4Z/EO68P3i6fc3BjtZB5UUhOViLEZLDuMZ5HIr6cs9RtNSiSeJvsr3H+jwXMTZQxr95ienPow9a6U7oyasaNtm4ydOlwJj5Qtp8gxQr1PPK5/EdakiRHlP2MtYXNz+6igkHyCMdWA6c+qkd6jkJlUfaIeJv3MFzBkGOJerHHK59sjrU3mSz2/yql/bXR8mEjG5Ih1bHRvqMHrTAmAj8wS7GsZ5P9Ht5VOUKjqxPT/voetSPHkiSRCj4+zW1xDkYX+Jj6fjkc1HDI0kZOmSieN/9GihlPKIPvHJ5H0apIZF3401jbyf8e9vbSj5SP4mA7fVeOaP6/r+u4EkkIKI4XzVQeRa3EH3gT95+On4ZHNK0YEaMP38cX7m2uIfvBz958D+Y/EUglRJN1vm0mz9ntweY5W/iYdj+h5p7OIHLIPs0iHyIXXmOWQ9WP/18HpzS/r+v67gMMRjVJEk3rF+5tbmLux+8x/zjp0rlNd8AaRqrtPaKumXzsIopoB+5um/iZk6A+4wfrXYMfsznb/o7x/uY3XmOWRupPv19D05NMmkhso5ZZpI7WC2Xy8ynELMfvNk9O/6VEoqSs0XCcoO8WeB6/o2q+HpfK1G32RsxWOZMtG+D2PY+xrHhbILysAg56da9G1zx/HqtvPHoFglxoduvlSahdj5ZFU/N5WeSCeAx/AV4pdfEKDw/rk5t9Ch1ByVZFup2xajrtG3G5j3PbpXnzwqT916Hpwxl4+8tT2jwX4akTWxqV1GyT/ZD8rbv3QkOAvA67Q2f/rV6LZxCOCNARta4dhtkLqOuODyp4618y2fxN8Z+MQ1pBKmiKZfMlu7Ev50hxhUyxIAGfT+tJqE/i2xuo0h+IGrK8GZmMojdVJ5POAT3/wAmuynGMVaJwVJSm+Zn02FPlqGByBHkHHcn/PofY18rfHfT/sPxChv412re2iPuHdl+U/oBV/w/8dPE9jrkNnq0cWs2aERvOieXIRnOcZOT17/hT/jJq2n+LPDeg+KdI3+TDM9nOki4eIsNyBv++Tz7VctUZrRnkEMxbkMUcdwcGtODWr+2wN4mUdn6/nWAOOg6HOatJKrjkfMe1c9jS9jq7bxNaycTxtE3qORWvFeW9yu6CZX+hrz113A9jUSTPG/yOVI9DigvnfU9Iyc1NEeea4W28QXsIw7CVfRuv51t2viS0fHnq0R9eopFKSOqU8Uj1SttQtLkfubhH+hq0WzTLGFjTCaeRmmMMUhWGZp4NQM+DSCXmgVic9KrTYxUhkGKrStnNAFKXkmoNnNWGGTSbaRNiuyVWkAFW5OBVR+vNMCD+MfWign5x9aKYWI16j6CrcaZFVV4I+gq7EeKkQGOnqmKk4pBQBIgqTbTFNOeRI0LuwVR1JPAoGKF5qlqGp29gm1v3kxHEY/r6Vm6h4gPMVgPrMf6CsHDSPvZyWbli3JJp2Jcixc3dxey753OOyjotMUcYJwKVBj5c5pfXuKogHB6Z5phI4wMmlJ4680w8Hg49aAKVxmGdZlHGcH6VaVgVB9RTZU3qV+8DUFq/wArRsMFDj8KALBXODjNIM4BHpTjgt1A59aUc9SOKYxnJ6DvSfN0PpT25PWmnOeMHFIBeDjHf2oYHIA4FAyQOc47U4/ewwH0FMB6Hp1x617B8KvH2o2WoLoE0yzRzoLe3WZsBFJ+YBuxx68deleOZIGRwKmilZXBRihGCCvBz7VcZWZLVz7q026hvlzpMxtpJf3ENrMMARj7zgds+qnHJq6DG8peJTYXE5+y2+MbHUfeb0OffB5rwr4Y/EB9Vg/sbUoxNdoiwxFOqx/xOB6+uDnnOK9ytLj7TZiXTpVv7aX/AEW3RyNyr/E2eh+jYPPWui99UZE8pBO6SLy5D/ottcQk8L/Ex7r+ORzUheTZzGt5B/x7Wrxj5v8AafA/mvr0qOBwNx0qQjH+i29tNkYH8TDuv6jmnRBFlP2MtZzr/o1vEwykr/xOB0P1GDzT/r+v67iJ45HEJaykW+tk/wBGhRiNxY/eOT1+h56c1LC4jV/7Pk8xbceRHbS55c9SM8j9R0qEokcu9lNtNH/o8E0Z+WRz95s/0Yelc1458b6H4F0qO61YxXV1GpWwihfEk0n8TkdVX3zipGdDqusad4a01ru6nFvHApRLaUZ86U/eK+w9uBXitzqesfEzWVsQz2Ph20w32aNjsx/eb+87dh0AGcV5pfeLNf8AGWtRtf3b3Esh2xRZ+SJSc4A9PU9+9drrfiCy8L+FY/D9hL++kTfeTg4Yg9efVug9F/Cs3LsWkZ3j/wAW21vaJpWkhPsVt8kKp92Vhxu/3R29Tz6V4xHDdX98sS5knmbkn1PUmta7upL+5ed+rcKo6KOwFeo/D3wMPs66xfx7JJBlB/dX1+vp+fYVk9S0JomlxaLo6q8WSo69CW/yfzJrF8SXaWmkyhn/AHkvJz7/AOf0rudUhgKPMhCWcHCf7R9v8+/evN5YhrevF3BNrbAySMfugDp/L8hWnQDkZHTR7/R7R8K84M0zHszfdB/D+dd/fwC4+H3iBFyCIFuCezeWwYfiPm/OuKvPD2o+KNJ1TxLZQyyx210YxtTO1QoI/LI/Ouj0bVlu/hlrTXcyx/6FIj5/vhWGPxOPzrSHwtGct7nnWdyqy9CKOR9TVa2kMkI+lWByO1cxoTrN8pVzz61DltxyaT+HOaaDk+lIZJ296Ax+gqPJBx0Ipu4lc5oETpIUO5WKt2INa1n4i1G0IUyedGP4X5/WsIt75+lLu/Kgadj0Cy8U2FxhbgNbv78g/jWt50UqbopFceqnNeVBiDUsV5cQPuhlZD7HFItT7no0jc1GDXJ2/iW5QAXKCUevQ1s2+uafMozL5bH+FxigrmTNNmIFQs+acHSVAyOGU9wc0wrzQMVRnrSsvHFAIFI0gHekBWlWqcnerkjg96pyc9KCSoxww+tFOKZcfWii4iEP834CrMb8VnK+SPoKtRtxSAviTinb6pPPHCheWQIPc1mXGru2UtV2j++w5/AUwuat5qkNkuD88p6IP61zl1fXV4+ZnJQHhR0H4VD8zMS2WYnJY9zT1Q+n407EN3EVN3bipQo//VSgHB5+op4wcimIMYxnKn60cAZx+FNIxzn86N4b60wGkntxTccHIFDnsM4poJBz6UABzjacZ7VTlWRJRNGu/I5XPWrZ4PGMUmDnGM5oAoHU4lfbNFJH/wAByKmjv7NzkXCDHY8VM0Q7gc9qqS2NtJ96Nc+woAu+Yj8q4f6Gn/LtPp3rDk08RtmGZl+hrQsre4SEmedmPZfT60AXFyCOwPp2o79fwpgLdPWpAflx0zQAhGWwPy9KVcKD0PvSOOOBzTfY9fT0oA0NO1G60y/hvbKcwzwncjKefp9COK+n/AHjmy8R2STZNhfkLaKUbiLj5mJ9D23Dv7V8pgc5re8MeJb7wzrK39m52upjmQfxoeCPrWkJWZMlc+3fP3xI7Q+eg/0ezmhB3L/ekwOR9RnrVqNiYVNvs1C0H+j25GNxb+J/Rv0NcB4R8TWmr2Ed1oVx9nd1ENvayj5QP4nx269VOOeldJdatCtu8dky2N+0Zigl3ZQ/3pCB9488AgGt/wCv6/ruZmN8QPiZo/w+0Zvslx/aOoBfJtrF8koT96Rz1VeRjOc9q+N9Y8Qarr+rT3up3LT3Mzk5IwAOoVR2AzwBXvnizwdNrcUt4slzcy3IxIyx4xKB6n6fpXz7r+gXml3LF4GRT0LNyCKzndFxSOj024k0C2F1MM3LjCqT09v8ax77Wp9TuGd5SwLbmY/xt6/SsCfU7m7SOO4kLso27s9vSruh6VLqd8q5KxLyxH8qzeuxR6B8PvD51/WY3uVP2KFgX/2z2UfWvo25iWOzSwgCguMOV6BemPp2+ledeG7eDQNOhKRBHA+RB1ye/wBf5VvXeux2FlJJNIXuJVzgdeeAB/n19KEh3Oc8U3kt9fx6JpiGRtwRdp+8Tx+vr6Amuc8bfZvCmhjQLSUPezqGupR1Of4R9f5D3rvfDNiljpl54z1VR8oIt1/vseCR9T8o9smvCfFmqTapr1zcyyeY24liOhbvj2HT8KGwPYP2fQJvCOv29wsbr/aCkB5NuSYhkY9wD+VeafGXRG8Lazc22moU03U2E+wPuVW74+tenfs/28tvpmubtw+0PDKNse8qcPt+nSqH7QtjFNo1pdr5TOjdduxv88Va+Ah/EfOVhMFbae9aw46dK5+IlGHsfWt6Bw8QPQ1iaD8nHFNI5PtTgcZ460AZONwH1pCGnpzxjpTCMH0qTI6YppJKYIFMBmcdDilzgdaRcZwaTPXIoAXIz9aM4pM84oPB6CgBT2NIDjvQTTD169aQzRtNSuLaQeS+G6lT0aursNWttQjwp2TAfNGf6VwDnbiQdVOanaV4nS4t2KuOVIosNOx30kuKqSXHvVO2vRe2azDhujD0NMckmkWWGnyacp3VUUHNW4xxSEPVAWH1oqRfvD60Uh2Oa81YxudgoA6mopdUbG23XH+039BWcd8j7mOT6mpliAAHeqsZ3B3eVt8rFmPc04AZ4FOCAdqcMCmIVRx796f0Hr/SmqM/WnE4YE4AoAcBxwaaT16DPoKQ8N149elMLgcd/SmArMDg4/8A1U08Y/8A1Um45yo6Uhznk9elAhSSeR09zTeevSg+gHFNIOSADQMXpwG4pCfUkAUnBHJPFL0HzCgA7A85FRyuqLkjn3NK8nljcaht2E87O5yV4Ue9AE0MRJ8yTr2X0qxwOAM560g3cH8MUp7DsPSgBhA5549aMgAqBketPOWAUD5T0HWmEYxigBxBxjnA9aXC+2RSZ2qcnJNINxPSmAucH5Tk04Y+pFN2nPXFOQ4HPC+w5NAHpfwr8WQaTqraHquw2OoERxyStgW8h9+wbpnscGvpRUhSMC2+zlkPmwEI0rMOhXJ78kfiK+Il+YkHp2FfTHwg8aS+KNHk8P39xJJq+np5kckk4QSxjgH3IyAfrnvW0JdGRJdUdxeQi8l8pvNkguDuSS4fy1jf029eoz+Yrh/GPhLR7mxe4uZbaGUoxYRQEhXT3PrXqG23ghkkhazhMyiUDBkYOCM+vt+Rri/F9tealZyJuuJYXY5BxEnzE9f++RWhB8ka5DY2uqTpaSF0DcZGMcelb/gvUIxG9u8YXy8fMBjcTnB/Q1R8V6TJY35chFBOCIxnBBwRmofCsUzXN7CnnKZLcsuwZJZGDDj6ZrNKzLZ65ZaqkVs810+XQYUMeFHrU+g2s/iXVftFwzLaRnMj5xx/dHoSPyFcZa2N1r0lmyTGGBiPO7FT34/z61va94u0/TNO/sPRiBaxrskdDzMe6g+nq3f6VL0GjX+IXjZLiCPSdOKpaRDZCE4DcYL/AEA4X8TXmFlpL6pqcNrCu4uwz9Koy3jXN401zMpmkPCg/kAK9J8E3vhHQbR7/WdUSS9mXAhgUytGnpxxk/XgfWsykehfCOMxX2u2aR/KkcLhQ+wjl9uPXhaf8aNOe88HvnzTsBIEke7H4/Qmq/gTVtH/AOExvbxLyJYNYRYYElX+NScKSPutgnj3ruvGOnx3/hm6jQLnYSAtx14J7/8AAhW0diHufBroVlZTjPtWnZOCg5/CoNWgNtrFxCQRtdhzzRZnoAcGsDQ0wMnFDe4x9KQMQwOelGSRxyDQIN2Ttb8D60g70cFPmOQaXAC8Hd/MUgI3AB603OelObkZ9DTchcnt7UwDg9qBkdelJnHTk0HrnHWgBe1MP8qCTmkbNACdcj1pIGza7S3zKcYppyD1qKI7buRf7wDUgNbRLny7827H5ZRx9a6F15rivNMN3FKOqsDXcEh1DDowzSNI7DFGDU6moelAegZYD/MPrRUKt8w+tFIZyABUjjjHephjI7VBHcDoTkVJ+7c8DaT6VRiTbgOxAPpSCTIHGTUDymM/MMp/epVfd0PBHNMCxv7Y7dRTdxIHzcetRBuvPFBJCjHagCZiCBnOR600tyDURYgjBo3ZX6UCHnJNJ3znn600HA45zQcjr26UDHZ4xyMc4pM9s0dvelAyCMdKAEGAc4IpfoM/Wk5zwenANBOQDzwKAGSxh0PTpWbua3mDEcDr71qgep4qC4gWSM46k8UAWVlVow6NwfSnZ49zWTaTGGcwyZxmtbgL7UAA49R9O1KcAD1oycBRwtIDyTtB5zTAQqRweTSjpgmnA9O9JwOVyWNACngc447UmT16mhc5z1+lBORkcUgAOSeOvf3rY8O65eeGvENlrlgVa4tX3eW/3ZF6MjexGRWKTg8inq+CD+lMD7c0PXtP17QrTWdNuoRbXAeRUigy6ZGSh9GU5B+lS6tpqXUbBreWQNmMSXEm1Qc7kOPxrwv4C+LmsdauPCl1cyJb3x+02wQAnzlGHUf7yZP1T3r6HlhQrmeJVC/upJLp8nH8DhR/n8q3i7mbR8+fETQUlsZpcoNwJ8u3j4R14YZ+n8q8e8ODyPEttHIjYaXymG/axDAqcfnX1R48tftGiXCebNK+DuWGLYpYfKT+IIr5YuITba82yNUYSBhvOT6j9RTaA1IYr2K/uNNtzNFudkdFkBLYPStSy03QdPnb+2tEmvWY9Zpn+X8iPyIqK/WG28USSoIYd8qzL5bklQ1ej3mntc6dBJdwCdSuVlTqB/T/AD1qGNGVZeEvA/iZfJ0/7Ppdyw+WFkHzfn1/A/hWD4h+HWr+Go2kWESW/aRPmX8+30OPxroo/DVnqMe22by5l5DL1J9x3/Q1tab4i13QYjpuvQnUdPI2b5PvKPTcf5N+dS0Ujw+31zUNC1RLmMsDBIsjRnjJU5B+vHWvtgyDVdCju0Ehju4FlGYVYYZQw6e5B/Gvmrxb4W0zV4Jb/RHBAGTFjDx+2PT2/LNd38DPHI1XSpPBGsMiarpEf+juXKm4txwOe5TOPpj0NC0YnqfOfj+zGn+NL6JNoCyEjaCv6Vz9u+2XrxmvUPj1pbWHj15SrBbhN43EMPwIryqM/Mp9aiW7KWxuIQwBB5pcENz2qGA8A8fSpW475B/SkA5T/e5ozjlenekBAOf8ilx0PX2oAaefxqInJ246VK3X2qI/e5oAa2MDFGSMZ4BpOxppJNAAT3zTWNBzTXODQA1mwah3f6Yhz2pWOBUGf9KX6UgJ7jOa7LTJvP0q3cnnbg/hXF3AJI7V0vh1ydKKn+FyKGVE2CRUZPNKabjmkaD0PzD60Ui8MPrRQBxCsetTJIQOuSBVdc+tPGMdQc1RiW1lAxz0FKFQn5V2H26flVQEfpT1f3oAlL7XIIxj1o35ySaYwEi4PXqDTRnHPBFAE29cEUBvunbxTevQ0cDIHagCTdyQDSjAA5qPdnBPGeKdkEjBzTEPBGOecU7jPHbioy3PHAPrTycjOAOKQxN3I7etGepyeKM5peT0FACZfOc0pB+oNNIJ6044IAPagCjeQZHmL1FTWNx5sWxj868VMwypGO3asmQtZ3fmKOM80Ab2cdePpSHIOD3qKKRZYw4YHPOak/hyeopgO3E8Y464pCcnAz9aXluCKXGOCP8A61ACY5Hb+tIehXNHXjHXvSY5wOfWkAh45OCc0E4GDyaDwc4xTVHOe4oAu2F7c2F3b31lM0N1bSLLFIvVWByDX2j4R8Q2PiTwrp+v25toRcRfvUYmR1OdsiEdtrdPYj1r4lV8Hk/4V7H8CvFz6Z4jl8LXEwjtNU3PAxUMUnCkbR/vAAfVRVwdmS0e2eL42utNkUm6uQqc4+ReMZ/QV8varpzR+IDGoWItlRt+dsqa+r9ctTcW7tNbzyjjLTSbFw2VJ/Ovn3V7CNdaMTiJBI2MQ/MVYccn8M+/StyDkPEk0kEtnMrRRytacgJk7l45PcnHWun8I/EayFhHYaixtmThTJ80Z/Hqv61zni5m+yRRu5WaCZo2RRuwGHUn39K4iOKRAwZOPUdDWc9GXE+nLa0s78x3thOIn4IZGyv5j/61dJLamexCajbq427TIozx/nt0r5f8PeINY0KcSWF48a90Jyp9sV7V4X+K1ldBLTV4ltJSMb+sTfXuv8vaovcozdf0O60m6N7pb/KD90dGHoR/n8K4j7fPoni7T/HWioRc2Ewa4t8feU8SKR3BUkfjXs2ufZ7m3aWwwQwDGMEEMPUdsfSvM9c057WY6jZx7iuRLER98dwR61VroRr/ALQdraanpmi+JNOYS29zGGSQDaXRgCpI6dCK+dlGMe3rX0VsTxP8Cb/S4WaV9Fk82EH5iIGyQMdRtO4cegr53kAV/wCmMYqZdwRoQMML61bYYCnqao2pJUY9KvZOBnioGNzg8CnhlPbBpgwWpeQMkZHSgCQ4OarSHB5qVid1RSnIB6mgBmecY6UjZApKQsQOaAGluc1GSOxpDknrSEgDAoAjcc9Kgz/pafSpnzjiquf9LT6Uhly46DNdJ4ZIOmy+0n9K5q4PyAVv+F3/ANGuF9GB/Skxx3N1utR5xSyPUJYmgslDDcPrRUAJ3D60UAcgoxjsfWlL47UMSvfkVHnOeaoxH7v84pwY561GByPenUDJA3P3s4p5wQCOtQA09GI7gUCHKecCn8n0qJjzu7UoYEdTQMm4AwOaeOmetQhgBx1pyuM8UASg9sU/PBGcVChJ4Bp45HXn6UASbsntzRngc1HnBySfwpwIycDjtzQAuVz160DkY4GOaXjrxxSjqCTTAQfeBNVLyDzUOBzVwnPGKQncDngelIDGsrhrebyn4Qnv2reXBAbOfxrFv7XB3pk1Lpt4SnkufmHTNAGqW69qOTyeKaODkUoIJyfzpgPHI9KbntjI70e+cinZA5xxSAjPv3prHBOOPenkDHA6+lMI/vDigAXJHbIqzb3NxbXMV1aSmG4gcSRSKeUZTkH88VWJwdvUeop6nOOMYoA+yfD2u23jbwPY69FbRl7lHguBNNgRzAZYY/3uR7EV5zrlp5msqivGUnO8C3XAR/TJ6njI+hrlPgv4qXS9buvDd4YjbaniW3abOI7hOQP+BqCv1C16FrsKT635SyiSCfLwsq7EVupx7d8/UV1U3cyloeI+NJZF1V7bJ5QEpCMJuU8EHuMHrW9pdjoGtYKv9hvJBnaQNrn3B4P4YNY3xOVk1y2mfe7gGNyF2IfTaP7tael6RFLaIVfAYAj8qze7RS2JbzwDNteSCLoc74AWX8U6j8K5i50q9seZ4/kPAdTkH8a9F0671jRZ1MUjSIOiuNwP07/lXZwTeFfFdube/RdN1CQbd/Gxz6E9D9GwfQ1LRR41oPi270SdYJ5Hmss/dJyY/UivQp7m21WzF5aMj7lycdGFcl41+H2o6FM8sUJeEn5WXlG+nofY/hmuR0LxBPol0Y3Zjau3zof4PcUJ23A9N8EyxaV44Wym2/2Xrcb2cofO1HYfKf8AvoAfjXi/jLR5NA8XahpUnIhmO1gcgqeQfyr1SaVZY4721cZyJUZT0YHIYfjisr45Qw3eq6X4hiLN9ut1LMY9vOAR068GnJaCTPKrV/mwa016VkW+fOrWTG0dKyKA9QBTlYgHvzimmkyM0APbBGQcVDJjZipc8e1RPjbntQBCemMUm04zTh3pCcd6AI34JPeoc5z7VI5461B3pDFY5Xmqh/4/E+lWm4WqZP8Apaf7tAi5MPlHNa/hpyGuVz2BrHn+6v0rT8On/S5l9U/rSZSOkJpnNSbTQFoKGKuWH1oqeNPmH1ooA4Nnw2MYpAeaaevJox0qjMlBHGaC1MBOKWgB4I24pwI9KjxSg8UAS545pueaVWX04NNcDIIoAeCo+lPV8HsajGMcU4HPQUATBj1/lT1bgjj61GAOmRSjHXkigB4/vDtShhnoKZnHb86d0PB5pgS7sngUvzfgKaOmMdecGnAtg4I60gEbqCKUA+vFBGB1zzSZIGTxQAjRB1IPOeKw7mF7WfenGD1reBI6kYI61BdQrNGwySRQAWtytxAD90jqPerXQDnaK5yORrO5O7O09a34pBMmcjBGaAJt2R6UnOBnPNIM8gj3p/TofmHegBOdvC/hTCOcnpUnUdPqPWmsMrnPWgCPt6DpSqcHntTSACfbtS5PXuO9AFhJpIXjuIHMUsbiSN16qwOQR+OK9/0TXI/FOl2mozAZuPlly3+pmX7wPoufmQd847V8+pgrz0Ndz8M9aisfEv8AYl9IFsNUIQF84imH3HA9T0+uK0pysyZK5L8YYJvOtbmdZXkX5Glf5Q46gqOwPp9al8Bataalpq2F0Ns1uAm5fTsa6L41aZIPCsV7PA/nwyLG80zYaQH7rBe2efxzXg1rd3Fq0c1tO0UoHBTg8U5aMFsfU1npdwMFEW8gIyVIBP8A9er9z4Zsb2AtGjQTAYx3H59R7HI+leS+DfihqNkqR6lGLyLIy4OHA+vf8c17roviTQvEtqGgnV5FGWH3XT6j09xkfSpuUcd/at/oW7Sdcj+26Y42AsM7R/h7fka8z8ceEYrd11TSG862l5BU5z7H39D+B5r3PWdPWWF4btVlicHEuM/nXmt/FLoMskE8ZudMnOGB5C571W4jzLw3rbWkw0+6b9xIcIWP3GPb6H+dbHxCuGuvB+lRkyt9kkMOc5UDnHH0I/Ks7xj4eNk41GyJltZhuDjv9ff+fX1rJu9SOq+EJY5TvubV1LEtjK9mpXsmg8zl4TiWtWIk446VixHDDt2rYhPyj/GsxkzgcdqYDinN05NR9/agB/YntUZOeOlSrgkc0xwOfzoAgpDikJyeaQnPSgBj4qDvU7GoSfmPqaQDW6VTH/H4PpVtjxVVP+Pv6CgZYnOAK0fDb41hUP8AGhFZk3Le1S6bN9m1O3mzgK4z9KTBHoRjpmyrbAEZHSoG4oNQQfMPrRTQ/wAw+tFAjzpTzUnbFMAIxxmng96oyF29xRjufypwIPalPT60CGfSgAnPWg5PvSheDzzQMAp4OakIAU5NJjHUjNNbGMfrQIQN6dakU+9Q9DzTlz3NAywv0py9cZqAE8GnqTnvQBMByQRSgnPOKj59KlVSxGO9AD85x1NKOnv1JqPBBweKeoHX3oAfkMuSOaVeoPQUwEDkD86XOCCBQA7Jxnk0pAyCB+NNJIGBwc0En1IHsaYGbqNruBdeoqtpt2Y3EEh/3f8ACtiRSyHIHPtXPXkLQzbgO+fpSYHTI24dce9SdR3+nc1k6feCZArY3r19/etVWGM54HrQA4Af1A9KU4J7f0puccnhT29aXAJLfpigBhXJwTyO9M4HXp2FTHp645qEjOTQA4HB9Ke7FCskblJVO5WU4Kkcgj3BqHd2x+NPByuM8UAez+Ndet/Fn7PUGvGOEXyTR2t4Wfc5mVhk47Bh8w/3q8CjJ8rgt8rdFHFby6td2vh7U9DDKbS/eKVwwzteMnDD6gkH8KwYhuhkX5m4zxwKtu4krHUeHtKlu7R7m1k5QlWjcYz9D0rZinvNOuxLbySW1xGcgqdpBrI8D+JZPD+tjKBrecjcrNwD0zzxXuVxoPhXxvYZ0eVNN1kKT9kf5UlP+z/9j+I70hkHhP4ixX6jS9a2pOw2hj92X/A/p9Otbms2ML2zsB5tq/HqUrxDWtF1HRb6S2vrd4ZY25yMEeh/HsRwa6nwn48kiA0rV5NyNhUlbv2wf8aaYhlxF/ZrSaZeDzNNuOEJ/wCWZrzrUdKbR9dntsKbe5hdUJHynjI/UV7JrdlDNC6L89u/3T/d9vpXA6nbyXFs1jP/AMflqfMgcj74HarauI8rU7XI461sWzErnmsmYbLuReeGI6Y71o2jfJ1rAovHJHTGf1qPjr2qT+HOeMVGRxTAXORzTWI96XPrzSMOvPNAFbgE0mRgHFKe9MagBrHPtULdakJFRse9IBjEjNQxf8fRJPQVOxBBqGLHmtxQMklIJ5qLpzRISG5HFNBJpCPStOn+06TbTZySgz9RTnPNY/hm4MmlNCTzG5H4Gtg80GoxQdw+tFSoBuH1opDPO+McUHNKB7UHjtVmABjk0u4kCmGkzQMkUZ680/60xX7H9KkyOOaAEORk+opu0luaXginbwuaAGug8s461Gp4HvTy4ORUAOHIoAtKT170/djOBmoUPbFSBumeKAJcsW96eMjv3qMHGCTn6U7cM/L09KAJD96hSM8YAzTAaUEgEDigCUbhnHSly2OTj6UwYyMtTgc5HqOtABk7uWx9aUcA800EdcdeKevT+tACA5GSOaqXdsJFOF5xV4Zx05pCAe31oA5pQ9vPkDp+tbttOJUDA5qC8tQ3zLVOCU28vIOO9IDfUgmnbiO/PpVeGRXAx1PTmrAORnd83vTAMbuTwKRjnO2k3Zzg0EZ78dqAIj0zRnb0pzd8HNM5z0oAdIuVz1z0qjGhF15ZBYMCBk4FaS8jZ1qlKGWQSYzsINNAVBmN1IKqVOK968GaXbeJPD4eO68u6jVXjlQ4eM/15/8ArGvCLobLmRQy4ByNor1n4QXu+/ez84xzKTgdN4xkcd6ewjt5dUW7P/CPeOofOdfkt9SUYdf949/x/H1rzbxb4UudEuZJIMXFrjcrp3X1x/Mdq9i8SaSmoWzpcRhJwPkYdD9D/n+lcJHdTIDpGpMcocRs36Vdkwucx4X8YNHt0rUnEkL/ACxu36KT/KtnWLZbjbLEcSp80Tf0NcR4m0NtNumuYExbSNyF6Rsf6Ht+Va3h/W2vbU2ly+Z4hwT/ABL6/X1oX8rEcHrsQj1yZghVZPnA9D3H55otSdore8b2aI1rfIAGZijj9Qa562yFyDWclZlI0w2VH0qNulKp460jZxg0gEGPemt0zmnZ4PFMY5OcUARMfwqP69qJD8+KaTz0oAYSemKjNSN1wOajYYzuYLSAbnjHemRj5yTS7wudq5z3NKnCkjrQArBc4qM4ApCWzTTSGdD4Wm23k8BPDruH4V1ZNcHok3k6vAxPDHafxruC9Ba2JVcBh9aKqlvmH1ooGcRzjv0pM0d8e1AI9aoxGj73ajHpS9x1oxyeOtAxOhpwPSk2+tHAoACxxgUAEnBpBipFFADQo7CoZcpIDj2q1nBqC4UmMsOo5oAchz0qRe35VVibIzVjJwO2KAJsg4p4PpUIOQKcD2HWgCQn0NPHPeox2pw4PpQBIMbhzxTwQMCo8jjA6elOHT/E0AO7AU8Eg1GCM8mnDAOMH8aAHr16UoJAPH6UdeinOKTIBPFAA3Ktkc1l3tvj51XFauRjAHbpUMy7wQBxQBl2F3hvKk69s1rq+SOeDXPXkTRSb14Oe1X9PvBMmGOHXrSA2AABntSZ3Z4yKYknft6VIMZOTx6UwGEjOOlIQMYHFPcZPPBqM89e1AChiTjvSSgMpx17ikJ29PpSgEjnJzzQBUu8sIm3McptOBjGK0ND8Rz6Hr1pdWyiQLGiyRNxuI9+x9DVGcfKVOSAdwGe9ZRLDU12jjtj6ihgfW+ieJ9M8TaQCkoIGN4fh4W7Bh/7MOD+lc14p0YtuDDEg5jkH8X/ANevItK1K80q4ivrGZopk4z2YdwR3Fet6P4nsvEultBLiOcAb4T1Q/3l9V/UVpF9BM5dJVv7aTTtQjDTBSrA/wAa/wCf1FeeX9rdaBq42sflO+Jz/Gvof5GvRtbs5IZfNh4miO5WH8QrN1W0t9c0YSqQsg5z/wA82/w7H8+1U1cSOV8WXMd74ds7yFvlMgJB6iuctjzTNSnntbCfT5wVG/O0/wADD/Go7Ntyq3qKyk7spGwhG3AJpGPoaRMEelK2CPakA0tjIphb15pxPoKYcfWgCB/vnJ7U0sAOhNKwG7NIelADGJIIzj2FQkDPAqU8cUwkdqQETDmnJypxTT1pydKQxGUeuahb71TM1R4BINADo2McqSDgqQa71ZRJGsgPDAGuAauu0mbztLi9V+U/hQVE0QcsPrRSL94fWigs4snFJk80hPcUmTmmYjwQMU7NMGafximAmeopp5bpTsA8UEfjQA0Z9KeDjHNNIAqNmx3pATFge/NMZs96iLUq5IoAiiyrMh7HFWAR0qox23P+8M1ZU/LQBMvSpVPPaoFqUdelMCTgY5p4POQuKjDEH3o3YPX2oAkp4OF9veosk9eKUHt3oAmDDf2pwPzZ/ColJzmnc55oAlz0o3ep4NMJAUYI5pSckHP/ANegBckgjJI9KQk98n0FKDz90nPrTScE470AVrqJZIzkfSsU77afcvBFdDzgjj0xVC7tgw3D0pAWrSdZIw4Oc/p7Vd8wH+lcxbzNbTYJOCeRW9DKCvGCCO1NAWi3rmkYEmmc5yT0/Wn53Y7CgBu07Mjp/KkBxwO9LnJPUCkIweMUARzLuGetULaKNtXtPOYojTbGZe2Rwa0SSeO9VLtQ+mzLhQ0TCZD3OCAw/Ln8KAPRNb8I3ukxRybFeOQZilT7ko9v7rexrlYry5sLtLi3kaKaM/T8DXrHgvxQLvw7BofiWMS27xgJNIMkDtuPcf7Q5HesLxl4Ja2la5s2DxH7kvXjsrH+TVVgJLDWoNe07JAS4j++nofUe1UT5lhO1xGMxniRP61wsNxd6ZfeYmYpozhlPf1B9q7mx1GHUrUXEfU8OndT6VcXfQlnG+O7CE2yXtvgq46jv7Vy2nNm3Q+1dx4tiMGmsmM28vK/7Jrg9ObEIGehIqJ7jRuR9O4p7fdxUUTcVMxGMYqRkZzTScHBFKeoHemseMCgCJ2+Y9qiJpzk54PamEd6AGknvTCKecDkmmcsPlUn37UgGEU4ABfrSMAv3jk+3SkySvHFIYxyO1J25pwQDrzSNj60CG5ya6Tw6+baaLPKtmua71teHpNt1Kn95M/kaCludQvDD60VHv8AmFFI0OKJ96KSlGaswHDtmlB9Kb/OnDOfSgY7oetBx0pvbNH60AIxHNRHkdKmI+lCqMUgIAMnpUyg44qTYPSkbgelAFC64ljb3xU8bcCq94cxbv7pBp8TZUc0AWgeOtSg+magVjT+aYEoIz+NPJ59gahGPWnfQUASZ55pwPt0pg6+lKDzQBKDzycmlBAbgf1pgJzS96AJM8GlwSBnoaaD8wySKXOCD1oAXkd6OaQED86ASCe5xzQA48Z4pGVSu08Uhbgn1pM8mgDLvLbaSwHvxTLG72P5LdD0rSmXehBrBu4vLl3DNIDp0fK7jjPrTsktknJHasnT7zzVCMfnXrnvWoHzg9OKYEpOSSec9aYenTj1pRjjcc4oY8YP4UANOO3SoJ03qVPQjFThuTk9ajIJOccUAev+C7K11jwTbKCFuINy+nI7+3+c1s2l/NpzHTNTQyWp+X5hnaPoe3t+Vcb8KNQibULvQZ5BG8y+fbN33j7y+/HP4GvRr+1jnVre8jCyAYVl/i/z/n0q4voJnEeLvBkM8P22wZWjxlJAc7R2DHuvoe1ebWl3c6JqbCVGTB2zRn09a9iiu59Ike1mzJaseh5/H/PWuR8VaFFqEJurJQJVHye4/un+lU11QGZ4gaK88OtJGQ6MMgj+deZaedplX0aujt9Qkgsp9OnyImztz/A3pXM23yXcy+/9aiTvqCN2FgFqwcHOeapwnpVrPH8qkY09fam5GfWlJAPWmE4PHFAEMhCtjqfQUzbIeuEHvzT2bBJ70zJPWkAmI0/2j6mms5J60dfemkDFAxjfWheAKG60q4wKQATxzUZNPc84qPNAg7Vf0d9mpr7qRWcTxVnTmK6jCT64oGtzrd53Ciod3I+tFBqcxz+lL3puaUHBqjAd0z3pRn1pFHNLjmgYHNApSOKbQA4dcU4NgGmZqNnxmgB7zYHWoDMWPtUZy7Y/lUyxDbzSAguObZx7Zplu+VHNTzR4ibOTkHiqNo/yD8qANMeuakBHaoFOakWgCTJzipM+veohgU/nPNMCQHHFL7jpTM4pQRj6UAPHPNPye9MUjPc0/sTigBwPbBpRnqCPpTQfTtS54wT+VADjnBAP4UuORn+dN7896Mgr1oAUjjA5pOMZzRn0NJkg9PzoAUkEEYqhdwb05FXfY9qRlyuOtAHNDzLecMvDCugtbnzYlYHH9KoXdsTlgORVa3lMEucnaeopAdKjE8/rQW468+tVoZfMAPHtU2R0xgetMBepzSlsDrTSw6DjNJ04/KgCW2u59Pv7fULViJreQSL25H+PSvfNM8Q6d4g0tJ433Kwwd33o2/ut/Q96+fTyCT1Parmj6vd6Re+fayY9VP3XHcEU07Ae1X6bkaCcZz91/WudkL27mFySp4B6ir+la9ZavYeYpwBw6N96M/4ehpl3CsqmNvmP8LVsiTzvxXpORJqECDJH7xR/EP7w/r+deeWrH7Yyk5PrXrmpu0MD28/1Rq8okQRay6rwDngVlNDRrwHjNWww+lUoDkDmreScelQMGI7Cm9D70rHnpzTM80wImqMkZp7/AHqj/SkAucA8U09KU009aAI2pdwC5PpSGkPKgUhjN2TwKTmn9BTD1piEwSamtOL2E9fmqLpT7Y4u4v8AeFIaOpH3hRTR1FFBoc79aXikpQBmmZD1IzS5GPakGPalHIoAU9MAc0zNOY4561G7AUwGu+KgLMzcUrNzxQi+1ICSNelTjAHWogMYpxPHJoAjmPBxWXbNhiPetOQ1jxNtlP1oA1UbOKmHJzzVaNunNWF6ZoAlH4U8ZPeowaeCOtMB/GBxSj2NNpQ3pQBIpOaXj8qjB55pwPPQmgCQdM54pw570xWJPSnAnrnmgBw6DP60oAIpueoJzShsngUAHGOvag4zjNJnk5zR83HGaAHcYIxR2NIOuMUueOT0oAY8e9PXisi6tihLAfhW2CuewqKWJXU45NIDJs7gxtsc8dq2FbzFBByaxLq3eNt69Ov0qzY3W4bWPI6+9AGmcg4NO5zyeaaDkfLz70e4/GmAh4OO/pUbEhs55HIqTOKYR69aALun6jcWF0l1aSbWHUdmHoa9G0vVrfVLRZEbBH30zyhrzG0tXuXlhhP74LvRP7+OoHv3qSx1C4068E8JwRwyHow9DVRdgZ3fiSESWDBvvLyGFeOXLEamC3XOK9bu9Tt9T0QywtzjlT1U15HqXF+W9DTn3EjWgPGDVsEZ9qo27cVdXJI5FZjFPQ4HNNJ5NKTTWNMCJ/ve9Mp5PPSmn3pANPSozTjwcHmmt0oAYevFIeooxQTikAhpuKU0HjvTAQg0+34uYx/tUwc1Jb/8fUf+9SGjo1PzCimr94UUFmEDyKd+FMB5pw55pmY8ZyKXtTQTS5OKYDXNQMalbvURGaQDAMnNSqtNValGAOlACdKQ/SnHNNyfQUAROTWNnEh+tbT8jpWK3ErfU0AaELZHOauIeOTVG35Xirin1oAmGe1O5PFRg4NPByOaAHjrSjik9MmlpgOzjg8UuTTe4707OKAHAndyfypxP1qMt9acDk0ASAnOaA1Myc9aOc0AScnknFJkjqKTII6D8KKAHA54pTgE4qPODzQWIIxQBLyccdKUknkCodx9TS7uAMcUALNGsi4OKxbiJrWbzEHGa2gw21DcIskZBHbvSAZa3IkTrkGrmQenX2rnY5DaXO1vumtuKUMnUfWgCc8Y6Gm8f570uR0puOppgPhuGtLyG6TOYnD49R3H5Zrq/EWgCUf2hp43CQbxj/loMf8AoX8649/ukYruPDGqiXRUs7v5kTMYOemOn6Yqo9hHCLeS2jNsJCnhl6ZrCv5FkuC6nIPeu28U6UFle5tuSeT/ALfv9a8+kJEhqXoM3LR8xo3cgVoIayrJsQJ9K1EPy0gHNgdDzTDzTj1601sdaYEfFNJpTz1phPFADCaYTTzimn6Uhje/Smnk804nmkpAIKYTlqVjSIO9MQ7tSwnFymT0YUHGKYpxID6GkM6VfvCikjyQp9aKCzFVfenheetFFMzFA5xSOuD1oopgRleTzTdozRRSAkVBnrS7ecZoopiE28daTYM0UUhjJBgVh3Axcv8AWiihgi1anNX0WiigCRVpwGMc0UUAOC5xzTtvHXrRRQAu3gHNLtxRRTAUDj6U4rgAZ60UUgDZz1p4TJIz2oopgKwwcA9qAp25zRRQAhXjrSY96KKQBs5AzSldoIBoooATbkZzSbcg80UUAUL+BfLLdDjNV9OmbcY+w6UUUAbS5IznrxTtue9FFMBrL2z2rc8KL50t9aMfk2CUH0IOKKKa3ESam7+VJEzbgvGfWvOdQULdsQOtFFOQ0XbDmBPxrYiX5cZooqAHFeetI8YCg560UUwK5HOKYRRRSAYR15pCOOtFFADMe9G35RzRRQBC3UD3qZE4HNFFAA4wtRd6KKQHVWkW63iYnqBRRRQao//Z" alt="Prof. Dong Lin" style="width:100%;height:100%;object-fit:cover;object-position:center 20%"></div>
+      <div>
+        <h3>Dong Lin</h3>
+        <p><b>Associate Professor</b>, School of Mechanical, Industrial, and Manufacturing Engineering</p>
+        <p>Fellow, American Society of Mechanical Engineers (ASME)</p>
+        <p style="margin-top:8px;color:var(--muted);font-size:.95rem">Ph.D., Purdue University · M.S., University of Nebraska–Lincoln · M.S., Huazhong University of Science and Technology · B.S., Harbin Institute of Technology</p>
+        <p class="links">
+          <a href="mailto:dong.lin@oregonstate.edu">dong.lin@oregonstate.edu</a><span>|</span>
+          <a href="https://scholar.google.com/citations?user=Bs09AdEAAAAJ&hl=en" target="_blank" rel="noopener">Google Scholar</a><span>|</span>
+          <a href="https://www.linkedin.com/in/dong-lin-48a19519/" target="_blank" rel="noopener">LinkedIn</a>
+        </p>
+      </div>
+    </div>
+
+    <h2>Ph.D. Students</h2>
+    <div class="grid" id="phdgrid"></div>
+
+    <h2>M.S. Students</h2>
+    <div class="grid" id="msgrid"></div>
+
+    <h2>Alumni</h2>
+    <div class="alumni-cols">
+      <div class="agroup">
+        <h3>Ph.D. Graduates</h3>
+        <ul>
+          <li>Dr. Guang Yang <span>Postdoctoral Researcher, Purdue University</span></li>
+          <li>Dr. Halil Tetik <span>Assistant Professor, İzmir Institute of Technology</span></li>
+          <li>Dr. Pedram Parandoush <span>Toray Advanced Composites</span></li>
+        </ul>
+      </div>
+      <div class="agroup">
+        <h3>Postdoctoral Researchers</h3>
+        <ul>
+          <li>Dr. Donovan Mafukidze <span>2022–2024, co-advised with Dr. Yi Zheng</span></li>
+          <li>Dr. Jun Liu <span>Stevens Institute of Technology</span></li>
+          <li>Dr. Pengli Yan <span>EAG Laboratories</span></li>
+        </ul>
+      </div>
+      <div class="agroup">
+        <h3>M.S. Graduates</h3>
+        <ul>
+          <li>Budhi Yohanes <span>Spring 2026</span></li>
+          <li>Kevin Liko <span>Spring 2026</span></li>
+          <li>Timothy Shearer <span>Spring 2026</span></li>
+          <li>Chih-Yang Hsu <span>Fall 2025</span></li>
+          <li>Yisong Zhang <span>Fall 2025</span></li>
+          <li>Luke Patterson <span>Summer 2025</span></li>
+          <li>Yuhui Xiang <span>Summer 2024</span></li>
+          <li>Gaurav Jagtap <span>Spring 2024</span></li>
+          <li>Hanxiong Fan <span>Sundopt LED Lighting Co.</span></li>
+        </ul>
+      </div>
+      <div class="agroup">
+        <h3>Visiting Scholars</h3>
+        <ul>
+          <li>Prof. Nasrullah Shah <span>Fulbright Scholar, 2020–2021</span></li>
+          <li>Xuemu Li <span>2019–2020</span></li>
+          <li>Prof. Junyan Qiu <span>2019–2020</span></li>
+          <li>Prof. Jun Yu <span>2018–2019</span></li>
+          <li>Baoning Chang <span>2018–2019</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>Group Awards &amp; Honors</h2>
+    <div class="agroup" style="max-width:950px">
+      <ul>
+        <li>Halil Tetik — Outstanding Paper Award, NAMRC 49 <span>2021</span></li>
+        <li>Guang Yang — ISC Scholarship <span>2021</span></li>
+        <li>Keely Hutchinson — NIST Summer Undergraduate Research Fellowship <span>2021</span></li>
+        <li>Dr. Nasrullah Shah — Fulbright Scholar <span>2020</span></li>
+        <li>Pedram Parandoush — Gattani Outstanding Graduate Student Award <span>2019</span></li>
+      </ul>
+    </div>
+
+
+    <div class="join">
+      <b>Join the lab.</b> Prospective Ph.D. and M.S. students interested in additive manufacturing, functional materials, laser processing, and bio-inspired materials are encouraged to email Dr. Lin at <a href="mailto:dong.lin@oregonstate.edu">dong.lin@oregonstate.edu</a> with a CV and a brief statement of research interests.
+    </div>
+
+    <h2>Group Photos</h2>
+    <div class="gallery">
+      <figure>
+        <img src="images/group-photo-2024.jpg" alt="MAML group photo">
+        <figcaption>First group photo at Oregon State — 2024</figcaption>
+      </figure>
+      <figure>
+        <img src="images/workshop-2024-1.jpg" alt="Advanced Manufacturing Workshop 2024">
+        <figcaption>Advanced Manufacturing Workshop — Fall 2024</figcaption>
+      </figure>
+    </div>
+  </div>
+</div>
+
+<!-- ============ RESEARCH ============ -->
+<div class="page" id="p-research">
+  <div class="wrap">
+    <h1>Research</h1>
+    <p class="mission">Research in MAML connects nanomaterial synthesis, laser–matter interaction, and additive manufacturing process design — from the nanoscale to the machine scale — across eight areas.</p>
+
+    <div class="topic">
+      <img src="images/research-3dfp-graphene.jpg" alt="3D freeze printing of graphene aerogel — process schematic">
+      <div>
+        <h3>Area 1 — 3D Freeze Printing (3DFP) of Aerogels</h3>
+        <p>We invented a freeze-assembly printing route to pure, continuous, boundary-free, and truly three-dimensional aerogels — including overhang structures — from graphene, MXenes, nanocellulose, and silver nanowires. Printed graphene aerogels combine ultra-low density (a Guinness World Record 0.5 mg/cm³), high electrical conductivity (~15.4 S/m), and high compressibility, with in-situ synchrotron X-ray imaging revealing the printing process itself.</p>
+      </div>
+    </div>
+
+    <div class="topic">
+      <div>
+        <img src="images/research-acta.png" alt="Laser sintering of graphene oxide/iron nanocomposite" style="margin-bottom:14px">
+        <img src="images/research-laser-shock-1.jpg" alt="Laser shock peening of graphene integrated iron matrix">
+      </div>
+      <div>
+        <h3>Area 2 — Shock Wave–Graphene Interactions</h3>
+        <p>Graphene can be vertically aligned during additive manufacturing (Step 1: laser sintering of graphene oxide/iron nanocomposites). A shock wave introduced by laser shock peening (Step 2) then interacts with the aligned graphene, generating stress concentration and nucleating high densities of nanotwins between graphene sheets under low shock pressure — yielding metal–graphene composites with ultra-stable mechanical properties.</p>
+        <img src="images/research-laser-shock-2.jpg" alt="Shock wave interaction with vertically aligned graphene" style="margin-top:14px;width:100%">
+      </div>
+    </div>
+
+    <div class="topic" style="grid-template-columns:1fr">
+      <div>
+        <h3>Area 3 — Metal Additive Manufacturing: Laser Powder Bed Fusion &amp; Directed Energy Deposition</h3>
+        <p>Investigating laser scan strategies, beam shaping, and in-situ thermal monitoring to control microstructure and defect formation in LPBF and L-DED. Active projects include defect-free LPBF (Oregon Manufacturing Innovation Center), laser stirring with elliptical scanning for on-demand alloying (in collaboration with NIST), and lattice-structured materials (Idaho National Laboratory). Key alloys: Inconel 718, GRCop-84, IN625, 17-4 SS, and copper alloys.</p>
+      </div>
+    </div>
+
+    <div class="topic" style="grid-template-columns:1fr">
+      <div>
+        <h3>Area 4 — Additive Manufacturing of Graded and Tailored Alloys for Aerospace</h3>
+        <p>Co-led with the Air Force Research Laboratory, developing functionally graded and compositionally tailored alloys for sustainment and new aerospace applications.</p>
+      </div>
+    </div>
+
+    <div class="topic" style="grid-template-columns:1fr">
+      <div>
+        <h3>Area 5 — Additive Manufacturing of Ceramics &amp; Ceramic Matrix Composites</h3>
+        <p>Direct ink writing and post-processing of SiC, ZrC, Si₃N₄, and SiC–SiC CMCs for hypersonic vehicles, aircraft engine noise reduction, nuclear thermal propulsion, and space applications. Sponsors include NASA, NETL, Army SBIR, and GOMACTech partners.</p>
+      </div>
+    </div>
+
+    <div class="topic" style="grid-template-columns:1fr">
+      <div>
+        <h3>Area 6 — Bio-Inspired Manufacturing of Metal–Graphene Composites (NSF CAREER)</h3>
+        <p>NSF CAREER project (2020–2025) developing high-strength, high-toughness metal–graphene composites inspired by hierarchical natural structures.</p>
+      </div>
+    </div>
+
+    <div class="topic" style="grid-template-columns:1fr">
+      <div>
+        <h3>Area 7 — Additive Manufacturing of Continuous Carbon Fiber Reinforced Composites</h3>
+        <p>Laser-assisted and ultrasonic-assisted laminated object manufacturing, graphene-enhanced interlayer bonding, and mechanical/ultrasonic finishing of CFRP. The Composite Structures review (Parandoush &amp; Lin, 2017) is the #1 most-downloaded article in that journal since 2020, and U.S. Patent No. 11,254,048 (2022) is licensed to HydroGraph.</p>
+      </div>
+    </div>
+
+    <div class="topic" style="grid-template-columns:1fr;border-bottom:none">
+      <div>
+        <h3>Area 8 — Sustainable &amp; Bio-Based Manufacturing</h3>
+        <p>Decentralized pelletization of agricultural and forestry residues for bioenergy (USDA-NIFA Sun Grant), lignin-based wearable triboelectric nanogenerators for health monitoring (USDA-NIFA), and bio-inspired nanocellulose aerogel acoustic materials.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ PUBLICATIONS ============ -->
+<div class="page" id="p-pubs">
+  <div class="wrap">
+    <h1>Publications</h1>
+    <div class="pubbar">
+      <input id="pubsearch" type="search" placeholder="Filter by author, title, or journal…" aria-label="Filter publications">
+      <a href="https://scholar.google.com/citations?user=Bs09AdEAAAAJ&hl=en" target="_blank" rel="noopener">Google Scholar →</a>
+    </div>
+    <p class="pubnote">* co-first author &nbsp;·&nbsp; † corresponding author</p>
+    <div id="publist"></div>
+  </div>
+</div>
+
+<!-- ============ CONTACT ============ -->
+<div class="page" id="p-contact">
+  <div class="wrap">
+    <h1>Contact</h1>
+    <div class="contact-cols">
+      <div>
+        <h2 style="margin-top:0">Address</h2>
+        <p>Multi-Scale Advanced Manufacturing Laboratory<br>
+        School of Mechanical, Industrial, and Manufacturing Engineering<br>
+        218 Dearborn Hall<br>
+        Oregon State University<br>
+        Corvallis, OR 97331</p>
+      </div>
+      <div>
+        <h2 style="margin-top:0">Reach us</h2>
+        <p>Email: <a href="mailto:dong.lin@oregonstate.edu">dong.lin@oregonstate.edu</a><br>
+        Office: 541-737-7074</p>
+        <p style="margin-top:12px">
+          <a href="https://scholar.google.com/citations?user=Bs09AdEAAAAJ&hl=en" target="_blank" rel="noopener">Google Scholar</a> ·
+          <a href="https://www.linkedin.com/in/dong-lin-48a19519/" target="_blank" rel="noopener">LinkedIn</a> ·
+          <a href="https://twitter.com/smilerdonglin" target="_blank" rel="noopener">Twitter / X</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    Copyright <b>Dong Lin</b> 2016 – present · Multi-Scale Advanced Manufacturing Laboratory, Oregon State University
+  </div>
+</footer>
+
+<script>
+/* current members, alphabetical by first name within each group */
+const PHD=[
+  {n:"Andre Georges Ponsot",s:"Since June 2024"},
+  {n:"Elijah Waibel",s:"Since September 2025"},
+  {n:"Junaid Dar",s:"Since January 2023"},
+  {n:"Omid Hatami",s:"Since September 2024"},
+  {n:"Ryan Bertelsen",s:"Since September 2024 \u00b7 co-advised with Dr. Devin Roach"}
+];
+const MS=[
+  {n:"Mohammad Kamil Azim",s:"Since September 2024"},
+  {n:"Pei-Jung Chen",s:"Since June 2025"}
+];
+function card(m,role){
+  const init=m.n.split(' ').map(w=>w[0]).slice(0,2).join('');
+  return `<div class="card">
+    <div class="ph"><span class="init">${init}</span></div>
+    <h3>${m.n}</h3>
+    <div class="role">${role}</div>
+    <div class="note">${m.s}</div>
+    <div class="icons"><span title="Email — add link">\u2709</span><span title="Google Scholar — add link">G</span><span title="LinkedIn — add link">in</span></div>
+  </div>`;
+}
+document.getElementById('phdgrid').innerHTML=PHD.map(m=>card(m,"Graduate Student (Ph.D.)")).join('');
+document.getElementById('msgrid').innerHTML=MS.map(m=>card(m,"Graduate Student (M.S.)")).join('');
+
+function show(p){
+  if(!document.getElementById('p-'+p)) p='home';
+  document.querySelectorAll('.page').forEach(el=>el.classList.remove('on'));
+  document.getElementById('p-'+p).classList.add('on');
+  document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.p===p));
+  window.scrollTo(0,0);
+}
+function go(p){
+  if(('#'+p)===location.hash||(p==='home'&&!location.hash)){show(p);return}
+  location.hash=p; /* hashchange listener renders */
+}
+window.addEventListener('hashchange',()=>show(location.hash.replace('#','')||'home'));
+show(location.hash.replace('#','')||'home');
+
+const PUBS=[
+{n:92,y:"2026",a:"Junaid Dar, Laxman Bhatta, Megumi Kawasaki, Islam Hafez, Dong Lin†",t:"Synergistic strengthening of copper by in-situ graphene growth and severe plastic deformation",v:"Journal of Manufacturing and Materials Processing, 2026, accepted"},
+{n:91,y:"2026",a:"Saegis Abbott, Kassandra Hernandez, Ryan Bertelsen, Omid Hatami Farzaneh, Adam Bischoff, Doug Dingus, Dong Lin, Jesse Rodriguez†, Devin J. Roach†",t:"In-Situ Thermal Imaging for Prediction and Control of Directed Energy Deposition Quality and Microstructure",v:"Journal of Materials Research and Technology, 2026, 42, 10851-10863"},
+{n:90,y:"2026",a:"Nasrullah Shah, Halil Tetik†, Dong Lin†",t:"3D Magnetic Nanocomposite Aerogel (3D-MANCA) for Humidity Sensing and Pollutant Adsorption Applications",v:"ECS Sensors Plus, 2026, 5, 014402"},
+{n:89,y:"2026",a:"Yeung Ho†, Jordan Weaver, Junaid Dar, Andre Ponsot, Yisong Zhang, Dong Lin†, Andrew Chuang, and Michael Gao, Fan Zhang†",t:"Laser Stirring with Elliptical Scanning Enables On-Demand Alloying in Additive Manufacturing",v:"Additive Manufacturing, 2026, 118, 105101"},
+{n:88,y:"2026",a:"Halil Tetik, Darwin Kurniawan, Guang Yang, Yisheng Sun, Caixia Wan, Xinwei Wang, Wei-Hung Chiang, Chang Ye†, Dong Lin†",t:"Multifunctional Transparent Wood Based on 3D Printed Cellulose Nanocrystal Aerogels and Graphene Quantum Dot Additive",v:"Progress in Additive Manufacturing, 2026, 11, 4097–4106"},
+{n:87,y:"2025",a:"Narges Malmir, Guang Yang, Thomas Poirier, Brian Taylor, Nikhil Churi, Nathaniel Cavanaugh, Jie Lian, James Edgar, Dong Lin†, Shuting Lei†",t:"Direct Ink Writing of Ceramic Fuel Pellets for Nuclear Thermal Propulsion Applications",v:"Journal of Manufacturing and Materials Processing, 2025, 9(8): p. 270"},
+{n:86,y:"2026",a:"Toushiqul Islam, Bo Zhao, Dominic Piccone, Ryan Bertelsen, Dong Lin, Andy Fan, Jonah Klemm-Toole, Shuaihang Pan",t:"A holistic corrosion understanding in IN625 alloy based on additive manufacturing history and microstructure modification",v:"Electrochimica Acta, 2026, 535, 146697"},
+{n:85,y:"2025",a:"Yuhui Xiang, Spencer Doran, Tzu-Yi Chang, Zexiao Wang, Smitanan Sangkagoon, Yun Yeung, Fei Xue, Tian-Le Cheng, Dong Zhao, Jie Lian, Tianyi Chen, Sheng Shen, You-Hai Wen†, Dong Lin†",t:"Additive Manufacturing of High-Density SiC Ceramics through Post-processing Spark Plasma Sintering",v:"International Journal of Applied Ceramic Technology, 2025, e15167",b:"Editor's Choice"},
+{n:84,y:"2025",a:"Junaid Dar, Andre Ponsot, Caden Jolma, Dong Lin†",t:"Laser Scan Strategies in Metal Additive Manufacturing - A Review",v:"Journal of Materials Research and Technology, 2025, 36, 5425-5467"},
+{n:83,y:"2025",a:"Guang Yang, Yuhui Xiang, Thomas Poirier, Tiankai Yao, Nikhil Churi, Brian Taylor, Narges Malmir, James H. Edgar, Dong Lin†, Shuting Lei†",t:"Extrusion-based Additive Manufacturing of Zirconium Carbide for Nuclear Fuel Cell Structures",v:"Ceramic International, 2025, 51, 252-258"},
+{n:82,y:"2024",a:"Guang Yang, Amulya Lomte, Bhisham Sharma†, Shuting Lei, Dong Lin†",t:"Sustainable Multifunctionality: Bio‐Inspired Printing of Nanocellulose Aerogel Acoustical Materials",v:"Advanced Materials Technology, 2024, 9(16), 2400232",b:"Inside Front Cover"},
+{n:81,y:"2024",a:"Yutai Su, Roman Savinov, Yachao Wang†, Dong Lin†, Jing Shi†",t:"Microstructure and Property Enhancement of 7075 Aluminum Alloy via Laser Metal Deposition Augmented by in-situ Ultrasonic Vibration",v:"Virtual and Physical Prototyping, 2024, 19(1), e2301482"},
+{n:80,y:"2024",a:"Bowen Li, Dong Lin, Xiang Zhang, Dongdong Zhao, Chunnian He, Naiqin Zhao",t:"Exceptional dynamic compressive properties of bio-inspired three-dimensional interlocking graphene network reinforced copper matrix composites",v:"Composites Part A, 2024, 176, 107856"},
+{n:79,y:"2023",a:"Guang Yang*, Dongxue Xie*, Yizhou Nie, Xuedong Zhai, Nesredin Kedir, Weinong Chen, Anand Gaur, Suprem R. Das, Shuting Lei, Jian Wang†, Dong Lin†",t:"In-Situ X-Ray Imaging High Strain Rate Compression of Laminate Aluminum Structures and Mechanical Property Characterization",v:"JOM, 2023, 75, 3105-3110"},
+{n:78,y:"2022",a:"Xing Zhang, Dian Li, Yufeng Zheng, Pouya Shojae, Mohamed Trabia, Brendan O’Toole, Dong Lin, Leslie Mushongera, Yiliang Liao",t:"In-situ Synthesis of Ti5Si3-reinforced Titanium Matrix Nanocomposite by Selective Laser Melting: Quasi-continuous Reinforcement Network and Enhanced Mechanical Performance",v:"Journal of Materials Processing Technology, 2022, 309, 117752"},
+{n:77,y:"2022",a:"Shuai Hou, Mengyue Sun, Meijuan Bai, Dong Lin, Yujiao Li, Weiwei Liu",t:"A Hybrid Prediction Frame for HEAs Based on Empirical Knowledge and Machine Learning",v:"Acta Materialia, 2022, 228, 117742"},
+{n:76,y:"2022",a:"Shuai Hou, Yujiao Li, Meijuan Bai, Mengyue Sun, Weiwei Liu, Halil Tetik, Dong Lin†",t:"A hybrid Algorithm Recommendation and Prediction Frame for HEAs based on Parameter Method and Machine Learning",v:"Materials, 2022, 15(9), 3321"},
+{n:75,y:"2022",a:"Sen Xiang, Xingtao Liu, Rong Xu, Kejie Zhao, Dong Lin, Fei Yin, Gary Cheng",t:"Understanding the Role of Monolayer Graphene during Long Range Shock Strengthening of Metal-Graphene Heterostructure",v:"Materials Science & Engineering A, 2022, 837, 142741"},
+{n:74,y:"2022",a:"Guang Yang*, Halil Tetik*, Johanna Nelson Weker, Xianghui Xiao, Shuting Lei, Dong Lin†",t:"In-situ Imaging of 3D Freeze Printing Process using Rapid X-Ray Synchrotron Radiography",v:"Review of Scientific Instruments, 2022, 93, 013703"},
+{n:73,y:"2022",a:"Halil Tetik*, Jafar Orangi*, Guang Yang, Keren Zhao, Shakir Bin Mujib, Gurpreet Singh, Majid Beidaghi†, Dong Lin†",t:"3D Printed MXene Aerogels with Truly 3D Macrostructure and Highly Engineered Microstructure for Enhanced Electrical and Electrochemical Performance",v:"Advanced Materials, 2022, 2104980"},
+{n:72,y:"2022",a:"Pedram Parandoush*, Xuemu Li*, Baoning Chang, Christopher Sorensen, Yuan Liu†, Jing Shi†, Dong Lin†",t:"Additive Manufacturing of Graphene Enhanced Interlayer Bond in Continuous Carbon Fiber Reinforced Epoxy Composite Toward Ultra-High Strength",v:"Polymer Composites, 2022, 43, 934-945"},
+{n:71,y:"2021",a:"Halil Tetik*, Ying Wang*, Xiao Sun, Daxian Cao, Nasrullah Shah, Hongli Zhu†, Fang Qian†, Dong Lin†",t:"Additive Manufacturing of 3D Aerogels and Porous Scaffolds: A Review",v:"Advanced Functional Materials, 2021, 2103430"},
+{n:70,y:"2021",a:"Ho Yeung, Jisheng Chen, Guang Yang, Yang Guo, Dong Lin, Wenda Tan, Jordan Weaver",t:"Effect of Spiral Scan Strategy on Microstructure for Additively Manufactured Stainless Steel 17-4",v:"Manufacturing Letters, 2021, 29, 1-4"},
+{n:69,y:"2021",a:"Halil Tetik, Keren Zhao, Nasrullah Shah, Dong Lin†",t:"3D Freeze Printed Cellulose-based Aerogels Functionalized with Conductive Polymers",v:"Journal of Manufacturing Processes, 2021, 68, 445-453"},
+{n:68,y:"2021",a:"Kaiming Bi, Dong Lin, Yiliang Liao, Chih-Hang Wu, Pedram Parandoush",t:"Additive Manufacturing Embraces Big Data",v:"Progress in Additive Manufacturing, 2021, 6(2), 181-197"},
+{n:67,y:"2021",a:"Pedram Parandoush, Palamandadige Fernando, Hao Zhang, Chang Ye, Junfeng Xiao†, Meng Zhang†, Dong Lin†",t:"Ultrasonic Drilling of Additively Manufactured Continuous Carbon Fiber Reinforced Polymers: A Finishing Process",v:"Rapid Prototyping Journal, 2021, 27(4), 754-768"},
+{n:66,y:"2021",a:"Nasrullah Shah, Touseef Rehan, Xuemu Li, Halil Tetik, Guang Yang, Keren Zhao, Dong Lin†",t:"Magnetic Aerogel: An Advanced Material of High Importance",v:"RSC Advances, 2021, 11, 7187-7204"},
+{n:65,y:"2021",a:"Jafar Orangi*, Halil Tetik*, Pedram Parandoush, Emre Kayali, Dong Lin†, Majid Beidaghi†",t:"Conductive and Highly Compressible MXene Aerogels with Ordered Microstructures as High-capacity Electrodes in Li-ion Capacitors",v:"Materials Today Advances, 2021, 9, 100135"},
+{n:64,y:"2021",a:"Guang Yang*, Fangzhou Li*, Junfeng Xiao*, Halil Tetik, Nasrullah Shah, Xianghui Xiao, Jingjing Li, Yiliang Liao, Shuting Lei†, Wenda Tan†, Dong Lin†",t:"In-situ X-Ray Imaging of Unidirectional and Bidirectional Freeze Casting",v:"Ceramic International, 2021, 47(9), 12234-12243"},
+{n:63,y:"2021",a:"Halil Tetik, Dan Feng, Samuel W. Oxandale, Guang Yang, Keren Zhao, Katelyn Feist, Nasrullah Shah, Zayd C. Leseman, Dong Lin†",t:"Bioinspired Manufacturing of Aerogels with Precisely Manipulated Surface Microstructure through Controlled Local Temperature Gradients",v:"ACS Applied Materials & Interfaces, 2021, 13, 924-931"},
+{n:62,y:"2021",a:"Zijue Tang, Weiwei Liu, Lina Zhu, Zhichao Liu, Zhaorui Yan, Dong Lin, Zhao Zhang, Hong-Chao Zhang",t:"Investigation on Coaxial Visual Characteristics of Molten Pool in Laser-based Directed Energy Deposition of AISI 316L Steel",v:"Journal of Materials Processing Technology, 2021, 290, 116996"},
+{n:61,y:"2021",a:"Wenlong Lu†, Wenzheng Zhai†, Jian Wang, Xiaojun Liu, Liping Zhou, Ahmed Ibrahim, Fangyu Peng, Xinyu Shao, Han Ding, Xiaochun Li†, Dong Lin†, Y Morris Wang†",t:"Additive Manufacturing of Isotropic-grained, High-strength and High-ductility Copper Alloys",v:"Additive Manufacturing, 2021, 38, 101751"},
+{n:60,y:"2020",a:"Nasrullah Shah†, Dong Lin†",t:"Composite Aerogels for Biomedical and Environmental Applications",v:"Current Pharmaceutical Design, 2020, 26(45), 5807-5818"},
+{n:59,y:"2020",a:"Bhisham Sharma, Dong Lin, Amrutha Dasyam, Guang Yang",t:"Aerogel Two Ways: Towards Ultralight Noise Absorbers",v:"The Journal of the Acoustical Society of America, 2020, 148, 2455"},
+{n:58,y:"2020",a:"Xiang Zhang, Yixin Xu, Miaocao Wang, Enzuo Liu, Naiqin Zhao, Chunsheng Shi, Dong Lin, Fulong Zhu, Chunnian He",t:"A Powder-metallurgy-based Strategy toward Three-dimensional Graphene-like Network for Reinforcing Copper Matrix Composites",v:"Nature Communications, 2020, 11, 2775"},
+{n:57,y:"2020",a:"Halil Tetik, Guang Yang, Wenda Tan, Anthony Fong, Shuting Lei, Johanna Nelson Weker†, Dong Lin†",t:"High Speed In-Situ X-Ray Imaging of 3D Freeze Printing of Aerogels",v:"Additive Manufacturing, 2020, 101513"},
+{n:56,y:"2020",a:"Baoning Chang, Pedram Parandoush, Xuemu Li, Shilun Ruan, Changyu Shen, Reza Abdi Behnagh, Yuan Liu†, Dong Lin†",t:"Ultrafast Printing of Continuous Fiber Reinforced Thermoplastic Composites with Ultrahigh Mechanical Performance by Ultrasonic-Assisted Laminated Object Manufacturing (UA-LOM)",v:"Polymer Composites, 2020, 41, 4706-4715"},
+{n:55,y:"2020",a:"Baoning Chang, Xuemu Li, Pedram Parandoush, Shilun Ruan, Changyu Shen, Dong Lin†",t:"Additive Manufacturing of Continuous Carbon Fiber Reinforced Poly-ether-ether-ketone with Ultrahigh Mechanical Properties",v:"Polymer Testing, 2020, 88, 106563"},
+{n:54,y:"2020",a:"Settimio Pacellia, Patrizia Paolicelli, Siddharth Subham, Drake Gilmore, Filippo E. Vergel, Gabriele Varani, Guang Yang, Dong Lin, Maria Antonietta Casadei, Arghya Paul",t:"Investigating the Role of Polydopamine to Modulate Stem Cells Adhesion and Proliferation on Gellan Gum-based Hydrogels",v:"ACS Applied Bio Materials, 2020, 3, 945-9551"},
+{n:53,y:"2019",a:"Chenxiang Ma, Ruoxing Wang, Halil Tetik, Shengjie Gao, Min Wu, Zhiyuan Tang, Dong Lin†, Dong Ding†, Wenzhuo Wu†",t:"Hybrid Nanomanufacturing of Mixed-dimensional Manganese Oxide/Graphene Aerogel Macroporous Hierarchy for Ultralight Efficient Supercapacitor Electrodes in Self-powered Ubiquitous Nanosystems",v:"Nano Energy, 2019, 66, 104124"},
+{n:52,y:"2019",a:"Hao Zhang, Zhencheng Ren, Jingyi Zhao, Zhikun Liu, Dong Lin, Ruixia Zhang, Matthew J. Graber, Nicholas K. Thomas, Zachary D. Kerek, Guo-Xiang Wang, Yalin Dong, Chang Ye",t:"Microstructure Evolution and Electroplasticity in Ti64 Subjected to Electropulsing-assisted Laser Shock Peening",v:"Journal of Alloys and Compounds, 2019, 802, 573-582"},
+{n:51,y:"2019",a:"Bo Mao, Bin Li, Dong Lin, Yiliang Liao",t:"Enhanced Room Temperature-stretch Formability of AZ31B Magnesium Alloy Sheet by Laser Shock Peening",v:"Materials Science & Engineering A, 2019, 756, 219-225"},
+{n:50,y:"2019",a:"Changsheng Wu*, Halil Tetik*, Jia Cheng, Wenbo Ding, Hengyu Guo, Xingtian Tao, Nanjia Zhou, Yunlong Zi, Zhiyi Wu, Huixuan Wu, Dong Lin†, Zhong Lin Wang†",t:"Electrohydrodynamic Jet Printing Driven by Triboelectric Nanogenerator",v:"Advanced Functional Materials, 2019, 1901102"},
+{n:49,y:"2019",a:"Emery Brown, Pengli Yan, Halil Tetik, Ayyappan Elangovan, Jian Wang, Dong Lin†, Jun Li†",t:"3D Printing of Hybrid MoS2-Graphene Aerogels as Highly Porous Electrode Materials for Sodium Ion Battery Anode",v:"Materials & Design, 2019, 170, 107689"},
+{n:48,y:"2019",a:"S. Prabhakaran, H.G. Prashantha Kumar, S. Kalainathan, Vijay K. Vasudevan, Pratik Shukla, Dong Lin",t:"Laser Shock Peening Modified Surface Texturing, Microstructure and Mechanical Properties of Graphene Dispersion Strengthened Aluminum Nanocomposites",v:"Surfaces and Interfaces, 2019, 14, 127-137"},
+{n:47,y:"2019",a:"Wenzheng Zhai, Wenlong Lu, Youming Chen, Xiaojun Liu, Liping Zhou, Dong Lin",t:"Gas-Atomized Copper-based Particles Encapsulated in Graphene Oxide for High Wear-resistant Composites",v:"Composite Part B, 2019, 157, 131-139"},
+{n:46,y:"2019",a:"Pedram Parandoush, Chi Zhou, Dong Lin†",t:"3D Printing of Ultrahigh Strength Continuous Carbon Fiber Composites",v:"Advanced Engineering Materials, 2019, 1800622",b:"Top Downloaded 2018–19"},
+{n:45,y:"2019",a:"Xiaolei Song, Halil Tetik, Thitkan Jirakittsonthon, Pedram Parandous, Guang Yang, Donghee Lee, Sangjin Ryu, Shuting Lei†, Mark L. Weiss†, Dong Lin†",t:"Biomimetic 3D Printing of Hierarchical and Interconnected Porous Hydroxyapatite Structures with High Mechanical Strength for Bone Cell Culture",v:"Advanced Engineering Materials, 2019, 1800678"},
+{n:44,y:"2018",a:"Mohammad Ali Ansari, Reza Abdi Behnagh, Dong Lin",t:"Modelling of Friction Stir Extrusion Using Artificial Neural Network (ANN)",v:"Journal of Advanced Design and Manufacturing Technology, 2018, 11, 1-12"},
+{n:43,y:"2018",a:"Prashantha Kumar H. G, S Prabhakaran, Anthony Xavior M, S Kalainathan, Dong Lin, Pratik Shukla, Vijay Vasudevan",t:"Enhanced Surface and Mechanical Properties of Bioinspired Nanolaminate Graphene-Aluminum Alloy Nanocomposites through Laser Shock Processing for Biomedical Implant and Engineering Applications",v:"Materials Today Communications, 2018, 16, 81-89"},
+{n:42,y:"2018",a:"Dong Lin, Maithilee Motlag, Mojib Saei, Shengyu Jin, Raheleh Mohammad Rahimi, David Bahr, Gary J. Cheng",t:"Shock Engineering the Additive Manufactured Graphene-Metal Nanocomposite with High Density Nanotwins and Dislocations for Ultra-stable Mechanical Properties",v:"Acta Materialia, 2018, 150, 360-372"},
+{n:41,y:"2018",a:"Qiangqiang Zhang†, Feng Zhang, Xiang Xu, Chi Zhou†, Dong Lin†",t:"3D Printing Polymer Hollow Template-Mediated Graphene Lattice with Tailorable Architectures and Multifunctional Properties",v:"ACS Nano, 2018, 12 (2), 1096-1106"},
+{n:40,y:"2018",a:"Zengrong Hu, Feng Chen, Jiale Xu, Qiong Nian, Dong Lin, Changjun Chen, Xing Zhu, Yao Chen, Min Zhang",t:"3D Printing Graphene-Aluminum Nanocomposites",v:"Journal of Alloys and Compounds, 2018, 746, 269-276"},
+{n:39,y:"2018",a:"Guanglei Zhao, Chi Zhou, Dong Lin",t:"Tool Path Planning for Directional Freezing Based 3D Printing of Nano Materials",v:"Journal of Micro and Nano-Manufacturing, 2018, 6, 010905"},
+{n:38,y:"2018",a:"Pedram Parandoush, Hanxiong Fan, Xiaolei Song, Dong Lin†",t:"Laser Surface Engineering of Hierarchy Hydroxyapatite Aerogel for Bone Tissue Engineering",v:"Journal of Micro and Nano-Manufacturing, 2018, 6, 011007"},
+{n:37,y:"2018",a:"Feng Yang, Guanglei Zhao, Chi Zhou, Dong Lin",t:"Phase Change Materials (PCM) based Cold Source for Selective Freezing 3D Printing of Porous Materials",v:"The International Journal of Advanced Manufacturing Technology, 2018, 95, 5-8, 2145-2155"},
+{n:36,y:"2017",a:"Pengli Yan, Emery Brown, Qing Su, Jun Li, Jian Wang, Changxue Xu, Chi Zhou, Dong Lin†",t:"3D Printing Hierarchical Silver Nanowire Aerogel with Highly Compressive Resilience and Tensile Elongation through Tunable Poisson's Ratio",v:"Small, 2017, 1701756",b:"Back Cover"},
+{n:35,y:"2017",a:"Zengrong Hu, Feng Chen, Dong Lin, Qiong Nian, Pedram Parandoush, Xing Zhu, Zhuqiang Shao, Gary J. Cheng",t:"Laser Additive Manufacturing Bulk Graphene Copper Nanocomposites",v:"Nanotechnology, 2017, 28, 445705"},
+{n:34,y:"2017",a:"Pedram Parandoush, Dong Lin†",t:"A Review on Additive Manufacturing of Polymer-Fiber Composites",v:"Composite Structures, 2017, 182, 36-53",b:"#1 Most Downloaded & #1 Top Cited"},
+{n:33,y:"2017",a:"Pedram Parandoush, Levi Tucker, Chi Zhou†, Dong Lin†",t:"Laser Assisted Additive Manufacturing of Continuous Fiber Reinforced Thermoplastic Composites",v:"Materials & Design, 2017, 131, 186-195"},
+{n:32,y:"2017",a:"Hao Zhang, Richard Chiang, Haipeng Qiao, Haifeng Qin, Zhencheng Ren, Dong Lin, Yalin Dong, Christopher J. Saldana, Vijay K. Vasudevan, Chang Ye",t:"The Effects of Ultrasonic Nanocrystal Surface Modification on the Fatigue Performance of 3D-Printed Ti64",v:"International Journal of Fatigue, 2017, 103, 136–146"},
+{n:31,y:"2017",a:"Guanglei Zhao, Dong Lin, Chi Zhou",t:"Thermal Analysis on Directional Freezing of Nano Aqueous Suspensions in Graphene Aerogel 3D Printing Process",v:"Journal of Micro and Nano-Manufacturing, 2017, 5(1), 011006"},
+{n:30,y:"2017",a:"Qiangqiang Zhang*, Dong Lin*, Biwei Deng*, Xiang Xu, Qiong Nian, Shengyu Jin, Kevin Leedy, Hui Li, Gary J. Cheng",t:"Flyweight, Superelastic, Electrically Conductive and Flaming Retardant 3D Multi-Nanolayer Graphene/Ceramic Metamaterial",v:"Advanced Materials, 2017, 1605506",b:"Highlighted in Nature Reviews Materials"},
+{n:29,y:"2017",a:"Feng Yang, Feng Zhang, Dong Lin, Chi Zhou",t:"Parameter Study on 3D-Printing Graphene Oxide Based on Directional Freezing",v:"Journal of Manufacturing Science and Engineering, 2017, 139 (3), 031016"},
+{n:28,y:"2016",a:"Zengrong Hu, Mojib Saei, Guoquan Tong, Dong Lin, Qiong Nian, Yaowu Hu, Shengyu Jin, Gary J. Cheng",t:"Numerical Simulation of Temperature Field Distribution for Laser Sintering Graphene Reinforced Nickel Matrix Nanocomposites",v:"Journal of Alloys and Compounds, 2016, 688, 438-448"},
+{n:27,y:"2016",a:"Qiangqiang Zhang*, Feng Zhang*, Sai Pradeep Medarametla, Hui Li, Chi Zhou†, Dong Lin†",t:"Three-Dimensional Printing of Graphene Aerogel",v:"Small, 2016, 12, No. 13, 1702–1708",b:"Guinness World Record"},
+{n:26,y:"2016",a:"Zengrong Hu, G. Tong, Dong Lin, C. Chen, H. Guo, J. Xu, L. Zhou",t:"Graphene-reinforced Metal Matrix Nanocomposites – A Review",v:"Materials Science and Technology, 2016, 1-24"},
+{n:25,y:"2016",a:"Qiangqiang Zhang, Xiang Xu, Dong Lin, Wenli Chen, Guoping Xiong, Yikang Yu, Timothy S. Fisher, Hui Li",t:"Hyperbolically Patterned 3D Graphene Metamaterial with Negative Poisson's Ratio and Superelasticity",v:"Advanced Materials, 2016, 28, 2229–2237"},
+{n:24,y:"2016",a:"Zengrong Hu, Guoquan Tong, Dong Lin, Qiong Nian, Jiayi Shao, Yaowu Hu, Majib Saei, Shengyu Jin, Gary J. Cheng",t:"Laser Sintered Graphene Nickel Nanocomposites",v:"Journal of Materials Processing Technology, 2016, 231, 143-150"},
+{n:23,y:"2016",a:"Muhammad Rashad, Fusheng Pan, Dong Lin, Muhammad Asif",t:"High Temperature Mechanical Behavior of AZ61 Magnesium Alloy Reinforced with Graphene Nanoplatelets",v:"Materials & Design, 2016, 89, 1242-1250"},
+{n:22,y:"2015",a:"Dong Lin*, Mojib Saei*, Sergey Suslov, Shengyu Jin, Gary J. Cheng",t:"Super-strengthening and Stabilizing with Carbon Nanotube Harnessed High Density Nanotwins in Metals by Shock Loading",v:"Scientific Reports, 2015, 5, 15405"},
+{n:21,y:"2015",a:"Dong Lin, Shengyu Jin, Feng Zhang, Chao Wang, Yiqian Wang, Chi Zhou, Gary J Cheng",t:"3D Stereolithography Printing of Graphene Oxide Reinforced Complex Architectures",v:"Nanotechnology, 2015, 26(43):434003"},
+{n:20,y:"2015",a:"Ling Ding, Zeze Peng, Peijiang Zhou, Gary J. Cheng, Qiong Nian, Dong Lin, Jinhui Zhou, Yuhe Liang",t:"Preparation and Effect of Lighting on Structures and Properties of GSH Capped ZnSe QDs",v:"Journal of Fluorescence, 2015:1-7"},
+{n:19,y:"2015",a:"Qiong Nian, Martin Y. Zhang, Dong Lin, Suprem R Das, Gary J. Cheng",t:"Crystalline Photoactive Copper Indium Diselenide Thin Films by Pulsed Laser Crystallization of Nanoparticle-Inks at Ambient Conditions",v:"RSC Advance, 2015, 5, 57550-57558"},
+{n:18,y:"2015",a:"Dong Lin, P Kumar, Shengyu Jin, Qiong Nian, Shuo Liu, Sergey Suslov, Gary J. Cheng",t:"Laser Catalyzed Fast and Scalable Synthesis of Crystalline Fe2O3 Thin Sheets in Aqueous Medium",v:"Applied Surface Science, 2015, 351, 148-154"},
+{n:17,y:"Before 2015",a:"Dong Lin, Qiong Nian, Biwei Deng, Shengyu Jin, Yaowu Hu, Wenqi Wang, Gary J. Cheng",t:"Three Dimensional Printing of Complex Structures: Man Made or toward Nature?",v:"ACS Nano, 2014, 8 (10), 9710-9715"},
+{n:16,y:"Before 2015",a:"Dong Lin, C. Richard Liu, Gary J. Cheng",t:"Single Layer Graphene Oxide Reinforced Metal Matrix Composites by Laser Sintering: Microstructure and Mechanical Property Enhancement",v:"Acta Materialia, 2014, 80, 183-193"},
+{n:15,y:"Before 2015",a:"Chang Ye, Sergey Suslov, Dong Lin, Yiliang Liao, Gary J. Cheng",t:"Cryogenic Ultrahigh Strain Rate Deformation Induced Hybrid Nanotwinned Microstructure for High Strength and High Ductility",v:"Journal of Applied Physics, 2014,115, 213519"},
+{n:14,y:"Before 2015",a:"Chang Ye, Yiliang Liao, Sergey Suslov, Dong Lin, Gary J. Cheng",t:"Ultrahigh Dense and Gradient Nano-precipitates by Warm Laser Shock Peening for Combination of high Strength and Ductility",v:"Materials Science & Engineering A, 2014, 609, 195-203"},
+{n:13,y:"Before 2015",a:"Dong Lin, Biwei Deng, Stephene Sassman, Yaowu Hu, Sergey Suslov, Gary J. Cheng",t:"Magnetic Field Assisted Growth of Highly Dense α-Fe2O3 Single Crystal Nanosheets and Their Application in Water Treatment",v:"RSC Advances, 2014, 4, 18621-18626"},
+{n:12,y:"Before 2015",a:"Dong Lin, C. Richard Liu, Gary J. Cheng",t:"Laser Sintering of Separated and Uniformly distributed Multiwall Carbon Nanotubes Integrated Iron Nanocomposites",v:"Journal of Applied Physics, 2014, 115, 113513"},
+{n:11,y:"Before 2015",a:"Dong Lin, Yingling Yang, Gary J. Cheng",t:"Pulsed Laser Induced Confined Vapor Deposition for Thin Layer of Dense Nanoparticle Arrays on Various Substrates",v:"Applied Surface Science, 2013, 283, 924-929"},
+{n:10,y:"Before 2015",a:"Dong Lin, Chang Ye, Yiliang Liao, Sergey Suslov, C. Richard Liu, Gary J. Cheng",t:"Mechanism of Fatigue Performance Enhancement in a Laser Sintered Superhard Nanoparticles Reinforced Nanocomposite Followed by Laser Shock Peening",v:"Journal of Applied Physics, 2013, 113, 133509"},
+{n:9,y:"Before 2015",a:"Yiliang Liao, Chang Ye, Dong Lin, Sergey Suslov, Gary J. Cheng",t:"Deformation Induced Martensite in NiTi and its Shape Memory Effects Generated by Low Temperature Laser Shock Peening",v:"Journal of Applied Physics, 2013, 112, 033515-8"},
+{n:8,y:"Before 2015",a:"Yingling Yang, Dong Lin, Gary J. Cheng",t:"Direct Writing of Au Nanoneedles Array on Glass by Confined Laser Spinning",v:"Applied Physics Letter, 2012, 101, 091911"},
+{n:7,y:"Before 2015",a:"Dong Lin, Martin Y Zhang, Chang Ye, Zhikun Liu, C. Richard Liu, Gary J. Cheng",t:"Large Scale, Highly Dense Nanoholes on Metal Surfaces by Underwater Laser Assisted Hydrogen Etching near Nanocrystalline Boundary",v:"Applied Surface Science, 2011, 258(10), p. 4254-4259"},
+{n:6,y:"Before 2015",a:"Chang Ye, S Suslov, Dong Lin, Gary J. Cheng",t:"Deformation-induced Martensite and Nanotwins by Cryogenic Laser Shock Peening of AISI 304 Stainless Steel and their Effects on Mechanical Properties",v:"Philosophical Magazine, 2011,92(11), p. 1369-1389"},
+{n:5,y:"Before 2015",a:"Dong Lin, S Suslov, Chang Ye, Yiling Liao, C. Richard Liu, Gary J. Cheng",t:"Laser Assisted Embedding of Nanoparticles into Metallic Materials",v:"Applied Surface Science, 2011, 258(7), p.2289–2296"},
+{n:4,y:"Before 2015",a:"Chang Ye, S Suslov, Dong Lin, X Fei, Gary J. Cheng",t:"Microstructure and Mechanical Properties of Copper Subjected to Cryogenic Laser Shock Peening",v:"Journal of Applied Physics, 2011, 110, 083504"},
+{n:3,y:"Before 2015",a:"Michael D. Furtaw, Dong Lin, Lin Wu, and Jon P. Anderson",t:"Near-Infrared Metal-Enhanced Fluorescence Using a Liquid–Liquid Droplet Micromixer in a Disposable Poly (Methyl Methacrylate) Microchip",v:"Plasmonic, 2009, Volume 4, Issue 4, pp 273-280"},
+{n:2,y:"Before 2015",a:"Zhiyin Gan, Dexiu Huang, Xuefang Wang, Dong Lin, Sheng Liu",t:"Measurement of Leak Rate for MEMS Vacuum Packaging",v:"Journal of Electronic Packaging, 2009, 131(4), 041001"},
+{n:1,y:"Before 2015",a:"Zhiyin Gan, Dexiu Huang, Xuefang Wang, Dong Lin, Sheng Liu",t:"Getter Free Vacuum Packaging for MEMS",v:"Sensors and Actuators A: Physical, 2009,149, 159-164"}
+];
+(function(){
+  const wrap=document.getElementById('publist');
+  const years=[...new Set(PUBS.map(p=>p.y))];
+  let html='';
+  years.forEach(y=>{
+    html+='<div class="pubyear">'+y+'</div><ol class="pubs">';
+    PUBS.filter(p=>p.y===y).forEach(p=>{
+      html+='<li><span class="t"><span class="num">'+p.n+'.</span>'+p.t+
+        (p.b?'<span class="badge">'+p.b+'</span>':'')+'</span>'+
+        '<span class="a">'+p.a+'</span><span class="v">'+p.v+'</span></li>';
+    });
+    html+='</ol>';
+  });
+  wrap.innerHTML=html;
+  document.getElementById('pubsearch').addEventListener('input',e=>{
+    const q=e.target.value.toLowerCase();
+    document.querySelectorAll('ol.pubs li').forEach(li=>{
+      li.style.display=li.textContent.toLowerCase().includes(q)?'':'none';
+    });
+    document.querySelectorAll('ol.pubs').forEach(ol=>{
+      const vis=[...ol.children].some(li=>li.style.display!=='none');
+      ol.style.display=vis?'':'none';
+      ol.previousElementSibling.style.display=vis?'':'none';
+    });
+  });
+})();
+</script>
+</body>
+</html>
