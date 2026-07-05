@@ -460,18 +460,17 @@ const MS=[
   {n:"Mohammad Kamil Azim",s:"Since September 2024"},
   {n:"Pei-Jung Chen",s:"Since June 2025"}
 ];
-function card(m,role){
+function card(m){
   const init=m.n.split(' ').map(w=>w[0]).slice(0,2).join('');
   return `<div class="card">
     <div class="ph"><span class="init">${init}</span></div>
     <h3>${m.n}</h3>
-    <div class="role">${role}</div>
     <div class="note">${m.s}</div>
     <div class="icons"><span title="Email — add link">\u2709</span><span title="Google Scholar — add link">G</span><span title="LinkedIn — add link">in</span></div>
   </div>`;
 }
-document.getElementById('phdgrid').innerHTML=PHD.map(m=>card(m,"Graduate Student (Ph.D.)")).join('');
-document.getElementById('msgrid').innerHTML=MS.map(m=>card(m,"Graduate Student (M.S.)")).join('');
+document.getElementById('phdgrid').innerHTML=PHD.map(card).join('');
+document.getElementById('msgrid').innerHTML=MS.map(card).join('');
 
 function show(p){
   if(!document.getElementById('p-'+p)) p='home';
