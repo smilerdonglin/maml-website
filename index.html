@@ -453,7 +453,7 @@ section{padding-bottom:40px}
 const PHD=[
   {n:"Elijah Waibel",s:"Since September 2025"},
   {n:"Omid Hatami",s:"Since September 2024"},
-  {n:"Ryan Bertelsen",s:"Since September 2024 \u00b7 co-advised with Dr. Devin Roach"},
+  {n:"Ryan Bertelsen",s:"Since September 2024 \u00b7 co-advised with Dr. Devin Roach",li:"https://www.linkedin.com/in/ryan-bertelsen"},
   {n:"Andre Georges Ponsot",s:"Since June 2024"},
   {n:"Junaid Dar",s:"Since January 2023"}
 ];
@@ -462,12 +462,17 @@ const MS=[
   {n:"Mohammad Kamil Azim",s:"Since September 2024"}
 ];
 function card(m){
+  /* icons render only for links provided in the member data (em, gs, li) */
+  let icons='';
+  if(m.em) icons+=`<a href="mailto:${m.em}" title="Email">\u2709</a>`;
+  if(m.gs) icons+=`<a href="${m.gs}" target="_blank" rel="noopener" title="Google Scholar">G</a>`;
+  if(m.li) icons+=`<a href="${m.li}" target="_blank" rel="noopener" title="LinkedIn">in</a>`;
   const init=m.n.split(' ').map(w=>w[0]).slice(0,2).join('');
   return `<div class="card">
     <div class="ph"><span class="init">${init}</span></div>
     <h3>${m.n}</h3>
     <div class="note">${m.s}</div>
-    <div class="icons"><span title="Email — add link">\u2709</span><span title="Google Scholar — add link">G</span><span title="LinkedIn — add link">in</span></div>
+    ${icons?`<div class="icons">${icons}</div>`:``}
   </div>`;
 }
 document.getElementById('phdgrid').innerHTML=PHD.map(card).join('');
