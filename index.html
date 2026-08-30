@@ -110,10 +110,11 @@ details.bio p{color:var(--text);margin-top:6px}
 .topic h3{font-size:1.2rem;font-weight:700;margin-bottom:8px}
 .topic p{color:var(--text)}
 
-/* funding sponsors grid — 4 per row */
-.sponsors{display:grid;grid-template-columns:repeat(4,1fr);gap:34px 44px;align-items:center;justify-items:center;max-width:950px;margin:24px 0 50px}
-.sponsors img{max-height:95px;max-width:100%;width:auto}
-@media(max-width:640px){.sponsors{grid-template-columns:repeat(2,1fr)}}
+/* funding sponsors — 3 rows: 6 / 3 / 6 */
+.sponsors{max-width:950px;margin:24px 0 50px}
+.sponsors .srow{display:flex;align-items:center;justify-content:flex-start;gap:30px 42px;flex-wrap:wrap;margin-bottom:36px}
+.sponsors img{max-height:90px;max-width:135px;width:auto}
+.sponsors .sp-lab{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:.78rem;color:var(--muted);text-align:center;max-width:180px}
 
 /* publications */
 .pubbar{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin:6px 0 8px}
@@ -387,21 +388,27 @@ section{padding-bottom:40px}
     <h2>Funding Support</h2>
     <p class="mission" style="font-size:.95rem">We gratefully acknowledge the sponsors of our research:</p>
     <div class="sponsors">
-      <img src="images/sponsors/nsf.png" alt="National Science Foundation">
-      <img src="images/sponsors/air-force.png" alt="U.S. Air Force">
-      <img src="images/sponsors/army.png" alt="U.S. Army">
-      <img src="images/sponsors/sba.png" alt="U.S. Small Business Administration">
-      <img src="images/sponsors/usda.png" alt="USDA">
-      <img src="images/sponsors/nasa.png" alt="NASA">
-      <img src="images/sponsors/inl.png" alt="Idaho National Laboratory">
-      <img src="images/sponsors/llnl.png" alt="Lawrence Livermore National Laboratory">
-      <img src="images/sponsors/netl.png" alt="National Energy Technology Laboratory">
-      <img src="images/sponsors/winchester.png" alt="Winchester Technologies">
-      <img src="images/sponsors/omic.png" alt="OMIC R&amp;D">
-      <img src="images/sponsors/oregon-nasa.png" alt="Oregon NASA Space Grant Consortium">
-      <img src="images/sponsors/sea-grant.png" alt="Sea Grant Oregon">
-      <img src="images/sponsors/cultural-trust.png" alt="Oregon Cultural Trust">
-      <img src="images/sponsors/murdock.png" alt="M.J. Murdock Charitable Trust">
+      <div class="srow">
+        <img src="images/sponsors/nsf.png" alt="National Science Foundation">
+        <img src="images/sponsors/air-force.png" alt="U.S. Air Force">
+        <img src="images/sponsors/army.png" alt="U.S. Army">
+        <img src="images/sponsors/sba.png" alt="U.S. Small Business Administration">
+        <img src="images/sponsors/usda.png" alt="USDA">
+        <img src="images/sponsors/nasa.png" alt="NASA">
+      </div>
+      <div class="srow">
+        <span class="sp-lab"><img src="images/sponsors/inl.png" alt="Idaho National Laboratory">Idaho National Laboratory</span>
+        <span class="sp-lab"><img src="images/sponsors/llnl.png" alt="Lawrence Livermore National Laboratory">Lawrence Livermore National Laboratory</span>
+        <span class="sp-lab"><img src="images/sponsors/netl.png" alt="National Energy Technology Laboratory">National Energy Technology Laboratory</span>
+      </div>
+      <div class="srow">
+        <img src="images/sponsors/winchester.png" alt="Winchester Technologies">
+        <img src="images/sponsors/omic.png" alt="OMIC R&amp;D">
+        <img src="images/sponsors/oregon-nasa.png" alt="Oregon NASA Space Grant Consortium">
+        <img src="images/sponsors/sea-grant.png" alt="Sea Grant Oregon">
+        <img src="images/sponsors/cultural-trust.png" alt="Oregon Cultural Trust">
+        <img src="images/sponsors/murdock.png" alt="M.J. Murdock Charitable Trust">
+      </div>
     </div>
   </div>
 </div>
