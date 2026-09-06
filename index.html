@@ -97,6 +97,8 @@ details.bio p{color:var(--text);margin-top:6px}
 /* group photos strip */
 .gallery{max-width:630px;margin:26px 0 50px}
 .gallery figure img+img{margin-top:14px}
+.gallery figure .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.gallery figure .grid2 img{margin-top:0}
 .gallery figure{padding:30px 0;border-bottom:1px solid var(--line)}
 .gallery figure:first-child{padding-top:0}
 .gallery figure:last-child{border-bottom:none}
@@ -182,6 +184,7 @@ section{padding-bottom:40px}
         <img src="images/junaid-defense-committee.jpg" alt="Junaid Dar with his Ph.D. committee after the defense" style="width:420px;max-width:100%;margin-top:10px"></li>
       <li><time>2026</time><span class="nt">Junaid selected for the STAR★FIRE Workshop</span> <span class="nd">— one of 54 students nationwide chosen for the workshop organized by Idaho National Laboratory and Los Alamos National Laboratory, where he presented a lightning talk on his Ph.D. research on the thermal bottleneck in aerospace and connected with the space, nuclear, and aerospace communities, including NASA, Lawrence Livermore National Laboratory, and DOE. <a href="https://www.linkedin.com/posts/junaiddar97_starfire-usspaceforce-aerospace-ugcPost-7486881737327869952-mXAu/" target="_blank" rel="noopener">Read Junaid's post →</a></span>
         <img src="images/junaid-starfire-2026.jpg" alt="Junaid Dar presenting his lightning talk at the STAR FIRE Workshop" style="width:420px;max-width:100%;margin-top:10px"></li>
+      <li><time>2026</time><span class="nt">Dr. Lin named a 2026–27 PRAx Collaborative Faculty Fellow</span> <span class="nd">— a collaboration with artist Jesse Schlesinger through the Patricia Valian Reser Center for the Creative Arts (PRAx) at Oregon State University. <a href="https://prax.oregonstate.edu/2026-27-prax-collaborative-faculty-fellows" target="_blank" rel="noopener">Meet the 2026–27 fellows →</a></span></li>
       <li><time>2026</time><span class="nt">Dr. Lin receives the L.L. Stewart Faculty Fellowship</span> <span class="nd">— from Oregon State University.</span></li>
       <li><time>2026</time><span class="nt">3D Magnetic Nanocomposite Aerogel (3D-MANCA) paper accepted in ECS Sensors Plus</span> <span class="nd">— Nasrullah, Halil, and team's work on humidity sensing and dye adsorption. <a href="https://doi.org/10.1149/2754-2726/ae3587" target="_blank" rel="noopener">Read the paper →</a></span></li>
       <li><time>2026</time><span class="nt">Laser stirring enables on-demand alloying — featured by NIST News</span> <span class="nd">— our collaboration with Dr. Ho Yeung's group at NIST, published in <i>Additive Manufacturing</i> (2026, 118, 105101), was highlighted by NIST: <a href="https://www.nist.gov/news-events/news/2026/06/nist-researchers-discover-new-way-whisk-alloys-together-lasers" target="_blank" rel="noopener">"NIST Researchers Discover a New Way to Whisk Alloys Together With Lasers"</a> (June 2026).</span>
@@ -436,10 +439,12 @@ section{padding-bottom:40px}
     <h1>Group Photos</h1>
     <div class="gallery">
       <figure>
-        <img src="images/prax-visit-2026-1.jpg" alt="Woodworking wall at Jesse Schlesinger's studio">
-        <img src="images/prax-visit-2026-2.jpg" alt="Sculpture worktable at Jesse Schlesinger's studio">
-        <img src="images/prax-visit-2026-3.jpg" alt="Jesse Schlesinger's studio">
-        <img src="images/prax-visit-2026-4.jpg" alt="Artworks at Jesse Schlesinger's studio">
+        <div class="grid2">
+          <img src="images/prax-visit-2026-1.jpg" alt="Woodworking wall at Jesse Schlesinger's studio">
+          <img src="images/prax-visit-2026-2.jpg" alt="Sculpture worktable at Jesse Schlesinger's studio">
+          <img src="images/prax-visit-2026-3.jpg" alt="Jesse Schlesinger's studio">
+          <img src="images/prax-visit-2026-4.jpg" alt="Artworks at Jesse Schlesinger's studio">
+        </div>
         <figcaption>Studio visit with artist Jesse Schlesinger in California — PRAx Collaborative Faculty Fellowship, with support from the L.L. Stewart Faculty Fellowship, Oregon State University. August 23, 2026</figcaption>
       </figure>
       <figure>
